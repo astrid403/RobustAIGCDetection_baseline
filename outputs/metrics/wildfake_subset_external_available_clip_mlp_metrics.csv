@@ -1,0 +1,2 @@
+experiment_name,model,train_dataset,test_dataset,test_split,train_generators,test_generators,num_real,num_fake,accuracy,precision,recall,f1,auroc
+wildfake_subset_external_available_clip_mlp,clip_mlp,WildFake_subset_CelebAHQ_DDIM,WildFake_subset_CelebAHQ_DDIM,outputs/splits/wildfake_subset_baseline_test.csv,,"DDIM,real",2000,2000,0.50425,0.5021766965428938,0.9805,0.6641828958509738,0.7441165000000001

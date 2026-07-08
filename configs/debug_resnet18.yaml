@@ -1,0 +1,17 @@
+experiment_name: debug_resnet18
+model_type: resnet
+model_name: resnet18
+dataset: CIFAKE
+train_csv: outputs/splits/cifake_full_train.csv
+val_csv: outputs/splits/cifake_full_test.csv
+test_csv: outputs/splits/cifake_full_test.csv
+image_size: 224
+batch_size: 16
+epochs: 1
+max_samples_per_class: 200
+pretrained: false
+freeze_backbone: false
+mixed_precision: true
+learning_rate: 0.0001
+seed: 42
+num_workers: 0

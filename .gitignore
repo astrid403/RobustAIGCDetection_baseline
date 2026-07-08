@@ -1,0 +1,28 @@
+# Raw and processed datasets
+data/raw/
+data/processed/
+data/**/*.zip
+data/**/*.tar
+data/**/*.tar.gz
+
+# Large model and feature artifacts
+outputs/checkpoints/
+outputs/features/
+outputs/predictions/
+outputs/error_cases/
+outputs/logs/
+*.pt
+*.pth
+*.ckpt
+
+# Archives and downloaded sidecars
+*.zip
+*.tar
+*.tar.gz
+*:Zone.Identifier
+
+# Python/cache/system files
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.DS_Store

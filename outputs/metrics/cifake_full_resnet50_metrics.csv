@@ -1,0 +1,2 @@
+experiment_name,model,train_dataset,test_dataset,test_split,train_generators,test_generators,num_real,num_fake,accuracy,precision,recall,f1,auroc
+cifake_full_resnet50,resnet,CIFAKE,CIFAKE,outputs/splits/cifake_full_test.csv,,unknown,10000,10000,0.97375,0.9645063241494264,0.9837,0.974008614287836,0.99722926

@@ -1,0 +1,5 @@
+experiment_name,model,test_set,transform,clean_auroc,processed_auroc,robustness_drop
+genimage_splitB_available_resnet50_robustness,resnet50,outputs/splits/genimage_splitB_available_test_unseen.csv,clean,0.9782785,0.9782785,0.0
+genimage_splitB_available_resnet50_robustness,resnet50,outputs/splits/genimage_splitB_available_test_unseen.csv,jpeg,0.9782785,0.9362161249999998,0.04206237500000021
+genimage_splitB_available_resnet50_robustness,resnet50,outputs/splits/genimage_splitB_available_test_unseen.csv,resize,0.9782785,0.9556412499999999,0.022637250000000164
+genimage_splitB_available_resnet50_robustness,resnet50,outputs/splits/genimage_splitB_available_test_unseen.csv,blur,0.9782785,0.958653625,0.019624875000000097

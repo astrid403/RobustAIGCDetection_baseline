@@ -1,0 +1,22 @@
+experiment_name: genimage_splitB_available_clip_mlp_robustness
+model_type: clip_mlp
+clip_model: ViT-B-32
+pretrained: openai
+dataset: GenImage
+test_csv: outputs/splits/genimage_splitB_available_test_unseen.csv
+checkpoint: outputs/checkpoints/genimage_splitB_available_clip_mlp/best_model.pt
+image_size: 224
+batch_size: 32
+mixed_precision: true
+seed: 42
+num_workers: 0
+transforms:
+  - clean
+  - jpeg
+  - resize
+  - blur
+jpeg_quality: 70
+resize_scale: 0.5
+blur_radius: 1.0
+mlp_hidden_dim: 512
+dropout: 0.2

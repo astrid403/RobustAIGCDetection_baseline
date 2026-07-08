@@ -1,0 +1,22 @@
+name: aigc_det_baseline
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pytorch
+  - torchvision
+  - pytorch-cuda=12.1
+  - pandas
+  - numpy
+  - pillow
+  - tqdm
+  - scikit-learn
+  - matplotlib
+  - pyyaml
+  - pip
+  - pip:
+      - kaggle
+      - open_clip_torch
+

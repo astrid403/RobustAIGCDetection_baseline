@@ -1,0 +1,19 @@
+experiment_name: robustness_eval
+model_type: resnet
+model_name: resnet50
+checkpoint: outputs/checkpoints/cifake_full_resnet50/best_model.pt
+test_csv: outputs/splits/cifake_full_test.csv
+image_size: 224
+batch_size: 16
+max_samples_per_class:
+transforms:
+  - clean
+  - jpeg
+  - resize
+  - blur
+jpeg_quality: 70
+resize_scale: 0.5
+blur_radius: 1.0
+seed: 42
+num_workers: 2
+

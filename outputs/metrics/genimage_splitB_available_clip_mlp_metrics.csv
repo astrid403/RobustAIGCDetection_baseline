@@ -1,0 +1,2 @@
+experiment_name,model,train_dataset,test_dataset,test_split,train_generators,test_generators,num_real,num_fake,accuracy,precision,recall,f1,auroc
+genimage_splitB_available_clip_mlp,clip_mlp,GenImage,GenImage,outputs/splits/genimage_splitB_available_test_unseen.csv,,"GLIDE,Midjourney,VQDM,Wukong",2000,2000,0.933,0.9650912996777659,0.8985,0.9306059036768514,0.98385225

@@ -1,0 +1,16 @@
+experiment_name: genimage_splitB_available_resnet50
+model_type: resnet
+model_name: resnet50
+dataset: GenImage
+train_csv: outputs/splits/genimage_splitB_available_train.csv
+val_csv: outputs/splits/genimage_splitB_available_val.csv
+test_csv: outputs/splits/genimage_splitB_available_test_unseen.csv
+image_size: 224
+batch_size: 16
+epochs: 5
+pretrained: true
+freeze_backbone: false
+mixed_precision: true
+learning_rate: 0.0001
+seed: 42
+num_workers: 0

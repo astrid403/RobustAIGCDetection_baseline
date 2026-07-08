@@ -1,0 +1,19 @@
+experiment_name: genimage_splitB_available_resnet50_robustness
+model_type: resnet
+model_name: resnet50
+dataset: GenImage
+test_csv: outputs/splits/genimage_splitB_available_test_unseen.csv
+checkpoint: outputs/checkpoints/genimage_splitB_available_resnet50/best_model.pt
+image_size: 224
+batch_size: 16
+mixed_precision: true
+seed: 42
+num_workers: 0
+transforms:
+  - clean
+  - jpeg
+  - resize
+  - blur
+jpeg_quality: 70
+resize_scale: 0.5
+blur_radius: 1.0

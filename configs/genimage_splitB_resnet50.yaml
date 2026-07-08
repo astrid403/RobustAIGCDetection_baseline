@@ -1,0 +1,32 @@
+experiment_name: genimage_splitB_resnet50
+model_type: resnet
+model_name: resnet50
+dataset: GenImage
+train_csv: outputs/splits/genimage_splitB_train.csv
+val_csv: outputs/splits/genimage_splitB_val.csv
+test_csv: outputs/splits/genimage_splitB_test_unseen.csv
+image_size: 224
+batch_size: 16
+epochs: 5
+pretrained: true
+freeze_backbone: false
+mixed_precision: true
+learning_rate: 0.0001
+samples_per_generator_per_class: 2000
+seed: 42
+num_workers: 2
+train_generators:
+  - Stable Diffusion V1.4
+  - ADM
+  - BigGAN
+genimage_splits:
+  splitB_train_generators:
+    - Stable Diffusion V1.4
+    - ADM
+    - BigGAN
+  splitB_test_generators:
+    - GLIDE
+    - Midjourney
+    - Wukong
+    - VQDM
+

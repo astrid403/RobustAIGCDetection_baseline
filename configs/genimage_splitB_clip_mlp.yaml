@@ -1,0 +1,33 @@
+experiment_name: genimage_splitB_clip_mlp
+model_type: clip_mlp
+clip_model: ViT-B/32
+dataset: GenImage
+train_csv: outputs/splits/genimage_splitB_train.csv
+val_csv: outputs/splits/genimage_splitB_val.csv
+test_csv: outputs/splits/genimage_splitB_test_unseen.csv
+image_size: 224
+batch_size: 32
+epochs: 10
+learning_rate: 0.001
+mlp_hidden_dim: 512
+dropout: 0.2
+cache_clip_features: true
+mixed_precision: true
+samples_per_generator_per_class: 2000
+seed: 42
+num_workers: 2
+train_generators:
+  - Stable Diffusion V1.4
+  - ADM
+  - BigGAN
+genimage_splits:
+  splitB_train_generators:
+    - Stable Diffusion V1.4
+    - ADM
+    - BigGAN
+  splitB_test_generators:
+    - GLIDE
+    - Midjourney
+    - Wukong
+    - VQDM
+

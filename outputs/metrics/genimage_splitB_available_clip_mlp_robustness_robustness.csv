@@ -1,0 +1,5 @@
+experiment_name,model,test_set,transform,clean_auroc,processed_auroc,robustness_drop
+genimage_splitB_available_clip_mlp_robustness,ViT-B-32,outputs/splits/genimage_splitB_available_test_unseen.csv,clean,0.98385225,0.98385225,0.0
+genimage_splitB_available_clip_mlp_robustness,ViT-B-32,outputs/splits/genimage_splitB_available_test_unseen.csv,jpeg,0.98385225,0.9685153750000001,0.015336874999999917
+genimage_splitB_available_clip_mlp_robustness,ViT-B-32,outputs/splits/genimage_splitB_available_test_unseen.csv,resize,0.98385225,0.9604579999999999,0.02339425000000006
+genimage_splitB_available_clip_mlp_robustness,ViT-B-32,outputs/splits/genimage_splitB_available_test_unseen.csv,blur,0.98385225,0.9592445,0.02460774999999993
