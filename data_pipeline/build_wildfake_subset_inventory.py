@@ -1,4 +1,5 @@
 import argparse
+import hashlib
 import os
 from pathlib import Path
 import sys
@@ -13,6 +14,8 @@ if str(PROJECT_ROOT) not in sys.path:
 
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".bmp"}
 INVENTORY_COLUMNS = [
+    "sample_id",
+    "storage_backend",
     "path",
     "label",
     "dataset",
@@ -23,6 +26,12 @@ INVENTORY_COLUMNS = [
     "height",
     "format",
     "is_valid",
+    "dataset_id",
+    "dataset_revision",
+    "hf_split",
+    "row_index",
+    "label_b",
+    "caption",
 ]
 
 
@@ -52,6 +61,8 @@ def add_rows(rows, root, label, generator, source):
         width, height, fmt, is_valid = image_info(path)
         rows.append(
             {
+                "sample_id": "wildfake-" + hashlib.sha256(str(path.relative_to(PROJECT_ROOT)).encode("utf-8")).hexdigest()[:24],
+                "storage_backend": "local",
                 "path": str(path.relative_to(PROJECT_ROOT)),
                 "label": label,
                 "dataset": "WildFake_subset_CelebAHQ_DDIM",
@@ -62,6 +73,12 @@ def add_rows(rows, root, label, generator, source):
                 "height": height,
                 "format": fmt,
                 "is_valid": is_valid,
+                "dataset_id": "WildFake_subset_CelebAHQ_DDIM",
+                "dataset_revision": "local",
+                "hf_split": "",
+                "row_index": "",
+                "label_b": "",
+                "caption": "",
             }
         )
 

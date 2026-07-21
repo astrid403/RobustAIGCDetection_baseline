@@ -1,4 +1,5 @@
 import argparse
+import hashlib
 import os
 from pathlib import Path
 import sys
@@ -13,6 +14,8 @@ if str(PROJECT_ROOT) not in sys.path:
 
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".bmp"}
 INVENTORY_COLUMNS = [
+    "sample_id",
+    "storage_backend",
     "path",
     "label",
     "dataset",
@@ -23,7 +26,18 @@ INVENTORY_COLUMNS = [
     "height",
     "format",
     "is_valid",
+    "dataset_id",
+    "dataset_revision",
+    "hf_split",
+    "row_index",
+    "label_b",
+    "caption",
 ]
+
+
+def local_sample_id(dataset, path):
+    value = f"{dataset}:{Path(path).as_posix()}"
+    return f"{dataset.lower()}-" + hashlib.sha256(value.encode("utf-8")).hexdigest()[:24]
 
 
 def infer_label(parts):
@@ -79,6 +93,8 @@ def scan_folder(dataset, dataset_root):
             is_valid = False
         rows.append(
             {
+                "sample_id": local_sample_id(dataset, rel_to_project),
+                "storage_backend": "local",
                 "path": str(rel_to_project),
                 "label": label if label is not None else -1,
                 "dataset": dataset,
@@ -89,6 +105,12 @@ def scan_folder(dataset, dataset_root):
                 "height": height,
                 "format": fmt,
                 "is_valid": is_valid,
+                "dataset_id": dataset,
+                "dataset_revision": "local",
+                "hf_split": "",
+                "row_index": "",
+                "label_b": "",
+                "caption": "",
             }
         )
     return pd.DataFrame(rows, columns=INVENTORY_COLUMNS)
@@ -99,6 +121,7 @@ def scan_wildfake_metadata(metadata_csv):
     if "path" not in df.columns or "label" not in df.columns:
         raise ValueError("WildFake metadata CSV must include path,label columns.")
     for col, default in {
+        "storage_backend": "local",
         "dataset": "WildFake",
         "split": "external",
         "generator": "unknown",
@@ -107,9 +130,17 @@ def scan_wildfake_metadata(metadata_csv):
         "height": None,
         "format": "unknown",
         "is_valid": True,
+        "dataset_id": "WildFake",
+        "dataset_revision": "local",
+        "hf_split": "",
+        "row_index": "",
+        "label_b": "",
+        "caption": "",
     }.items():
         if col not in df.columns:
             df[col] = default
+    if "sample_id" not in df.columns:
+        df["sample_id"] = [local_sample_id("WildFake", path) for path in df["path"]]
     return df[INVENTORY_COLUMNS]
 
 

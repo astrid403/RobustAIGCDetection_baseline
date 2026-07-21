@@ -14,8 +14,8 @@ class CsvImageDataset(Dataset):
             raise FileNotFoundError(
                 f"CSV file not found: {self.csv_path}\n"
                 "Build inventories and splits first, for example:\n"
-                "python datasets/build_inventory.py --dataset CIFAKE\n"
-                "python datasets/make_splits.py --config configs/debug_resnet18.yaml"
+                "python data_pipeline/build_inventory.py --dataset CIFAKE\n"
+                "python data_pipeline/make_splits.py --config configs/debug_resnet18.yaml"
             )
         self.root_dir = Path(root_dir)
         self.transform = transform
@@ -46,7 +46,8 @@ class CsvImageDataset(Dataset):
             raise RuntimeError(f"Could not open image: {path}") from exc
         if self.transform:
             image = self.transform(image)
-        return image, float(row["label"]), str(row["path"])
+        sample_id = row.get("sample_id", row["path"])
+        return image, float(row["label"]), str(sample_id)
 
 
 def read_csv_metadata(csv_path):
@@ -56,4 +57,3 @@ def read_csv_metadata(csv_path):
     if missing:
         raise ValueError(f"{csv_path} is missing required columns: {sorted(missing)}")
     return df
-

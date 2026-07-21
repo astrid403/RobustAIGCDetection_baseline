@@ -20,7 +20,7 @@ def read_inventory(name):
     if not path.exists():
         raise FileNotFoundError(
             f"Inventory not found: {path}\n"
-            f"Run: python datasets/build_inventory.py --dataset {name}"
+            f"Run: python data_pipeline/build_inventory.py --dataset {name}"
         )
     df = pd.read_csv(path)
     if "is_valid" in df.columns:
@@ -127,4 +127,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

@@ -11,4 +11,3 @@ def require_directory(path, message):
 def print_missing_dataset(dataset, path, hint):
     print(f"{dataset} folder not found at {path}.")
     print(hint)
-

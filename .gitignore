@@ -4,6 +4,12 @@ data/processed/
 data/**/*.zip
 data/**/*.tar
 data/**/*.tar.gz
+data/**/*.parquet
+data/**/*.arrow
+
+# Generated dataset metadata and split manifests
+outputs/inventories/
+outputs/splits/
 
 # Large model and feature artifacts
 outputs/checkpoints/
@@ -14,6 +20,13 @@ outputs/logs/
 *.pt
 *.pth
 *.ckpt
+
+# Hugging Face/Xet caches (keep these outside the repository when possible)
+.cache/huggingface/
+**/.cache/huggingface/
+*.parquet
+*.arrow
+*.xet
 
 # Archives and downloaded sidecars
 *.zip
