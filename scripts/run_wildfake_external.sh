@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
+PYTHON_BIN="/home/rong/miniconda3/envs/aigc_det_baseline/bin/python"
 
-python datasets/build_inventory.py --dataset WildFake
-python datasets/make_splits.py --config configs/wildfake_external_resnet50.yaml --dataset WildFake
+"$PYTHON_BIN" data_pipeline/build_inventory.py --dataset WildFake
+"$PYTHON_BIN" data_pipeline/make_splits.py --config configs/wildfake_external_resnet50.yaml --dataset WildFake
 
 if [ ! -f outputs/checkpoints/genimage_splitB_resnet50/best_model.pt ]; then
   echo "Missing GenImage-trained checkpoint: outputs/checkpoints/genimage_splitB_resnet50/best_model.pt"
@@ -10,8 +11,7 @@ if [ ! -f outputs/checkpoints/genimage_splitB_resnet50/best_model.pt ]; then
   exit 1
 fi
 
-python evaluation/evaluate.py \
+"$PYTHON_BIN" evaluation/evaluate.py \
   --config configs/genimage_splitB_resnet50.yaml \
   --checkpoint outputs/checkpoints/genimage_splitB_resnet50/best_model.pt \
   --test-csv outputs/splits/wildfake_baseline_test.csv
-

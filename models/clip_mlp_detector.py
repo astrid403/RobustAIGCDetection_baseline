@@ -46,12 +46,20 @@ def extract_clip_features(clip_model, loader, device):
     return torch.cat(features), torch.cat(labels), paths
 
 
-def save_feature_cache(path, features, labels, paths):
+def save_feature_cache(path, features, labels, paths, metadata=None):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    torch.save({"features": features, "labels": labels, "paths": paths}, path)
+    torch.save(
+        {
+            "features": features,
+            "labels": labels,
+            "paths": paths,
+            "sample_ids": paths,
+            "metadata": metadata or {},
+        },
+        path,
+    )
 
 
 def load_feature_cache(path):
     return torch.load(path, map_location="cpu")
-

@@ -14,7 +14,8 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from datasets.csv_image_dataset import CsvImageDataset
+from data_pipeline.dataset_factory import create_image_dataset
+from data_pipeline.fingerprints import feature_cache_metadata, feature_cache_path, validate_feature_cache
 from evaluation.plots import plot_training_curves
 from models.clip_mlp_detector import (
     ClipMlpDetector,
@@ -58,7 +59,7 @@ def resnet_transforms(image_size, train):
 
 
 def make_loader(csv_path, transform, batch_size, shuffle, workers, max_samples_per_class=None):
-    dataset = CsvImageDataset(csv_path, transform=transform, max_samples_per_class=max_samples_per_class)
+    dataset = create_image_dataset(csv_path, transform=transform, max_samples_per_class=max_samples_per_class)
     return DataLoader(dataset, batch_size=batch_size, shuffle=shuffle, num_workers=workers, pin_memory=torch.cuda.is_available())
 
 
@@ -109,14 +110,17 @@ def train_resnet(config, device):
 
 def cache_or_extract(config, split_name, csv_path, preprocess, clip_model, device):
     exp = config["experiment_name"]
-    cache_path = Path("outputs/features") / exp / f"{split_name}_clip_features.pt"
+    metadata = feature_cache_metadata(csv_path, config)
+    cache_path = feature_cache_path(exp, split_name, metadata)
     if config.get("cache_clip_features", True) and cache_path.exists():
-        return load_feature_cache(cache_path)
+        cache = load_feature_cache(cache_path)
+        validate_feature_cache(cache, metadata)
+        return cache
     loader = make_loader(csv_path, preprocess, config.get("batch_size", 32), False, config.get("num_workers", 2))
     features, labels, paths = extract_clip_features(clip_model, loader, device)
     if config.get("cache_clip_features", True):
-        save_feature_cache(cache_path, features, labels, paths)
-    return {"features": features, "labels": labels, "paths": paths}
+        save_feature_cache(cache_path, features, labels, paths, metadata)
+    return {"features": features, "labels": labels, "paths": paths, "sample_ids": paths, "metadata": metadata}
 
 
 def train_clip_mlp(config, device):
@@ -202,4 +206,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

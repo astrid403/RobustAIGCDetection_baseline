@@ -13,7 +13,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from datasets.csv_image_dataset import CsvImageDataset
+from data_pipeline.dataset_factory import create_image_dataset
 from evaluation.metrics import binary_metrics
 from models.clip_mlp_detector import ClipMlpDetector, extract_clip_features, load_open_clip_model
 from models.resnet_detector import build_resnet_detector
@@ -34,7 +34,7 @@ def predict_resnet(config, transform_name, model, csv_path, device):
         config.get("resize_scale", 0.5),
         config.get("blur_radius", 1.0),
     )
-    dataset = CsvImageDataset(csv_path, transform=transform, max_samples_per_class=config.get("max_samples_per_class"))
+    dataset = create_image_dataset(csv_path, transform=transform, max_samples_per_class=config.get("max_samples_per_class"))
     loader = DataLoader(dataset, batch_size=config.get("batch_size", 16), shuffle=False, num_workers=config.get("num_workers", 2))
     labels, probs = [], []
     for images, batch_labels, _ in loader:
@@ -55,7 +55,7 @@ def predict_clip_mlp(config, transform_name, clip_model, mlp_model, preprocess, 
         )
         + [preprocess]
     )
-    dataset = CsvImageDataset(csv_path, transform=transform, max_samples_per_class=config.get("max_samples_per_class"))
+    dataset = create_image_dataset(csv_path, transform=transform, max_samples_per_class=config.get("max_samples_per_class"))
     loader = DataLoader(dataset, batch_size=config.get("batch_size", 32), shuffle=False, num_workers=config.get("num_workers", 2))
     features, labels_tensor, _ = extract_clip_features(clip_model, loader, device)
     ds = torch.utils.data.TensorDataset(features, labels_tensor.float())

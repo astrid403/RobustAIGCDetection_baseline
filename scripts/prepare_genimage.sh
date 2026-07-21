@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+PYTHON_BIN="/home/rong/miniconda3/envs/aigc_det_baseline/bin/python"
 
 ROOT="${GENIMAGE_ROOT:-data/raw/GenImage}"
 mkdir -p "$ROOT"
@@ -22,5 +23,4 @@ if [ "${1:-}" = "--url" ]; then
   echo "Then extract into $ROOT and rerun inventory generation."
 fi
 
-python datasets/build_inventory.py --dataset GenImage
-
+"$PYTHON_BIN" data_pipeline/build_inventory.py --dataset GenImage
