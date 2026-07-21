@@ -1,6 +1,6 @@
 # Robust AI-Generated Image Detection Baseline
 
-This is a clean PyTorch baseline project for detecting real vs AI-generated images under distribution shift. It supports CIFAKE, GenImage, and optional WildFake evaluation.
+This is a clean PyTorch baseline project for detecting real vs AI-generated images under distribution shift. It supports CIFAKE, GenImage, and Defactify external evaluation. WildFake is retained as Milestone 2 legacy functionality.
 
 The binary label convention is:
 
@@ -19,7 +19,7 @@ Completed baseline stages:
 - CIFAKE full ResNet50 sanity check.
 - GenImage fallback available-generator cross-generator experiments with ResNet50 and CLIP-MLP.
 - Post-processing robustness evaluation on the GenImage fallback unseen-generator test split.
-- WildFake subset external evaluation with ResNet50 and CLIP-MLP.
+- WildFake subset external evaluation with ResNet50 and CLIP-MLP (Milestone 2 legacy).
 
 Important caveats:
 
@@ -122,7 +122,25 @@ bash scripts/prepare_genimage.sh
 
 If requested generators are missing, the split script prints available, requested, and missing generator names.
 
-## Prepare WildFake
+## Prepare Defactify
+
+Defactify is read directly from the Hugging Face cache. Images are not exported into a second directory tree. Pin the dataset to a verified commit SHA before preparing manifests:
+
+```bash
+export DEFACTIFY_REVISION=787334f7857fa54f29027a7f09c30e895ad486ef
+bash scripts/prepare_defactify.sh
+```
+
+This creates lightweight manifests under `outputs/inventories/` and `outputs/splits/`. Run the non-training smoke evaluation before the full external evaluation:
+
+```bash
+bash scripts/run_defactify_smoke_test.sh
+bash scripts/run_defactify_external.sh
+```
+
+The smoke and external scripts reuse the completed GenImage checkpoints and use new Defactify experiment names, so they do not overwrite Milestone 2 outputs.
+
+## Prepare WildFake (Milestone 2 legacy)
 
 Folder-based scanning:
 
@@ -143,15 +161,15 @@ The metadata CSV must contain at least `path,label`.
 Inventories are saved under `outputs/inventories/`.
 
 ```bash
-python datasets/build_inventory.py --dataset CIFAKE
-python datasets/build_inventory.py --dataset GenImage
-python datasets/build_inventory.py --dataset WildFake
+python data_pipeline/build_inventory.py --dataset CIFAKE
+python data_pipeline/build_inventory.py --dataset GenImage
+python data_pipeline/build_inventory.py --dataset WildFake
 ```
 
 Each inventory row includes:
 
 ```csv
-path,label,dataset,split,generator,source,width,height,format,is_valid
+sample_id,storage_backend,path,dataset,dataset_id,dataset_revision,hf_split,row_index,label,label_b,generator,source,caption,width,height,format,is_valid,split
 ```
 
 ## Generate Splits
@@ -159,9 +177,9 @@ path,label,dataset,split,generator,source,width,height,format,is_valid
 Splits are saved under `outputs/splits/`.
 
 ```bash
-python datasets/make_splits.py --config configs/debug_resnet18.yaml --dataset CIFAKE
-python datasets/make_splits.py --config configs/genimage_splitB_resnet50.yaml --dataset GenImage
-python datasets/make_splits.py --config configs/wildfake_external_resnet50.yaml --dataset WildFake
+python data_pipeline/make_splits.py --config configs/debug_resnet18.yaml --dataset CIFAKE
+python data_pipeline/make_splits.py --config configs/genimage_splitB_resnet50.yaml --dataset GenImage
+python data_pipeline/make_splits.py --config configs/wildfake_external_resnet50.yaml --dataset WildFake
 ```
 
 ## Debug Smoke Test
@@ -202,7 +220,7 @@ bash scripts/run_genimage_splitB_clip_mlp.sh
 
 CLIP image features are cached under `outputs/features/{experiment_name}/`.
 
-## WildFake External Evaluation
+## WildFake External Evaluation (Milestone 2 legacy)
 
 Run after a GenImage checkpoint exists:
 
@@ -210,7 +228,7 @@ Run after a GenImage checkpoint exists:
 bash scripts/run_wildfake_external.sh
 ```
 
-WildFake is optional. If it is missing, prepare it later under `data/raw/WildFake/` or provide a metadata CSV.
+WildFake is no longer the current external benchmark. Its code and historical results remain available for Milestone 2 reproducibility.
 
 ## Robustness Evaluation
 
@@ -269,7 +287,7 @@ bash scripts/download_cifake.sh
 Build inventories before generating splits:
 
 ```bash
-python datasets/build_inventory.py --dataset CIFAKE
+python data_pipeline/build_inventory.py --dataset CIFAKE
 ```
 
 `GenImage requested generators are missing`

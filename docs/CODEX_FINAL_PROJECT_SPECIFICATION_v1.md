@@ -1236,7 +1236,7 @@ RobustAIGCDetection_baseline/
 │   ├── processed/
 │   └── README.md
 │
-├── datasets/
+├── data_pipeline/
 │   ├── __init__.py
 │   ├── build_inventory.py
 │   ├── make_splits.py
@@ -1449,9 +1449,9 @@ Create the folder structure, config files, requirements, README skeleton, and do
 Implement:
 
 ```text
-datasets/build_inventory.py
-datasets/make_splits.py
-datasets/csv_image_dataset.py
+data_pipeline/build_inventory.py
+data_pipeline/make_splits.py
+data_pipeline/csv_image_dataset.py
 ```
 
 Support CIFAKE first.

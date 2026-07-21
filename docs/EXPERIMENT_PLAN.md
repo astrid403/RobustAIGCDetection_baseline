@@ -80,7 +80,24 @@ Key files:
 - `outputs/figures/genimage_splitB_available_resnet50_robustness/robustness_bar_chart.png`
 - `outputs/figures/genimage_splitB_available_clip_mlp_robustness/robustness_bar_chart.png`
 
-## 5. WildFake Subset External Evaluation
+## 5. Defactify External Evaluation
+
+Status: implementation complete; dataset preparation and experiments pending.
+
+Defactify replaces WildFake as the current external cross-dataset test. It uses the official pinned `test` split for the primary result, a balanced test manifest for class-balance diagnostics, and Label_B for per-generator analysis. It is never used to train the GenImage checkpoints.
+
+Planned experiments:
+
+- `defactify_external_available_resnet50`
+- `defactify_external_available_clip_mlp`
+- `defactify_balanced_available_resnet50`
+- `defactify_balanced_available_clip_mlp`
+- `defactify_smoke_resnet50`
+- `defactify_smoke_clip_mlp`
+
+Preparation must record a verified Hugging Face commit SHA in `DEFACTIFY_REVISION`.
+
+## 6. WildFake Subset External Evaluation (Milestone 2 legacy)
 
 Status: completed for subset only.
 
@@ -100,13 +117,13 @@ Key files:
 - Figures: `outputs/figures/wildfake_subset_external_available_resnet50/`
 - Figures: `outputs/figures/wildfake_subset_external_available_clip_mlp/`
 
-## 6. Full WildFake External Evaluation
+## 7. Full WildFake External Evaluation (legacy, optional)
 
 Status: optional / pending.
 
 Full WildFake has not been run. Future work can add more WildFake sources and generators or run the full dataset if it becomes available locally.
 
-## 7. Reporting Outputs
+## 8. Reporting Outputs
 
 Status: completed.
 

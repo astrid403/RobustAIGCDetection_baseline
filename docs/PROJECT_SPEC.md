@@ -19,9 +19,10 @@ Supported datasets:
 
 - CIFAKE: first full sanity check.
 - GenImage: main benchmark for seen and unseen generator experiments.
-- WildFake: optional external test set.
+- Defactify: current external cross-dataset test set, read from a pinned Hugging Face cache revision.
+- WildFake: retained Milestone 2 legacy external test set.
 
-The code is designed to keep working when GenImage or WildFake are unavailable.
+The local CIFAKE/GenImage/WildFake path backend remains available independently of Defactify. Defactify is optional until its pinned Hugging Face cache has been prepared.
 
 ## Model Strategy
 
@@ -50,4 +51,3 @@ outputs/
 ```
 
 Every run saves configs, logs, metrics, predictions, figures, and checkpoints when applicable.
-

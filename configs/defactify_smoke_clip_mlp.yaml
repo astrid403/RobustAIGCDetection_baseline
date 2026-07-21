@@ -1,0 +1,13 @@
+experiment_name: defactify_smoke_clip_mlp
+model_type: clip_mlp
+clip_model: ViT-B-32
+pretrained: openai
+dataset: Defactify
+train_dataset: GenImage
+test_csv: outputs/splits/defactify_smoke_test.csv
+batch_size: 4
+mlp_hidden_dim: 512
+dropout: 0.2
+cache_clip_features: true
+seed: 42
+num_workers: 0

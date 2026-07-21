@@ -1,0 +1,13 @@
+experiment_name: defactify_smoke_resnet50_robustness
+model_type: resnet
+model_name: resnet50
+dataset: Defactify
+test_csv: outputs/splits/defactify_smoke_test.csv
+checkpoint: outputs/checkpoints/genimage_splitB_available_resnet50/best_model.pt
+image_size: 224
+batch_size: 4
+num_workers: 0
+transforms: [clean, jpeg, resize, blur]
+jpeg_quality: 70
+resize_scale: 0.5
+blur_radius: 1.0

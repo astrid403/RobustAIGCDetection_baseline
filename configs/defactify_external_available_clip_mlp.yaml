@@ -1,0 +1,14 @@
+experiment_name: defactify_external_available_clip_mlp
+model_type: clip_mlp
+clip_model: ViT-B-32
+pretrained: openai
+dataset: Defactify
+train_dataset: GenImage
+test_csv: outputs/splits/defactify_official_test.csv
+image_size: 224
+batch_size: 32
+mlp_hidden_dim: 512
+dropout: 0.2
+cache_clip_features: true
+seed: 42
+num_workers: 2

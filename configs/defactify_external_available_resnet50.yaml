@@ -1,0 +1,12 @@
+experiment_name: defactify_external_available_resnet50
+model_type: resnet
+model_name: resnet50
+dataset: Defactify
+train_dataset: GenImage
+test_csv: outputs/splits/defactify_official_test.csv
+image_size: 224
+batch_size: 16
+pretrained: false
+mixed_precision: true
+seed: 42
+num_workers: 2
