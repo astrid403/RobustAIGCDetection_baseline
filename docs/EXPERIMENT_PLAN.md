@@ -82,20 +82,26 @@ Key files:
 
 ## 5. Defactify External Evaluation
 
-Status: implementation complete; dataset preparation and experiments pending.
+Status: completed.
 
 Defactify replaces WildFake as the current external cross-dataset test. It uses the official pinned `test` split for the primary result, a balanced test manifest for class-balance diagnostics, and Label_B for per-generator analysis. It is never used to train the GenImage checkpoints.
 
-Planned experiments:
+Completed official-full inference experiments:
 
 - `defactify_external_available_resnet50`
 - `defactify_external_available_clip_mlp`
-- `defactify_balanced_available_resnet50`
-- `defactify_balanced_available_clip_mlp`
+
+The deterministic balanced metrics are derived from each model's saved official-full predictions by `evaluation/summarize_predictions.py`; no second clean balanced inference is run. Formal post-processing robustness uses the deterministic balanced manifest through:
+
+- `defactify_balanced_resnet50_robustness`
+- `defactify_balanced_clip_mlp_robustness`
+
+Completed functional smoke experiments:
+
 - `defactify_smoke_resnet50`
 - `defactify_smoke_clip_mlp`
 
-Preparation must record a verified Hugging Face commit SHA in `DEFACTIFY_REVISION`.
+Preparation and results use the pinned Hugging Face revision `787334f7857fa54f29027a7f09c30e895ad486ef`.
 
 ## 6. WildFake Subset External Evaluation (Milestone 2 legacy)
 

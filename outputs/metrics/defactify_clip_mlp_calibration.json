@@ -1,0 +1,44 @@
+[
+  {
+    "model_type": "clip_mlp",
+    "batch_size": 32,
+    "num_samples": 480,
+    "elapsed_seconds": 4.311259449008503,
+    "images_per_second": 111.3363752929297,
+    "first_batch_load_seconds": 0.7830260639893822,
+    "peak_gpu_memory_mib": 667.3701171875,
+    "estimated_full_test_seconds": 404.18057334454716,
+    "estimated_balanced_one_pass_seconds": 134.72685778151572,
+    "estimated_balanced_robustness_seconds": 538.9074311260629,
+    "device": "NVIDIA GeForce RTX 5060 Laptop GPU",
+    "status": "ok"
+  },
+  {
+    "model_type": "clip_mlp",
+    "batch_size": 64,
+    "num_samples": 480,
+    "elapsed_seconds": 3.1755061369913165,
+    "images_per_second": 151.15700593631465,
+    "first_batch_load_seconds": 1.1827877019968582,
+    "peak_gpu_memory_mib": 744.6201171875,
+    "estimated_full_test_seconds": 297.7037003429359,
+    "estimated_balanced_one_pass_seconds": 99.23456678097864,
+    "estimated_balanced_robustness_seconds": 396.93826712391456,
+    "device": "NVIDIA GeForce RTX 5060 Laptop GPU",
+    "status": "ok"
+  },
+  {
+    "model_type": "clip_mlp",
+    "batch_size": 128,
+    "num_samples": 480,
+    "elapsed_seconds": 3.76175149899791,
+    "images_per_second": 127.60013523696789,
+    "first_batch_load_seconds": 2.198529324014089,
+    "peak_gpu_memory_mib": 895.3701171875,
+    "estimated_full_test_seconds": 352.66420303105406,
+    "estimated_balanced_one_pass_seconds": 117.55473434368469,
+    "estimated_balanced_robustness_seconds": 470.21893737473874,
+    "device": "NVIDIA GeForce RTX 5060 Laptop GPU",
+    "status": "ok"
+  }
+]

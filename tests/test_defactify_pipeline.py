@@ -7,8 +7,9 @@ import pandas as pd
 from PIL import Image
 
 from data_pipeline.dataset_factory import create_image_dataset
-from data_pipeline.defactify import balanced_test, rows_for_split, smoke_test, validate_labels
+from data_pipeline.defactify import balanced_test, calibration_test, rows_for_split, smoke_test, validate_labels
 from data_pipeline.fingerprints import feature_cache_metadata, validate_feature_cache
+from evaluation.summarize_predictions import metric_row, select_manifest
 
 
 class DefactifyManifestTests(unittest.TestCase):
@@ -43,6 +44,9 @@ class DefactifyManifestTests(unittest.TestCase):
         self.assertEqual(int((balanced.label == 0).sum()), int((balanced.label == 1).sum()))
         smoke = smoke_test(frame, per_label_per_split=2)
         self.assertEqual(len(smoke), 36)
+        calibration = calibration_test(frame, per_label=3)
+        self.assertEqual(len(calibration), 18)
+        self.assertEqual(set(calibration.hf_split), {"test"})
 
 
 class DatasetAndCacheTests(unittest.TestCase):
@@ -95,6 +99,22 @@ class DatasetAndCacheTests(unittest.TestCase):
             self.assertNotEqual(first["cache_signature"], second["cache_signature"])
             with self.assertRaises(ValueError):
                 validate_feature_cache({"metadata": first}, second)
+
+    def test_balanced_metrics_are_selected_from_full_predictions(self):
+        predictions = pd.DataFrame([
+            {"sample_id": "r1", "label": 0, "pred_label": 0, "fake_prob": 0.1, "label_b": 0, "generator": "real"},
+            {"sample_id": "r2", "label": 0, "pred_label": 1, "fake_prob": 0.6, "label_b": 0, "generator": "real"},
+            {"sample_id": "f1", "label": 1, "pred_label": 1, "fake_prob": 0.9, "label_b": 1, "generator": "SD21"},
+            {"sample_id": "f2", "label": 1, "pred_label": 0, "fake_prob": 0.4, "label_b": 2, "generator": "SDXL"},
+        ])
+        with tempfile.TemporaryDirectory() as directory:
+            manifest = Path(directory) / "balanced.csv"
+            pd.DataFrame({"sample_id": ["r1", "f1"]}).to_csv(manifest, index=False)
+            selected = select_manifest(predictions, manifest)
+        self.assertEqual(set(selected.sample_id), {"r1", "f1"})
+        row, cm = metric_row(selected, "test", "balanced")
+        self.assertEqual(row["accuracy"], 1.0)
+        self.assertEqual(int(cm.sum()), 2)
 
 
 if __name__ == "__main__":

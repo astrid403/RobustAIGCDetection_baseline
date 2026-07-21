@@ -28,10 +28,16 @@ done
   --config configs/defactify_external_available_clip_mlp.yaml \
   --checkpoint "$CLIP_CHECKPOINT"
 
-"$PYTHON_BIN" evaluation/evaluate.py \
-  --config configs/defactify_balanced_available_resnet50.yaml \
-  --checkpoint "$RESNET_CHECKPOINT"
+"$PYTHON_BIN" evaluation/summarize_predictions.py \
+  --predictions outputs/predictions/defactify_external_available_resnet50_predictions.csv \
+  --original-metrics outputs/metrics/defactify_external_available_resnet50_metrics.csv \
+  --balanced-manifest "$BALANCED_SPLIT_CSV" \
+  --experiment-name defactify_external_available_resnet50 \
+  --figure-dir outputs/figures/defactify_external_available_resnet50
 
-"$PYTHON_BIN" evaluation/evaluate.py \
-  --config configs/defactify_balanced_available_clip_mlp.yaml \
-  --checkpoint "$CLIP_CHECKPOINT"
+"$PYTHON_BIN" evaluation/summarize_predictions.py \
+  --predictions outputs/predictions/defactify_external_available_clip_mlp_predictions.csv \
+  --original-metrics outputs/metrics/defactify_external_available_clip_mlp_metrics.csv \
+  --balanced-manifest "$BALANCED_SPLIT_CSV" \
+  --experiment-name defactify_external_available_clip_mlp \
+  --figure-dir outputs/figures/defactify_external_available_clip_mlp

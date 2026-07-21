@@ -1,0 +1,2 @@
+experiment_name,scope,num_samples,num_real,num_fake,accuracy,balanced_accuracy,precision,recall,f1,auroc
+defactify_external_available_clip_mlp,official_full,45000,7500,37500,0.8372222222222222,0.6636666666666666,0.8856230031948882,0.924,0.9044045676998369,0.8078918755555556

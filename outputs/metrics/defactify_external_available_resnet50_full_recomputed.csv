@@ -1,0 +1,2 @@
+experiment_name,scope,num_samples,num_real,num_fake,accuracy,balanced_accuracy,precision,recall,f1,auroc
+defactify_external_available_resnet50,official_full,45000,7500,37500,0.6233111111111111,0.5792133333333334,0.8688830646608983,0.64536,0.7406239958379875,0.6471518257777777

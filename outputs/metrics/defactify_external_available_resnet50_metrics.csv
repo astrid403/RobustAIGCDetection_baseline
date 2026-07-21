@@ -1,0 +1,2 @@
+experiment_name,model,train_dataset,test_dataset,test_split,train_generators,test_generators,num_real,num_fake,accuracy,balanced_accuracy,precision,recall,f1,auroc
+defactify_external_available_resnet50,resnet,GenImage,Defactify,outputs/splits/defactify_official_test.csv,,"DALL-E 3,Midjourney 6,Stable Diffusion 2.1,Stable Diffusion 3,Stable Diffusion XL,real",7500,37500,0.6233111111111111,0.5792133333333334,0.8688830646608983,0.64536,0.7406239958379875,0.6471518257777777

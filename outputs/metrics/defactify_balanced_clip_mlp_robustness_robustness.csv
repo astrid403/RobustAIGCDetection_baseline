@@ -1,0 +1,5 @@
+experiment_name,model,test_set,transform,clean_auroc,processed_auroc,robustness_drop,accuracy,balanced_accuracy,precision,recall,f1
+defactify_balanced_clip_mlp_robustness,ViT-B-32,outputs/splits/defactify_balanced_test.csv,clean,0.8075114133333333,0.8075114133333333,0.0,0.6624,0.6624,0.6069734761988407,0.9214666666666667,0.7318648734512337
+defactify_balanced_clip_mlp_robustness,ViT-B-32,outputs/splits/defactify_balanced_test.csv,jpeg,0.8075114133333333,0.8339972444444445,-0.026485831111111136,0.7066,0.7066,0.6475292773493287,0.9068,0.7555407432094651
+defactify_balanced_clip_mlp_robustness,ViT-B-32,outputs/splits/defactify_balanced_test.csv,resize,0.8075114133333333,0.7163742488888889,0.09113716444444442,0.5604666666666667,0.5604666666666667,0.5343899294759991,0.9396,0.6812974331705902
+defactify_balanced_clip_mlp_robustness,ViT-B-32,outputs/splits/defactify_balanced_test.csv,blur,0.8075114133333333,0.6955488711111111,0.11196254222222224,0.5366,0.5366000000000001,0.5198783402129046,0.9572,0.673799802900183

@@ -31,7 +31,7 @@ bash scripts/run_defactify_smoke_test.sh
 bash scripts/run_defactify_external.sh
 ```
 
-Both commands reuse the completed GenImage available-split checkpoints. They do not train on Defactify and use distinct output names. Evaluation reports binary metrics, balanced accuracy, and per-generator metrics comparing each fake generator against real images.
+Both commands reuse the completed GenImage available-split checkpoints. They do not train on Defactify. The external script runs each model once on the official full test, then derives balanced and per-generator metrics by filtering the saved full predictions by deterministic sample ID; it does not perform a second clean balanced inference.
 
 CLIP feature cache names include a hash of the complete manifest, dataset revision, CLIP model and preprocessing signature. Cache metadata is validated before reuse.
 

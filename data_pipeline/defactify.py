@@ -103,6 +103,16 @@ def smoke_test(df, per_label_per_split=2, seed=42):
     return pd.concat(groups).sample(frac=1, random_state=seed).reset_index(drop=True)
 
 
+def calibration_test(df, per_label=80, seed=42):
+    """Return 480 deterministic official-test rows, balanced across Label_B."""
+    test = df[df["hf_split"] == "test"]
+    groups = [
+        group.sample(n=min(per_label, len(group)), random_state=seed)
+        for _, group in test.groupby("label_b")
+    ]
+    return pd.concat(groups).sample(frac=1, random_state=seed).reset_index(drop=True)
+
+
 def build_manifests(dataset_id, revision, out_inventory, out_dir, cache_dir=None, seed=42):
     if not revision or revision == "main":
         raise ValueError("Defactify must use a pinned commit revision, not an empty value or 'main'.")
@@ -122,6 +132,7 @@ def build_manifests(dataset_id, revision, out_inventory, out_dir, cache_dir=None
         inventory[inventory["hf_split"] == split].to_csv(out_dir / f"defactify_official_{split}.csv", index=False)
     balanced_test(inventory, seed).to_csv(out_dir / "defactify_balanced_test.csv", index=False)
     smoke_test(inventory, 2, seed).to_csv(out_dir / "defactify_smoke_test.csv", index=False)
+    calibration_test(inventory, 80, seed).to_csv(out_dir / "defactify_calibration_test.csv", index=False)
     print(inventory.groupby(["hf_split", "label_b", "generator"]).size().to_string())
 
 

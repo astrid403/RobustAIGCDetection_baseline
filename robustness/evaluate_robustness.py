@@ -130,6 +130,11 @@ def main():
                 "clean_auroc": clean["auroc"],
                 "processed_auroc": current["auroc"],
                 "robustness_drop": clean["auroc"] - current["auroc"],
+                "accuracy": current["accuracy"],
+                "balanced_accuracy": current["balanced_accuracy"],
+                "precision": current["precision"],
+                "recall": current["recall"],
+                "f1": current["f1"],
             }
         )
     df = pd.DataFrame(rows)

@@ -20,12 +20,17 @@ Completed baseline stages:
 - GenImage fallback available-generator cross-generator experiments with ResNet50 and CLIP-MLP.
 - Post-processing robustness evaluation on the GenImage fallback unseen-generator test split.
 - WildFake subset external evaluation with ResNet50 and CLIP-MLP (Milestone 2 legacy).
+- Defactify official-full and deterministic-balanced external evaluation with ResNet50 and CLIP-MLP.
+- Defactify balanced post-processing robustness evaluation.
 
 Important caveats:
 
 - The official default GenImage Split B is pending because `Stable Diffusion V1.4` is missing locally.
 - The completed GenImage experiments are fallback available-generator experiments, not the official default Split B.
 - WildFake external evaluation was done on a CelebA-HQ/DDIM subset, not full WildFake.
+- Defactify is evaluated only as an external test set; no Defactify image was used to train the reported checkpoints.
+
+Defactify results and reproducibility details are reported in [`docs/DEFACTIFY_RESULTS.md`](docs/DEFACTIFY_RESULTS.md). The main external-test AUROC is 0.647152 for ResNet50 and 0.807892 for CLIP-MLP; deterministic balanced AUROC is 0.644212 and 0.807510 respectively.
 
 ## Environment Setup
 
