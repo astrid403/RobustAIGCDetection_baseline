@@ -16,7 +16,14 @@ from data_pipeline.fingerprints import feature_cache_metadata, feature_cache_pat
 from evaluation.error_analysis import save_error_cases
 from evaluation.metrics import binary_metrics
 from evaluation.plots import plot_confusion_matrix, plot_roc
-from models.clip_mlp_detector import build_clip_feature_detector, extract_clip_features, load_feature_cache, load_open_clip_model, save_feature_cache
+from models.clip_mlp_detector import (
+    build_clip_feature_detector,
+    extract_clip_features,
+    load_feature_cache,
+    load_open_clip_model,
+    pair_clip_feature_caches,
+    save_feature_cache,
+)
 from models.resnet_detector import build_resnet_detector
 from training.losses import get_loss
 from training.train import resnet_transforms
@@ -45,31 +52,66 @@ def predict_resnet(config, checkpoint, csv_path, device):
 
 
 @torch.no_grad()
-def predict_clip_classifier(config, checkpoint, csv_path, device):
+def evaluation_cache_or_extract(config, csv_path, device, clip_model, preprocess, feature_mode):
     exp = config["experiment_name"]
-    metadata = feature_cache_metadata(csv_path, config)
+    mode_config = dict(config)
+    mode_config["clip_feature_mode"] = feature_mode
+    metadata = feature_cache_metadata(csv_path, mode_config)
     cache_path = feature_cache_path(exp, "test", metadata)
     if config.get("cache_clip_features", True) and cache_path.exists():
         cache = load_feature_cache(cache_path)
         validate_feature_cache(cache, metadata)
     else:
-        clip_model, preprocess = load_open_clip_model(
-            config.get("clip_model", "ViT-B/32"), device, config.get("pretrained", "openai")
-        )
         dataset = create_image_dataset(csv_path, transform=preprocess)
         loader = DataLoader(dataset, batch_size=config.get("batch_size", 32), shuffle=False, num_workers=config.get("num_workers", 2))
         features, labels, paths = extract_clip_features(
-            clip_model, loader, device, feature_mode=config.get("clip_feature_mode", "final")
+            clip_model, loader, device, feature_mode=feature_mode
         )
-        cache = {"features": features, "labels": labels, "paths": paths}
+        cache = {
+            "features": features,
+            "labels": labels,
+            "paths": paths,
+            "sample_ids": paths,
+            "metadata": metadata,
+        }
         if config.get("cache_clip_features", True):
             save_feature_cache(cache_path, features, labels, paths, metadata)
+    return cache
+
+
+@torch.no_grad()
+def predict_clip_classifier(config, checkpoint, csv_path, device):
+    clip_model, preprocess = load_open_clip_model(
+        config.get("clip_model", "ViT-B/32"), device, config.get("pretrained", "openai")
+    )
+    if config.get("model_type") == "clip_fusion":
+        modes = config.get("clip_feature_modes", ["final", "penultimate"])
+        if modes != ["final", "penultimate"]:
+            raise ValueError("Dual-level fusion requires clip_feature_modes: [final, penultimate].")
+        final = evaluation_cache_or_extract(
+            config, csv_path, device, clip_model, preprocess, "final"
+        )
+        penultimate = evaluation_cache_or_extract(
+            config, csv_path, device, clip_model, preprocess, "penultimate"
+        )
+        cache = pair_clip_feature_caches(final, penultimate)
+    else:
+        cache = evaluation_cache_or_extract(
+            config,
+            csv_path,
+            device,
+            clip_model,
+            preprocess,
+            config.get("clip_feature_mode", "final"),
+        )
     feature_dim = cache["features"].shape[1]
     model = build_clip_feature_detector(
         config.get("model_type", "clip_mlp"),
         feature_dim,
         config.get("mlp_hidden_dim", 512),
         config.get("dropout", 0.2),
+        config.get("fusion_hidden_dim", 256),
+        cache.get("feature_dims"),
     ).to(device)
     state = torch.load(checkpoint, map_location=device)
     model.load_state_dict(state["model_state"])
@@ -222,7 +264,7 @@ def main():
     if not csv_path:
         raise ValueError("No test CSV provided. Add test_csv to config or pass --test-csv.")
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    if config.get("model_type") in {"clip_mlp", "clip_linear"}:
+    if config.get("model_type") in {"clip_mlp", "clip_linear", "clip_fusion"}:
         labels, probs, paths = predict_clip_classifier(config, args.checkpoint, csv_path, device)
     else:
         labels, probs, paths = predict_resnet(config, args.checkpoint, csv_path, device)

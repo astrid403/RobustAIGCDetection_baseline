@@ -22,6 +22,7 @@ from models.clip_mlp_detector import (
     extract_clip_features,
     load_feature_cache,
     load_open_clip_model,
+    pair_clip_feature_caches,
     save_feature_cache,
 )
 from models.resnet_detector import build_resnet_detector
@@ -108,9 +109,12 @@ def train_resnet(config, device):
     return run_epoch_loop(config, model, optimizer, loss_fn, train_loader, val_loader, device, scaler)
 
 
-def cache_or_extract(config, split_name, csv_path, preprocess, clip_model, device):
+def cache_or_extract(config, split_name, csv_path, preprocess, clip_model, device, feature_mode=None):
     exp = config["experiment_name"]
-    metadata = feature_cache_metadata(csv_path, config)
+    mode = feature_mode or config.get("clip_feature_mode", "final")
+    mode_config = dict(config)
+    mode_config["clip_feature_mode"] = mode
+    metadata = feature_cache_metadata(csv_path, mode_config)
     cache_path = feature_cache_path(exp, split_name, metadata)
     if config.get("cache_clip_features", True) and cache_path.exists():
         cache = load_feature_cache(cache_path)
@@ -118,19 +122,40 @@ def cache_or_extract(config, split_name, csv_path, preprocess, clip_model, devic
         return cache
     loader = make_loader(csv_path, preprocess, config.get("batch_size", 32), False, config.get("num_workers", 2))
     features, labels, paths = extract_clip_features(
-        clip_model, loader, device, feature_mode=config.get("clip_feature_mode", "final")
+        clip_model, loader, device, feature_mode=mode
     )
     if config.get("cache_clip_features", True):
         save_feature_cache(cache_path, features, labels, paths, metadata)
     return {"features": features, "labels": labels, "paths": paths, "sample_ids": paths, "metadata": metadata}
 
 
+def dual_level_cache_or_extract(config, split_name, csv_path, preprocess, clip_model, device):
+    modes = config.get("clip_feature_modes", ["final", "penultimate"])
+    if modes != ["final", "penultimate"]:
+        raise ValueError("Dual-level fusion requires clip_feature_modes: [final, penultimate].")
+    final = cache_or_extract(
+        config, split_name, csv_path, preprocess, clip_model, device, feature_mode="final"
+    )
+    penultimate = cache_or_extract(
+        config, split_name, csv_path, preprocess, clip_model, device, feature_mode="penultimate"
+    )
+    return pair_clip_feature_caches(final, penultimate)
+
+
 def train_clip_classifier(config, device):
     clip_model, preprocess = load_open_clip_model(
         config.get("clip_model", "ViT-B/32"), device, config.get("pretrained", "openai")
     )
-    train_cache = cache_or_extract(config, "train", config["train_csv"], preprocess, clip_model, device)
-    val_cache = cache_or_extract(config, "val", config["val_csv"], preprocess, clip_model, device)
+    if config.get("model_type") == "clip_fusion":
+        train_cache = dual_level_cache_or_extract(
+            config, "train", config["train_csv"], preprocess, clip_model, device
+        )
+        val_cache = dual_level_cache_or_extract(
+            config, "val", config["val_csv"], preprocess, clip_model, device
+        )
+    else:
+        train_cache = cache_or_extract(config, "train", config["train_csv"], preprocess, clip_model, device)
+        val_cache = cache_or_extract(config, "val", config["val_csv"], preprocess, clip_model, device)
     train_ds = TensorDataset(train_cache["features"], train_cache["labels"].float())
     val_ds = TensorDataset(val_cache["features"], val_cache["labels"].float())
     train_loader = DataLoader(train_ds, batch_size=config.get("batch_size", 32), shuffle=True)
@@ -141,6 +166,8 @@ def train_clip_classifier(config, device):
         feature_dim,
         config.get("mlp_hidden_dim", 512),
         config.get("dropout", 0.2),
+        config.get("fusion_hidden_dim", 256),
+        train_cache.get("feature_dims"),
     ).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=config.get("learning_rate", 1e-3))
     loss_fn = get_loss()
@@ -218,7 +245,7 @@ def main():
     seed_everything(config.get("seed", 42))
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
-    if config.get("model_type", "resnet") in {"clip_mlp", "clip_linear"}:
+    if config.get("model_type", "resnet") in {"clip_mlp", "clip_linear", "clip_fusion"}:
         train_clip_classifier(config, device)
     else:
         train_resnet(config, device)
