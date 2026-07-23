@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CONTRACT_PATH = ROOT / "configs/research_v3/s1_contract.yaml"
 PROTOCOL_PATH = ROOT / "docs/cross_dataset_plan/PROTOCOL_V3.md"
 MANIFEST_PATH = ROOT / "artifacts/research_v3/protocol_v3_candidate_manifest.json"
+APPROVAL_PATH = ROOT / "artifacts/research_v3/protocol_v3_approval.json"
 
 
 class ResearchV3ContractTests(unittest.TestCase):
@@ -130,6 +131,19 @@ class ResearchV3ContractTests(unittest.TestCase):
         self.assertFalse(manifest["training_authorized"])
         self.assertFalse(manifest["genimage_unseen_authorized"])
         self.assertFalse(manifest["defactify_authorized"])
+
+    def test_approval_record_authorizes_only_tasks_four_and_five(self):
+        approval = json.loads(APPROVAL_PATH.read_text(encoding="utf-8"))
+        self.assertEqual(approval["status"], "approved")
+        self.assertEqual(approval["candidate_commit"], "caf45034542ae35090977347b9685ab132e34754")
+        for key in ("protocol", "contract"):
+            record = approval[key]
+            payload = (ROOT / record["path"]).read_bytes()
+            self.assertEqual(hashlib.sha256(payload).hexdigest(), record["sha256"])
+        self.assertEqual(approval["implementation_authorized_through_task"], "Task 05")
+        self.assertFalse(approval["training_authorized"])
+        self.assertFalse(approval["genimage_unseen_authorized"])
+        self.assertFalse(approval["defactify_authorized"])
 
 
 if __name__ == "__main__":

@@ -3,15 +3,15 @@
 - Research branch: `research/cross-dataset-robustness-v3`
 - Frozen base branch: `feature/defactify-external-eval`
 - Frozen base commit: `cedc2a18d956948acfed87d575d41d4b93689d1d`
-- Current task: `Awaiting Task 03 protocol approval`
-- Last completed task: `Task 02`
-- Protocol v3 frozen: `no`
-- S1 specification frozen: `no`
+- Current task: `Task 04`
+- Last completed task: `Task 03`
+- Protocol v3 frozen: `yes`
+- S1 specification frozen: `yes`
 - Model v3 frozen: `no`
 - Research numbers frozen: `no`
 - GenImage unseen accessed by research v3: `no`
 - Defactify accessed by research v3: `no`
-- Blocking issues: `Protocol v3/S1 contract requires explicit user approval`
+- Blocking issues: `none`
 
 ## Frozen Protocol v2 boundary
 
@@ -42,11 +42,12 @@ sorted-path-list SHA256 was:
 
 ### Task 03 — Freeze Protocol v3 and the S1 specification
 
-- Status: awaiting approval.
+- Status: completed and explicitly approved by the user.
 - Protocol: `docs/cross_dataset_plan/PROTOCOL_V3.md`.
 - Machine contract: `configs/research_v3/s1_contract.yaml`.
 - Candidate manifest:
   `artifacts/research_v3/protocol_v3_candidate_manifest.json`.
+- Approval record: `artifacts/research_v3/protocol_v3_approval.json`.
 - NPR representation: signed diagonal down-right difference, no padding,
   output `[3,223,223]`.
 - NPR expert: ImageNet-pretrained ResNet18, all parameters trainable.
@@ -58,7 +59,8 @@ sorted-path-list SHA256 was:
 - Training/inference executed: no.
 - GenImage unseen accessed: no.
 - Defactify accessed: no.
-- Gate: explicit user approval required before Task 04.
+- Gate: user approved the exact candidate protocol/contract hashes at commit
+  `caf45034542ae35090977347b9685ab132e34754`; Task 04 is authorized.
 
 ### Task 02 — Audit development data and propose source-aware LOGO
 
@@ -96,6 +98,5 @@ sorted-path-list SHA256 was:
 
 ## Next boundary
 
-Do not begin Task 04 until the user explicitly approves both Protocol v3 and
-the S1 YAML contract. Approval must be recorded without changing any frozen
-Protocol v2 file.
+Task 04 may implement only the NPR tensor representation and its unit tests.
+It must not implement the full detector or run training.

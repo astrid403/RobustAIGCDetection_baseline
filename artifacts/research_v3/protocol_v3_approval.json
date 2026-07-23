@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "record_name": "cross_dataset_protocol_v3_user_approval",
+  "status": "approved",
+  "approved_in_conversation": true,
+  "approval_scope": "Protocol v3 and S1 contract; continue Task 04 then Task 05",
+  "branch": "research/cross-dataset-robustness-v3",
+  "candidate_commit": "caf45034542ae35090977347b9685ab132e34754",
+  "protocol": {
+    "path": "docs/cross_dataset_plan/PROTOCOL_V3.md",
+    "sha256": "f5f12787942165c440058626d339119aa1cd24758c46b83a7613e1bd93406fd6"
+  },
+  "contract": {
+    "path": "configs/research_v3/s1_contract.yaml",
+    "sha256": "b91f88c07b2e46e5c1f68ea6554088cdc8e51a8bb7ceb1c2cbe569041b02d8ea"
+  },
+  "implementation_authorized_through_task": "Task 05",
+  "training_authorized": false,
+  "genimage_unseen_authorized": false,
+  "defactify_authorized": false
+}
