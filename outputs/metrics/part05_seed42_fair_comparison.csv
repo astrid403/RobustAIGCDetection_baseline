@@ -1,0 +1,4 @@
+model,feature_modes,trainable_parameters,training_wall_seconds,cache_bytes,accuracy,balanced_accuracy,precision,fake_recall,real_recall,binary_f1,macro_f1,auroc,auprc,metric_source
+B2_final_mlp,final,263169,,17403767,0.933,0.933,0.9650912996777659,0.8985,0.9675,0.9306059036768514,0.9329201582183193,0.98385225,0.9817087249328167,recomputed from frozen seed-42 GenImage unseen predictions
+penultimate_only,penultimate,263169,54.18,17407055,0.93625,0.93625,0.9693383539537386,0.901,0.9715,0.933920704845815,0.9361706880906207,0.9880475000000001,0.9872634407248244,Part 04 seed-42 GenImage unseen pilot
+dual_level_fusion,final+penultimate,262657,87.86,34814110,0.9355,0.9355,0.971830985915493,0.897,0.974,0.9329173166926678,0.935404252953941,0.9868732499999999,0.9852834341612963,Part 05 seed-42 GenImage unseen pilot

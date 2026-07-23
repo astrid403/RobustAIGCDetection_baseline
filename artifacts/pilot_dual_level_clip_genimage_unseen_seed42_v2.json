@@ -1,0 +1,176 @@
+{
+  "schema_version": 1,
+  "experiment_name": "pilot_dual_level_clip_genimage_unseen_seed42_v2",
+  "stage": "pilot",
+  "status": "valid",
+  "git_commit": "3fdd1ab39a9699c25634a0b555fec6c8a8b3e280",
+  "seed": 42,
+  "model": {
+    "model_type": "clip_fusion",
+    "clip_model": "ViT-B-32",
+    "pretrained": "openai",
+    "feature_modes": ["final", "penultimate"],
+    "feature_dims": [512, 512],
+    "normalization": "per-level L2 normalization",
+    "projection": "identity because both feature dimensions are 512",
+    "fusion": "ordered concatenation: final then penultimate",
+    "classifier": "Linear(1024,256)-ReLU-Dropout(0.2)-Linear(256,1)",
+    "trainable_parameters": 262657,
+    "threshold": 0.5,
+    "excluded_components": [
+      "gating",
+      "attention",
+      "extra loss",
+      "patch tokens",
+      "frequency branch",
+      "new backbone"
+    ]
+  },
+  "config": {
+    "path": "configs/pilot_dual_level_clip_genimage_unseen_seed42_v2.yaml",
+    "sha256": "c3143b949e0de623afc1c3ddba10ffd57ac771d62a57495ac7a8bcfb8d1e9c4f"
+  },
+  "data": {
+    "train": {
+      "path": "outputs/splits/genimage_splitB_available_train.csv",
+      "sha256": "2b2e1112f044f079a2ef4fa9255d42e850359861c934e8c3bf938527701b5bd8",
+      "samples": 3000
+    },
+    "validation": {
+      "path": "outputs/splits/genimage_splitB_available_val.csv",
+      "sha256": "5c73cbc97dc41e8ef63b2021fb1758201b4b484f04d4ebb1559f3535c4e44698",
+      "samples": 1200
+    },
+    "unseen_test": {
+      "path": "outputs/splits/genimage_splitB_available_test_unseen.csv",
+      "sha256": "0852a4bbe4ea67efecf7756b697e04a7a5cb5623999caf3fc3dfd625df063c07",
+      "samples": 4000
+    }
+  },
+  "feature_caches": {
+    "schema_version": 2,
+    "legacy_cache_reused": false,
+    "pairing_verified": true,
+    "total_size_bytes": 34814110,
+    "items": [
+      {
+        "split": "train",
+        "mode": "final",
+        "path": "outputs/features/pilot_dual_level_clip_genimage_unseen_seed42_v2/train_a0c0ef18af9fe298_clip_features.pt",
+        "cache_signature": "a0c0ef18af9fe2981ec78863d748b1cd7dfc43a1f2ad5262e0edd70d9a2dff77",
+        "sha256": "f911baf40bd5aa5398a7ea6806944809e417b5c66cfafe9881fc0f68591b75a4",
+        "size_bytes": 6365261,
+        "shape": [3000, 512]
+      },
+      {
+        "split": "train",
+        "mode": "penultimate",
+        "path": "outputs/features/pilot_dual_level_clip_genimage_unseen_seed42_v2/train_f430365b42bbfce3_clip_features.pt",
+        "cache_signature": "f430365b42bbfce369df520182d2263cfd09f19e346b0b233cf72ec2154386ee",
+        "sha256": "2492f53ed327c752dde266b300f955a310eb49f0834e95da86426addd04c19c5",
+        "size_bytes": 6365261,
+        "shape": [3000, 512]
+      },
+      {
+        "split": "validation",
+        "mode": "final",
+        "path": "outputs/features/pilot_dual_level_clip_genimage_unseen_seed42_v2/val_07dd172a16d85bdf_clip_features.pt",
+        "cache_signature": "07dd172a16d85bdf77f80c183c7acc7a7a7d55fcfd5a0d726e8d64a15cb85999",
+        "sha256": "81794a1d7cae27f8d982b6bbb88ac306fc099180a4cba9af20456bec45f5047b",
+        "size_bytes": 2547517,
+        "shape": [1200, 512]
+      },
+      {
+        "split": "validation",
+        "mode": "penultimate",
+        "path": "outputs/features/pilot_dual_level_clip_genimage_unseen_seed42_v2/val_8ad0575a09de8b06_clip_features.pt",
+        "cache_signature": "8ad0575a09de8b06db918f8e007feb29d82c6da855f17d62dd5674b152b39285",
+        "sha256": "c2c012450b76f12dffee9a20680b775347a60a474a0908bdababf35465987075",
+        "size_bytes": 2547517,
+        "shape": [1200, 512]
+      },
+      {
+        "split": "unseen_test",
+        "mode": "final",
+        "path": "outputs/features/pilot_dual_level_clip_genimage_unseen_seed42_v2/test_73b5d17c3d65c647_clip_features.pt",
+        "cache_signature": "73b5d17c3d65c6474feca3103832ce5c8145e9fd869899dc4d07c58912a3c9b7",
+        "sha256": "18587e494593b59ff93d199ccb517c2dd1a551b3a87a30d96933e90ffe643189",
+        "size_bytes": 8494277,
+        "shape": [4000, 512]
+      },
+      {
+        "split": "unseen_test",
+        "mode": "penultimate",
+        "path": "outputs/features/pilot_dual_level_clip_genimage_unseen_seed42_v2/test_42f7a05e33eac2df_clip_features.pt",
+        "cache_signature": "42f7a05e33eac2dfa8ec4993405b7eef95781233163a28306fd278444a132b3b",
+        "sha256": "ec6a415a030a2cea7cd9e5f3bee7d7611f10aafca37666f27b7c22fe7abca484",
+        "size_bytes": 8494277,
+        "shape": [4000, 512]
+      }
+    ]
+  },
+  "checkpoint": {
+    "path": "outputs/checkpoints/pilot_dual_level_clip_genimage_unseen_seed42_v2/best_model.pt",
+    "sha256": "8c1af11f9629f34f1e197aa7c05b3b7ecf3a4712a5857849cec7dda48d516d23",
+    "size_bytes": 3158901,
+    "selected_on": "GenImage validation AUROC",
+    "best_epoch": 8
+  },
+  "validation_metrics": {
+    "accuracy": 0.9741666666666666,
+    "balanced_accuracy": 0.9741666666666666,
+    "precision": 0.9718076285240465,
+    "fake_recall": 0.9766666666666667,
+    "real_recall": 0.9716666666666667,
+    "binary_f1": 0.9742310889443059,
+    "macro_f1": 0.9741665052073242,
+    "auroc": 0.9971833333333333,
+    "auprc": 0.9971058604444094
+  },
+  "unseen_metrics": {
+    "path": "outputs/metrics/pilot_dual_level_clip_genimage_unseen_seed42_v2_metrics.csv",
+    "sha256": "a3486b2ed9e74ee048f5942431f84a880625b15d7fb05f321b9c2a7532b41837",
+    "accuracy": 0.9355,
+    "balanced_accuracy": 0.9355,
+    "precision": 0.971830985915493,
+    "fake_recall": 0.897,
+    "real_recall": 0.974,
+    "binary_f1": 0.9329173166926678,
+    "macro_f1": 0.935404252953941,
+    "auroc": 0.9868732499999999,
+    "auprc": 0.9852834341612963,
+    "confusion_matrix": [[1948, 52], [206, 1794]]
+  },
+  "fair_seed42_comparison": {
+    "path": "outputs/metrics/part05_seed42_fair_comparison.csv",
+    "sha256": "f29bcba8ce8239e941c258b538ee3ca89b4a8c0aa034ec6b9859ee82c020d985",
+    "fusion_minus_b2_auroc": 0.0030209999999999404,
+    "fusion_minus_penultimate_auroc": -0.0011742500000001543,
+    "decision_deferred_to_part06": true
+  },
+  "large_artifacts_not_committed": {
+    "prediction": {
+      "path": "outputs/predictions/pilot_dual_level_clip_genimage_unseen_seed42_v2_predictions.csv",
+      "sha256": "82283023ced2e2048cd261720a97649fe8a98545bb81bf6b297c036feb08c0de"
+    },
+    "train_log": {
+      "path": "outputs/logs/pilot_dual_level_clip_genimage_unseen_seed42_v2/train_log.csv",
+      "sha256": "cfa82ec16361c806a014fbe11d8aa6269436c68aa0ba1624ebf72c704c000cbe"
+    }
+  },
+  "timing_seconds": {
+    "training_wall": 87.86,
+    "unseen_evaluation_wall": 96.65
+  },
+  "commands": {
+    "train": "conda run --no-capture-output -n aigc_det_baseline python training/train.py --config configs/pilot_dual_level_clip_genimage_unseen_seed42_v2.yaml",
+    "evaluate_unseen": "conda run --no-capture-output -n aigc_det_baseline python evaluation/evaluate.py --config configs/pilot_dual_level_clip_genimage_unseen_seed42_v2.yaml --checkpoint outputs/checkpoints/pilot_dual_level_clip_genimage_unseen_seed42_v2/best_model.pt"
+  },
+  "failure_notes": [],
+  "scope_notes": [
+    "Exactly one seed-42 fusion pilot training run and one GenImage unseen evaluation were executed.",
+    "B2 complete metrics were recomputed from its frozen GenImage unseen predictions using the Part 2 metric implementation and threshold 0.5; no B2 inference was rerun.",
+    "No Defactify data, manifest, prediction, metric, or evaluation was accessed.",
+    "The open_clip loader emitted the existing ViT-B-32/OpenAI QuickGELU mismatch warning; the baseline model definition was not changed."
+  ]
+}
