@@ -1,0 +1,23 @@
+experiment_name: final_a1_defactify_full_seed43_v2
+formal_stage: final
+frozen_role: A1
+model_type: clip_mlp
+clip_feature_mode: penultimate
+clip_model: ViT-B-32
+pretrained: openai
+dataset: Defactify
+train_dataset: GenImage
+train_csv: outputs/splits/genimage_splitB_available_train.csv
+test_csv: outputs/splits/defactify_official_test.csv
+split_type: official full external evaluation
+train_generators: [Stable Diffusion V1.5, ADM, BigGAN]
+image_size: 224
+batch_size: 32
+mlp_hidden_dim: 512
+dropout: 0.2
+threshold: 0.5
+threshold_rule: fixed_0.5_no_test_tuning
+cache_clip_features: true
+cache_schema_version: 2
+seed: 43
+num_workers: 0
