@@ -1,13 +1,13 @@
 # Codex Execution Status
 
 - Current branch: `feature/defactify-external-eval`
-- Last completed part: `Part 05`
-- Last verified commit: `1098030f3301586ef17a07777a6069fe9e204b9b`
-- Next part: `Part 06` (`docs/codex_plan/PART_06.md`)
-- Selected route: `Main route planned: final + penultimate CLIP dual-level fusion; fallback: penultimate-only; Go/No-Go not yet reached`
+- Last completed part: `Part 06`
+- Last verified commit: `435d9f08d3b519a014bbf69c37ab19deeda9aa96`
+- Next part: `Awaiting explicit user approval of GO_A1`
+- Selected route: `GO_A1 recommended: penultimate-only A1; pending user approval`
 - Model frozen: `no`
 - Numbers frozen: `no`
-- Blocking issues: `none`
+- Blocking issues: `GO_A1 must be explicitly approved before model freeze and Part 07`
 
 ## Completed parts
 
@@ -109,11 +109,43 @@
   Defactify access occurred. Large caches, checkpoints, predictions, logs, and
   figures remain outside Git.
 
+### Part 06 — Fair Ablation and Go/No-Go Recommendation
+
+- Status: completed; decision gate awaiting explicit user approval.
+- B1 control config commit:
+  `636a4a1adc673a7dee7e05e12846db0c64a99956`.
+- Decision/evidence commit:
+  `435d9f08d3b519a014bbf69c37ab19deeda9aa96`.
+- Tests: 32/32 unit tests passed before the control run; B1 tensor/config
+  smoke, v2 cache/checkpoint/metric provenance verification, and eight-row
+  comparison-table recomputation passed.
+- B1 control: validation AUROC `0.9635916667`; unseen AUROC `0.9357331250`,
+  AUPRC `0.9346916379`, balanced accuracy `0.8495`, and macro-F1
+  `0.8490180278`. It has 513 trainable parameters.
+- Decision: `GO_A1` recommended. A1 has the best GenImage-unseen AUROC
+  (`0.9880475`), AUPRC (`0.9872634`), balanced accuracy (`0.93625`),
+  macro-F1 (`0.9361707`), and fake recall (`0.901`) among B1/B2/A1/P.
+- A2: not run because frozen final-only B2 is already parameter matched:
+  B2/A1 have 263,169 parameters and P has 262,657 (0.19% difference).
+- Alternatives: P is rejected for freeze because its slight validation
+  advantage does not persist on unseen and it doubles feature-cache cost.
+  Degradation augmentation is not selected because A1 already supplies the
+  approved improvement signal. No fourth algorithm or new module was added.
+- Proposed freeze contract: frozen OpenAI ViT-B-32 penultimate 512-D feature,
+  512-hidden MLP, dropout 0.2, AdamW 0.001, BCEWithLogitsLoss, batch 32,
+  10 epochs, validation-AUROC checkpoint selection, fixed threshold 0.5,
+  cache schema v2, and formal seeds 42/43/44.
+- Handoff: decision record is `docs/codex_plan/PART_06_DECISION.md` and the
+  machine-readable pending config is
+  `configs/freeze_candidate_clip_penultimate_v2.yaml`. No Defactify access,
+  seed-43/44 run, A2 run, degradation pilot, merge, or push occurred.
+  `Model frozen` remains `no` until the user explicitly approves `GO_A1`.
+
 ## Current boundary
 
-Both candidate seed-42 pilots are complete, but no Part 06 fair-control
-analysis, Go/No-Go recommendation, or model freeze has occurred. Part 06 must
-not start unless explicitly requested by the user.
+Part 06 analysis is complete and recommends `GO_A1`, but the decision has not
+been approved. Do not begin Part 07, rename the candidate config as final, or
+set `Model frozen: yes` until the user explicitly approves `GO_A1`.
 
 ## Status update template
 
