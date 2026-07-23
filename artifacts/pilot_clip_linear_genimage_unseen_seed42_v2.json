@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "experiment_name": "pilot_clip_linear_genimage_unseen_seed42_v2",
+  "stage": "pilot_fair_control",
+  "status": "valid",
+  "git_commit": "636a4a1adc673a7dee7e05e12846db0c64a99956",
+  "seed": 42,
+  "model": {
+    "model_type": "clip_linear",
+    "clip_feature_mode": "final",
+    "clip_model": "ViT-B-32",
+    "pretrained": "openai",
+    "trainable_parameters": 513,
+    "threshold": 0.5
+  },
+  "config": {
+    "path": "configs/genimage_splitB_available_clip_linear.yaml",
+    "sha256": "81a778af736d2b5d27ae3a55b95e0c4bf9fb3174ef1b326e89716d0aabb5150d"
+  },
+  "data_hashes": {
+    "train": "2b2e1112f044f079a2ef4fa9255d42e850359861c934e8c3bf938527701b5bd8",
+    "validation": "5c73cbc97dc41e8ef63b2021fb1758201b4b484f04d4ebb1559f3535c4e44698",
+    "unseen": "0852a4bbe4ea67efecf7756b697e04a7a5cb5623999caf3fc3dfd625df063c07"
+  },
+  "feature_caches": {
+    "schema_version": 2,
+    "legacy_cache_reused": false,
+    "total_size_bytes": 17407055,
+    "items": [
+      {
+        "split": "train",
+        "path": "outputs/features/pilot_clip_linear_genimage_unseen_seed42_v2/train_a0c0ef18af9fe298_clip_features.pt",
+        "cache_signature": "a0c0ef18af9fe2981ec78863d748b1cd7dfc43a1f2ad5262e0edd70d9a2dff77",
+        "sha256": "f911baf40bd5aa5398a7ea6806944809e417b5c66cfafe9881fc0f68591b75a4",
+        "size_bytes": 6365261,
+        "shape": [3000, 512]
+      },
+      {
+        "split": "validation",
+        "path": "outputs/features/pilot_clip_linear_genimage_unseen_seed42_v2/val_07dd172a16d85bdf_clip_features.pt",
+        "cache_signature": "07dd172a16d85bdf77f80c183c7acc7a7a7d55fcfd5a0d726e8d64a15cb85999",
+        "sha256": "81794a1d7cae27f8d982b6bbb88ac306fc099180a4cba9af20456bec45f5047b",
+        "size_bytes": 2547517,
+        "shape": [1200, 512]
+      },
+      {
+        "split": "unseen",
+        "path": "outputs/features/pilot_clip_linear_genimage_unseen_seed42_v2/test_73b5d17c3d65c647_clip_features.pt",
+        "cache_signature": "73b5d17c3d65c6474feca3103832ce5c8145e9fd869899dc4d07c58912a3c9b7",
+        "sha256": "18587e494593b59ff93d199ccb517c2dd1a551b3a87a30d96933e90ffe643189",
+        "size_bytes": 8494277,
+        "shape": [4000, 512]
+      }
+    ]
+  },
+  "checkpoint": {
+    "path": "outputs/checkpoints/pilot_clip_linear_genimage_unseen_seed42_v2/best_model.pt",
+    "sha256": "0eeec91ea03add2d7d3bdc4525dbcbaa778f5d1d8af4418e0c5c1b965a18c269",
+    "size_bytes": 10871,
+    "best_epoch": 10,
+    "selected_on": "GenImage validation AUROC"
+  },
+  "validation_metrics": {
+    "accuracy": 0.8833333333333333,
+    "balanced_accuracy": 0.8833333333333333,
+    "precision": 0.8951890034364262,
+    "fake_recall": 0.8683333333333333,
+    "real_recall": 0.8983333333333333,
+    "binary_f1": 0.8815566835871405,
+    "macro_f1": 0.8833070774257541,
+    "auroc": 0.9635916666666666,
+    "auprc": 0.9643693634671309
+  },
+  "unseen_metrics": {
+    "path": "outputs/metrics/pilot_clip_linear_genimage_unseen_seed42_v2_metrics.csv",
+    "sha256": "7677e1ae97b66ef0ae75ca7a372c52ab44fabd745447b1a532550400542533b0",
+    "accuracy": 0.8495,
+    "balanced_accuracy": 0.8495,
+    "precision": 0.8940248027057497,
+    "fake_recall": 0.793,
+    "real_recall": 0.906,
+    "binary_f1": 0.8404875463698993,
+    "macro_f1": 0.8490180277992421,
+    "auroc": 0.9357331249999999,
+    "auprc": 0.9346916379060819,
+    "confusion_matrix": [[1812, 188], [414, 1586]]
+  },
+  "large_artifacts_not_committed": {
+    "prediction": {
+      "path": "outputs/predictions/pilot_clip_linear_genimage_unseen_seed42_v2_predictions.csv",
+      "sha256": "5c92272e9ee49412cc7affc5975f0d38868d92a0dceee773e1c06b219f362d3b"
+    },
+    "train_log": {
+      "path": "outputs/logs/pilot_clip_linear_genimage_unseen_seed42_v2/train_log.csv",
+      "sha256": "ccc71c83156922e66bbf9ec2810024daa301c3dd1893ecd79e9db142648a4bc6"
+    }
+  },
+  "timing_seconds": {
+    "training_wall": 62.35,
+    "unseen_evaluation_wall": 61.37
+  },
+  "scope_notes": [
+    "This was the single missing approved B1 control required by Part 06.",
+    "Exactly one seed-42 training run and one GenImage unseen evaluation were executed.",
+    "No Defactify data or result was accessed."
+  ]
+}
