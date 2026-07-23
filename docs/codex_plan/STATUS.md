@@ -1,9 +1,9 @@
 # Codex Execution Status
 
 - Current branch: `feature/defactify-external-eval`
-- Last completed part: `Part 04`
-- Last verified commit: `189eee2791769c6b32a99e5971ac8823447d8ac5`
-- Next part: `Part 05` (`docs/codex_plan/PART_05.md`)
+- Last completed part: `Part 05`
+- Last verified commit: `1098030f3301586ef17a07777a6069fe9e204b9b`
+- Next part: `Part 06` (`docs/codex_plan/PART_06.md`)
 - Selected route: `Main route planned: final + penultimate CLIP dual-level fusion; fallback: penultimate-only; Go/No-Go not yet reached`
 - Model frozen: `no`
 - Numbers frozen: `no`
@@ -79,11 +79,41 @@
   occurred. Large caches, checkpoints, predictions, logs, and figures remain
   outside Git.
 
+### Part 05 — Dual-level Fusion Implementation and Seed-42 Pilot
+
+- Status: completed and accepted.
+- Implementation commit:
+  `3fdd1ab39a9699c25634a0b555fec6c8a8b3e280`.
+- Result commit: `1098030f3301586ef17a07777a6069fe9e204b9b`.
+- Tests: 32/32 unit tests passed; real final+penultimate extraction/pairing/
+  fusion smoke and post-run provenance verification passed.
+- Architecture: independently L2-normalize the frozen 512-D final and 512-D
+  penultimate embeddings, use identity projections because dimensions match,
+  concatenate in `[final, penultimate]` order, then apply
+  `Linear(1024,256)-ReLU-Dropout(0.2)-Linear(256,1)`. No gating, attention,
+  extra loss, patch token, frequency branch, or new backbone was added.
+- Validation: best checkpoint selected at epoch 8 by validation AUROC
+  `0.9971833333`; validation AUPRC `0.9971058604`, balanced accuracy
+  `0.9741666667`, and macro-F1 `0.9741665052`.
+- GenImage unseen: AUROC `0.9868732500`, AUPRC `0.9852834342`, balanced
+  accuracy `0.9355`, macro-F1 `0.9354042530`, real recall `0.974`, and fake
+  recall `0.897`.
+- Fair seed-42 comparison: fusion AUROC is `+0.003021` versus frozen B2 and
+  `-0.00117425` versus penultimate-only. Fusion uses 262,657 trainable
+  parameters versus 263,169 for each comparator. Route selection remains
+  deferred to Part 06.
+- Handoff: six newly generated schema-v2 caches cover
+  train/validation/unseen x final/penultimate and total 34,814,110 bytes.
+  Training and unseen evaluation wall times were 87.86 s and 96.65 s.
+  Exactly one training run and one unseen evaluation were performed. No
+  Defactify access occurred. Large caches, checkpoints, predictions, logs, and
+  figures remain outside Git.
+
 ## Current boundary
 
-The penultimate-only seed-42 pilot is complete, but no dual-level fusion has
-been implemented or run. Part 05 must not start unless explicitly requested by
-the user.
+Both candidate seed-42 pilots are complete, but no Part 06 fair-control
+analysis, Go/No-Go recommendation, or model freeze has occurred. Part 06 must
+not start unless explicitly requested by the user.
 
 ## Status update template
 
