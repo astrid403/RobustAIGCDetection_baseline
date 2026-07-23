@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "experiment_name": "pilot_clip_penultimate_genimage_unseen_seed42_v2",
+  "stage": "pilot",
+  "status": "valid",
+  "git_commit": "a2759ea148ba74057dc80c5bca55c743176321d3",
+  "seed": 42,
+  "model": {
+    "model_type": "clip_mlp",
+    "clip_model": "ViT-B-32",
+    "pretrained": "openai",
+    "clip_feature_mode": "penultimate",
+    "feature_dim": 512,
+    "mlp_hidden_dim": 512,
+    "dropout": 0.2,
+    "trainable_parameters": 263169,
+    "threshold": 0.5
+  },
+  "config": {
+    "path": "configs/pilot_clip_penultimate_genimage_unseen_seed42_v2.yaml",
+    "sha256": "7c1316571b274c690b859195cd71fec8719cf288f4587e027878519856af553b"
+  },
+  "data": {
+    "train": {
+      "path": "outputs/splits/genimage_splitB_available_train.csv",
+      "sha256": "2b2e1112f044f079a2ef4fa9255d42e850359861c934e8c3bf938527701b5bd8",
+      "samples": 3000
+    },
+    "validation": {
+      "path": "outputs/splits/genimage_splitB_available_val.csv",
+      "sha256": "5c73cbc97dc41e8ef63b2021fb1758201b4b484f04d4ebb1559f3535c4e44698",
+      "samples": 1200
+    },
+    "unseen_test": {
+      "path": "outputs/splits/genimage_splitB_available_test_unseen.csv",
+      "sha256": "0852a4bbe4ea67efecf7756b697e04a7a5cb5623999caf3fc3dfd625df063c07",
+      "samples": 4000
+    }
+  },
+  "feature_caches": {
+    "schema_version": 2,
+    "legacy_cache_reused": false,
+    "train": {
+      "path": "outputs/features/pilot_clip_penultimate_genimage_unseen_seed42_v2/train_f430365b42bbfce3_clip_features.pt",
+      "cache_signature": "f430365b42bbfce369df520182d2263cfd09f19e346b0b233cf72ec2154386ee",
+      "sha256": "2492f53ed327c752dde266b300f955a310eb49f0834e95da86426addd04c19c5",
+      "shape": [3000, 512]
+    },
+    "validation": {
+      "path": "outputs/features/pilot_clip_penultimate_genimage_unseen_seed42_v2/val_8ad0575a09de8b06_clip_features.pt",
+      "cache_signature": "8ad0575a09de8b06db918f8e007feb29d82c6da855f17d62dd5674b152b39285",
+      "sha256": "c2c012450b76f12dffee9a20680b775347a60a474a0908bdababf35465987075",
+      "shape": [1200, 512]
+    },
+    "unseen_test": {
+      "path": "outputs/features/pilot_clip_penultimate_genimage_unseen_seed42_v2/test_42f7a05e33eac2df_clip_features.pt",
+      "cache_signature": "42f7a05e33eac2dfa8ec4993405b7eef95781233163a28306fd278444a132b3b",
+      "sha256": "ec6a415a030a2cea7cd9e5f3bee7d7611f10aafca37666f27b7c22fe7abca484",
+      "shape": [4000, 512]
+    }
+  },
+  "checkpoint": {
+    "path": "outputs/checkpoints/pilot_clip_penultimate_genimage_unseen_seed42_v2/best_model.pt",
+    "sha256": "3e95a54b948b16d9e644f4f547f1a88c6bcf536a02a49c2f1de82b17918cc16d",
+    "size_bytes": 3165045,
+    "selected_on": "GenImage validation AUROC",
+    "best_epoch": 10
+  },
+  "validation_metrics": {
+    "accuracy": 0.9733333333333334,
+    "balanced_accuracy": 0.9733333333333334,
+    "precision": 0.9701986754966887,
+    "fake_recall": 0.9766666666666667,
+    "real_recall": 0.97,
+    "binary_f1": 0.973421926910299,
+    "macro_f1": 0.9733330370337449,
+    "auroc": 0.9969138888888889,
+    "auprc": 0.9967979635640377
+  },
+  "unseen_metrics": {
+    "path": "outputs/metrics/pilot_clip_penultimate_genimage_unseen_seed42_v2_metrics.csv",
+    "sha256": "c4ed8a579db756f02aed029b9f5f0e1eb3501c5a32d69f27b17b8fe565f39c98",
+    "accuracy": 0.93625,
+    "balanced_accuracy": 0.93625,
+    "precision": 0.9693383539537386,
+    "fake_recall": 0.901,
+    "real_recall": 0.9715,
+    "binary_f1": 0.933920704845815,
+    "macro_f1": 0.9361706880906207,
+    "auroc": 0.9880475000000001,
+    "auprc": 0.9872634407248244,
+    "confusion_matrix": [[1943, 57], [198, 1802]]
+  },
+  "large_artifacts_not_committed": {
+    "prediction": {
+      "path": "outputs/predictions/pilot_clip_penultimate_genimage_unseen_seed42_v2_predictions.csv",
+      "sha256": "811170a76166a95519206e09b926c0d5c9b02c350e28f50b242fae03bb24d64a"
+    },
+    "train_log": {
+      "path": "outputs/logs/pilot_clip_penultimate_genimage_unseen_seed42_v2/train_log.csv",
+      "sha256": "a9840b4e536035da51d6ffefb38bf31e9d7ba4501ee0a922dca4189eca9ce9f1"
+    }
+  },
+  "timing_seconds": {
+    "training_wall": 54.18,
+    "unseen_evaluation_wall": 57.72
+  },
+  "commands": {
+    "train": "conda run --no-capture-output -n aigc_det_baseline python training/train.py --config configs/pilot_clip_penultimate_genimage_unseen_seed42_v2.yaml",
+    "evaluate_unseen": "conda run --no-capture-output -n aigc_det_baseline python evaluation/evaluate.py --config configs/pilot_clip_penultimate_genimage_unseen_seed42_v2.yaml --checkpoint outputs/checkpoints/pilot_clip_penultimate_genimage_unseen_seed42_v2/best_model.pt"
+  },
+  "failure_notes": [],
+  "scope_notes": [
+    "Exactly one seed-42 pilot training run and one GenImage unseen evaluation were executed.",
+    "No Defactify data, manifest, prediction, metric, or evaluation was accessed.",
+    "The open_clip loader emitted the existing ViT-B-32/OpenAI QuickGELU mismatch warning; the baseline model definition was not changed."
+  ]
+}
