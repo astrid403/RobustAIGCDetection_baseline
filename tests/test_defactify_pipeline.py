@@ -100,6 +100,29 @@ class DatasetAndCacheTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 validate_feature_cache({"metadata": first}, second)
 
+    def test_cache_fingerprint_separates_feature_modes(self):
+        with tempfile.TemporaryDirectory() as directory:
+            csv_path = Path(directory) / "manifest.csv"
+            pd.DataFrame([{"path": "a.jpg", "label": 0}]).to_csv(csv_path, index=False)
+            final = feature_cache_metadata(
+                csv_path, {"clip_model": "ViT-B-32", "pretrained": "openai", "clip_feature_mode": "final"}
+            )
+            penultimate = feature_cache_metadata(
+                csv_path,
+                {"clip_model": "ViT-B-32", "pretrained": "openai", "clip_feature_mode": "penultimate"},
+            )
+            self.assertNotEqual(final["cache_signature"], penultimate["cache_signature"])
+            with self.assertRaisesRegex(ValueError, "feature-mode"):
+                validate_feature_cache({"metadata": final}, penultimate)
+
+    def test_legacy_cache_is_rejected_explicitly(self):
+        with tempfile.TemporaryDirectory() as directory:
+            csv_path = Path(directory) / "manifest.csv"
+            pd.DataFrame([{"path": "a.jpg", "label": 0}]).to_csv(csv_path, index=False)
+            expected = feature_cache_metadata(csv_path, {"clip_model": "ViT-B-32"})
+            with self.assertRaisesRegex(ValueError, "Legacy CLIP feature cache"):
+                validate_feature_cache({"metadata": {"cache_signature": "old"}}, expected)
+
     def test_balanced_metrics_are_selected_from_full_predictions(self):
         predictions = pd.DataFrame([
             {"sample_id": "r1", "label": 0, "pred_label": 0, "fake_prob": 0.1, "label_b": 0, "generator": "real"},

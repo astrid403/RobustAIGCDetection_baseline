@@ -117,14 +117,18 @@ def cache_or_extract(config, split_name, csv_path, preprocess, clip_model, devic
         validate_feature_cache(cache, metadata)
         return cache
     loader = make_loader(csv_path, preprocess, config.get("batch_size", 32), False, config.get("num_workers", 2))
-    features, labels, paths = extract_clip_features(clip_model, loader, device)
+    features, labels, paths = extract_clip_features(
+        clip_model, loader, device, feature_mode=config.get("clip_feature_mode", "final")
+    )
     if config.get("cache_clip_features", True):
         save_feature_cache(cache_path, features, labels, paths, metadata)
     return {"features": features, "labels": labels, "paths": paths, "sample_ids": paths, "metadata": metadata}
 
 
 def train_clip_classifier(config, device):
-    clip_model, preprocess = load_open_clip_model(config.get("clip_model", "ViT-B/32"), device)
+    clip_model, preprocess = load_open_clip_model(
+        config.get("clip_model", "ViT-B/32"), device, config.get("pretrained", "openai")
+    )
     train_cache = cache_or_extract(config, "train", config["train_csv"], preprocess, clip_model, device)
     val_cache = cache_or_extract(config, "val", config["val_csv"], preprocess, clip_model, device)
     train_ds = TensorDataset(train_cache["features"], train_cache["labels"].float())

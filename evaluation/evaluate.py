@@ -53,10 +53,14 @@ def predict_clip_classifier(config, checkpoint, csv_path, device):
         cache = load_feature_cache(cache_path)
         validate_feature_cache(cache, metadata)
     else:
-        clip_model, preprocess = load_open_clip_model(config.get("clip_model", "ViT-B/32"), device)
+        clip_model, preprocess = load_open_clip_model(
+            config.get("clip_model", "ViT-B/32"), device, config.get("pretrained", "openai")
+        )
         dataset = create_image_dataset(csv_path, transform=preprocess)
         loader = DataLoader(dataset, batch_size=config.get("batch_size", 32), shuffle=False, num_workers=config.get("num_workers", 2))
-        features, labels, paths = extract_clip_features(clip_model, loader, device)
+        features, labels, paths = extract_clip_features(
+            clip_model, loader, device, feature_mode=config.get("clip_feature_mode", "final")
+        )
         cache = {"features": features, "labels": labels, "paths": paths}
         if config.get("cache_clip_features", True):
             save_feature_cache(cache_path, features, labels, paths, metadata)

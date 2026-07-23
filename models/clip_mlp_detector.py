@@ -37,7 +37,7 @@ def build_clip_feature_detector(model_type, feature_dim, hidden_dim=512, dropout
     raise ValueError(f"Unsupported CLIP feature detector: {model_type}")
 
 
-def load_open_clip_model(clip_model="ViT-B/32", device="cpu"):
+def load_open_clip_model(clip_model="ViT-B/32", device="cpu", pretrained="openai"):
     try:
         import open_clip
     except ImportError as exc:
@@ -45,20 +45,61 @@ def load_open_clip_model(clip_model="ViT-B/32", device="cpu"):
             "open_clip_torch is required for CLIP-MLP. Install requirements.txt first."
         ) from exc
     model_name = clip_model.replace("/", "-")
-    model, _, preprocess = open_clip.create_model_and_transforms(model_name, pretrained="openai")
+    model, _, preprocess = open_clip.create_model_and_transforms(model_name, pretrained=pretrained)
     model.eval().to(device)
     for param in model.parameters():
         param.requires_grad = False
     return model, preprocess
 
 
+def _penultimate_visual_embedding(visual, images):
+    """Pool/project the tokens immediately before the final ViT residual block."""
+    required = ("_embeds", "_pool", "transformer", "proj")
+    if not all(hasattr(visual, name) for name in required):
+        raise TypeError("Penultimate mode requires an open_clip VisionTransformer visual encoder.")
+    transformer = visual.transformer
+    blocks = transformer.resblocks
+    if len(blocks) < 2:
+        raise ValueError("Penultimate mode requires at least two transformer residual blocks.")
+
+    tokens = visual._embeds(images)
+    if not transformer.batch_first:
+        tokens = tokens.transpose(0, 1).contiguous()
+    for block in list(blocks)[:-1]:
+        tokens = block(tokens, attn_mask=None)
+    if not transformer.batch_first:
+        tokens = tokens.transpose(0, 1)
+    pooled, _ = visual._pool(tokens)
+    if visual.proj is not None:
+        pooled = pooled @ visual.proj
+    return pooled
+
+
 @torch.no_grad()
-def extract_clip_features(clip_model, loader, device):
+def encode_clip_image_features(clip_model, images, feature_mode="final"):
+    """Return normalized final or penultimate CLIP image embeddings."""
+    if feature_mode == "final":
+        features = clip_model.encode_image(images)
+    elif feature_mode == "penultimate":
+        features = _penultimate_visual_embedding(clip_model.visual, images)
+    else:
+        raise ValueError(f"Unsupported CLIP feature mode: {feature_mode}")
+    if features.ndim != 2 or features.shape[0] != images.shape[0]:
+        raise ValueError(
+            f"Expected 2D CLIP features with batch size {images.shape[0]}, "
+            f"got {tuple(features.shape)}."
+        )
+    if not torch.isfinite(features).all():
+        raise ValueError("CLIP feature extraction produced non-finite values.")
+    return features / features.norm(dim=-1, keepdim=True).clamp_min(1e-6)
+
+
+@torch.no_grad()
+def extract_clip_features(clip_model, loader, device, feature_mode="final"):
     features, labels, paths = [], [], []
     for images, batch_labels, batch_paths in loader:
         images = images.to(device)
-        feats = clip_model.encode_image(images)
-        feats = feats / feats.norm(dim=-1, keepdim=True).clamp_min(1e-6)
+        feats = encode_clip_image_features(clip_model, images, feature_mode=feature_mode)
         features.append(feats.cpu())
         labels.append(torch.as_tensor(batch_labels, dtype=torch.float32))
         paths.extend(batch_paths)
