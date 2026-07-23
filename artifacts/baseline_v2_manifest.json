@@ -1,0 +1,230 @@
+{
+  "schema_version": 1,
+  "manifest_name": "baseline_v2_freeze",
+  "created_on": "2026-07-23",
+  "repository": {
+    "name": "RobustAIGCDetection_baseline",
+    "path": "/home/rong/RobustAIGCDetection_baseline",
+    "branch": "feature/defactify-external-eval",
+    "baseline_commit": "66fd5b09e5a86309d6b53c39820cd8bc9448b814",
+    "tracking_ref": "origin/feature/defactify-external-eval",
+    "tracked_changes_before_freeze": false,
+    "pre_existing_untracked_content": true,
+    "remote_verified_with_fetch": false
+  },
+  "data_contract": {
+    "real_label": 0,
+    "fake_label": 1,
+    "defactify_dataset_id": "Rajarshi-Roy-research/Defactify_Image_Dataset",
+    "defactify_revision": "787334f7857fa54f29027a7f09c30e895ad486ef"
+  },
+  "recorded_environment": {
+    "source": "docs/DEFACTIFY_RESULTS.md",
+    "hardware": "NVIDIA GeForce RTX 5060 Laptop GPU",
+    "gpu_memory_mib": 8151,
+    "python": "3.10.20",
+    "pytorch": "2.11.0+cu128",
+    "environment_files": {
+      "environment.yml": "72f298b4fcccc083d179ef1d9e97e6956458d585d3eb9e2a4e178277d48bacb5",
+      "requirements.txt": "30e8a2245760a7a0503cc8d43b7f7ab79bce0d1a168d8569d7bc0ffef26065ba"
+    }
+  },
+  "evaluation_configs": {
+    "configs/defactify_external_available_resnet50.yaml": "c648797b4d32733ce871eff9846394c83c36a8607b77f3767be5f9629852fc3e",
+    "configs/defactify_external_available_clip_mlp.yaml": "8edf7e6bf899a7e8aea09fe317706a274c451ac7f275e266263341d59487c427",
+    "configs/robustness_defactify_balanced_resnet50.yaml": "aae2c38baeb20967662bbc53ae2cd3969f0128e91a860a22606534bb2fa97179",
+    "configs/robustness_defactify_balanced_clip_mlp.yaml": "5656a3bbe262c39b953a4ccedc7b6c26051cc2141935fabf2cf67756751d977b"
+  },
+  "baselines": {
+    "B0_resnet50": {
+      "experiment_name": "genimage_splitB_available_resnet50",
+      "seed": 42,
+      "config": {
+        "path": "configs/genimage_splitB_available_resnet50.yaml",
+        "sha256": "8aa02e28572094e444a2aecba468f884ba55b9eba155ef56d14c7b6bbfefdcc7"
+      },
+      "checkpoint": {
+        "path": "outputs/checkpoints/genimage_splitB_available_resnet50/best_model.pt",
+        "sha256": "9bca8ef1e23351d58198dbafa261e1888bbbb726fca969292ad667d426d5836a",
+        "size_bytes": 282578484,
+        "committed_to_git": false
+      },
+      "genimage_unseen_metrics": {
+        "path": "outputs/metrics/genimage_splitB_available_resnet50_metrics.csv",
+        "sha256": "ca92e82db444977ab94272258a466a3a2721c8aaf633b2b507343ef0c5626add",
+        "num_samples": 4000,
+        "accuracy": 0.905,
+        "precision": 0.9832935560859188,
+        "fake_recall": 0.824,
+        "binary_f1": 0.8966267682263329,
+        "auroc": 0.9782785
+      },
+      "defactify_full_metrics": {
+        "path": "outputs/metrics/defactify_external_available_resnet50_metrics.csv",
+        "sha256": "ba229b2d2fc5d86fde1641071e979100c4240b4217b8d77fb0a0d72c9135035b",
+        "num_samples": 45000,
+        "accuracy": 0.6233111111111111,
+        "balanced_accuracy": 0.5792133333333334,
+        "precision": 0.8688830646608983,
+        "fake_recall": 0.64536,
+        "binary_f1": 0.7406239958379875,
+        "auroc": 0.6471518257777777
+      },
+      "defactify_balanced_metrics": {
+        "path": "outputs/metrics/defactify_external_available_resnet50_balanced_metrics.csv",
+        "sha256": "577cdac65a60600a9da4155d45f2decc224961a3983e5fd87a39024c792bb2fb",
+        "num_samples": 15000,
+        "accuracy": 0.5772,
+        "balanced_accuracy": 0.5771999999999999,
+        "precision": 0.5684235405341527,
+        "fake_recall": 0.6413333333333333,
+        "binary_f1": 0.6026813682495927,
+        "auroc": 0.6442123288888889
+      }
+    },
+    "B2_clip_mlp": {
+      "experiment_name": "genimage_splitB_available_clip_mlp",
+      "seed": 42,
+      "clip_model": "ViT-B-32",
+      "clip_pretrained": "openai",
+      "config": {
+        "path": "configs/genimage_splitB_available_clip_mlp.yaml",
+        "sha256": "c6c0d85eb1c1b0fbeae78162e58b2cfa7723a437b845142bf8fcecf5059353a7"
+      },
+      "checkpoint": {
+        "path": "outputs/checkpoints/genimage_splitB_available_clip_mlp/best_model.pt",
+        "sha256": "6e0bb27816491f7806c09601be5d453b5ae5066263c729feb5e8b72ee2db49b9",
+        "size_bytes": 3164789,
+        "committed_to_git": false
+      },
+      "genimage_unseen_metrics": {
+        "path": "outputs/metrics/genimage_splitB_available_clip_mlp_metrics.csv",
+        "sha256": "d113b370c29e3bdf33908a8f1681d7e9590494539d9e18d549f0c02ad9ffe3a4",
+        "num_samples": 4000,
+        "accuracy": 0.933,
+        "precision": 0.9650912996777659,
+        "fake_recall": 0.8985,
+        "binary_f1": 0.9306059036768514,
+        "auroc": 0.98385225
+      },
+      "defactify_full_metrics": {
+        "path": "outputs/metrics/defactify_external_available_clip_mlp_metrics.csv",
+        "sha256": "af80ab3dd73c051ed0f8721a0362dd0e82531e3fb02f9524eb9f941be17255dd",
+        "num_samples": 45000,
+        "accuracy": 0.8372222222222222,
+        "balanced_accuracy": 0.6636666666666666,
+        "precision": 0.8856230031948882,
+        "fake_recall": 0.924,
+        "binary_f1": 0.9044045676998369,
+        "auroc": 0.8078918755555556
+      },
+      "defactify_balanced_metrics": {
+        "path": "outputs/metrics/defactify_external_available_clip_mlp_balanced_metrics.csv",
+        "sha256": "7d426233b6abdd1712076105dc3142eedc9aaf02d872ed15d5efcbdc4436cffd",
+        "num_samples": 15000,
+        "accuracy": 0.6624,
+        "balanced_accuracy": 0.6624,
+        "precision": 0.6069734761988407,
+        "fake_recall": 0.9214666666666667,
+        "binary_f1": 0.7318648734512337,
+        "auroc": 0.8075104355555555
+      }
+    }
+  },
+  "inventories_and_splits": {
+    "outputs/inventories/genimage_inventory.csv": {
+      "sha256": "9547f86929c30b64e348ea86bc3992f477f58bf7b11653bc4b34869844e5bcef"
+    },
+    "outputs/inventories/defactify_inventory.csv": {
+      "sha256": "6998228bfdc0b6fc81b1b6d2d01a32aae52eb293a64b9130417929c4ac92138f"
+    },
+    "outputs/splits/genimage_splitB_available_train.csv": {
+      "sha256": "2b2e1112f044f079a2ef4fa9255d42e850359861c934e8c3bf938527701b5bd8",
+      "num_samples": 3000,
+      "num_real": 1500,
+      "num_fake": 1500
+    },
+    "outputs/splits/genimage_splitB_available_val.csv": {
+      "sha256": "5c73cbc97dc41e8ef63b2021fb1758201b4b484f04d4ebb1559f3535c4e44698",
+      "num_samples": 1200,
+      "num_real": 600,
+      "num_fake": 600
+    },
+    "outputs/splits/genimage_splitB_available_test_seen.csv": {
+      "sha256": "c47e75abc08fb1bc9d01d82f73f59d338119dd1e23e37a5cf453c0b4982948a1",
+      "num_samples": 1200,
+      "num_real": 600,
+      "num_fake": 600
+    },
+    "outputs/splits/genimage_splitB_available_test_unseen.csv": {
+      "sha256": "0852a4bbe4ea67efecf7756b697e04a7a5cb5623999caf3fc3dfd625df063c07",
+      "num_samples": 4000,
+      "num_real": 2000,
+      "num_fake": 2000
+    },
+    "outputs/splits/defactify_official_test.csv": {
+      "sha256": "d17046f8af94215309c613e6aeab4d2aba33cd0bc671c8e3f666e9e6d27b4158",
+      "num_samples": 45000,
+      "num_real": 7500,
+      "num_fake": 37500
+    },
+    "outputs/splits/defactify_balanced_test.csv": {
+      "sha256": "439396912b1ebb91f03f457813015f1a365d3305297103e3fd9fbc6a7642461d",
+      "num_samples": 15000,
+      "num_real": 7500,
+      "num_fake": 7500,
+      "relationship": "deterministic subset of defactify_official_test selected from full predictions"
+    }
+  },
+  "large_artifacts_not_committed": {
+    "predictions": {
+      "outputs/predictions/genimage_splitB_available_resnet50_predictions.csv": "e03efd2b5a36b9e51c29ce846dcc8510cf2f04f5b0eb5f5c3069bca14058662d",
+      "outputs/predictions/genimage_splitB_available_clip_mlp_predictions.csv": "0e46b0a59e12e4794d326f49bb8b0972b78cbb53b3fc91a9766c155301801518",
+      "outputs/predictions/defactify_external_available_resnet50_predictions.csv": "d6b1e18fb8f587da5baa0f0ac3b5649a1b7cc20be8c17a6adfc3247d597ffb94",
+      "outputs/predictions/defactify_external_available_clip_mlp_predictions.csv": "8bfe2fbd9471bff4b1e9c97b0bd48c1b9176e90a11ca23b845a7fe2ab6f9c2f7",
+      "outputs/predictions/defactify_external_available_resnet50_balanced_predictions.csv": "c915b4b520554289c93bb963cdc04d56557fa49098c596a005bab0191c3929b6",
+      "outputs/predictions/defactify_external_available_clip_mlp_balanced_predictions.csv": "0efbae06e1a9d1152ac121c74d1445cbbeb71815c7930064a39cdd6c2bb21e45"
+    },
+    "clip_features": {
+      "outputs/features/genimage_splitB_available_clip_mlp/train_clip_features.pt": "f7d6bb31ff151c9cc156475f9556d38ecef4c203d1569d1e771b9fd33e291b41",
+      "outputs/features/genimage_splitB_available_clip_mlp/val_clip_features.pt": "7c3651cb93e0b39523e4542b714798451294b4bbdc1d767766cc08d992ad9e8d",
+      "outputs/features/genimage_splitB_available_clip_mlp/test_clip_features.pt": "ad0aebfd30e6853afcd0c9d1a84bb8ef6211e26a78f55a5e580b621613de2f60",
+      "outputs/features/defactify_external_available_clip_mlp/test_bdeb4b950a8eb26f_clip_features.pt": "8f03eaf79f5e5eb286d5cdf435428d1efa225f544dd44613f9fcb8bf8647f252"
+    },
+    "logs": {
+      "outputs/logs/genimage_splitB_available_resnet50_train.log": "3581ee2e41311652bb12e8e2182055f5eee9ece2cad353262afe58783b576d5e",
+      "outputs/logs/genimage_splitB_available_clip_mlp_train.log": "727844583bf3ba9256aca6bf32a84bc1e0251f9d2962fd9701de27a52e4a1b4d",
+      "outputs/logs/defactify_external_resnet50.log": "5e0442dd6ea0fbcaf4fb6d9bd2199447784ce0987383f6804bca9160de4e64eb",
+      "outputs/logs/defactify_external_clip_mlp.log": "6789b4ae7af5e7ca0de5a73f79309151ee147e475f6c379f39239c43f3d161cb"
+    }
+  },
+  "tracked_result_summaries": {
+    "outputs/metrics/defactify_results_summary.csv": "d1165bbc1c0106d9efea8e8589957321fd6b9e985fa9910f02f2efac2d55c55a",
+    "outputs/metrics/summary_all_experiments.csv": "d66b10d12bec7fddab3c073f45334cc5167daa9a9731e8a485b5efc9bf3764c8"
+  },
+  "historical_scopes": {
+    "cifake": {
+      "role": "sanity_check_only",
+      "known_issue": "outputs/splits/cifake_full_test.csv is configured as both validation and test",
+      "config_sha256": "7c514138df0b88c032e9799d3b870fa2eb01cc50c75a5c6fcb80d55c4b606b1f",
+      "train_split_sha256": "eac7623d6413dd9c5c50cb6a4634da97840b311e35278d721f818d1d03e7c59b",
+      "test_split_sha256": "050ba4647d25d393cf9d645f6235a148247225d50763877609ea76b73a613c6a",
+      "checkpoint_sha256": "e0ede2b9565cfaa32cc280d3bfeb8c5bc8fc5da3acb774f47af739829889842b",
+      "metrics_sha256": "4c068294ea477a94b7a4b34318a7342fde3e95e4afc560d2f63f92b48d232dc6"
+    },
+    "wildfake_subset": {
+      "role": "milestone_2_legacy_only",
+      "scope": "CelebA-HQ real versus DDIM fake; not full WildFake",
+      "test_split_sha256": "9bd292009f4ccd8e1594d28d5f0a739c2f952cea1591c5a6e36b84d461036020",
+      "resnet50_metrics_sha256": "2ec7497cae234ae04806d28e0952be0d1b7f9875f09a3e0911651aa6fecfd09c",
+      "clip_mlp_metrics_sha256": "d7c8a9e60f67fc8f84839ce244ebdf488471707983f557385509d7e25f5530dd"
+    }
+  },
+  "integrity_notes": [
+    "The freeze records existing paths and SHA256 values but does not version large artifacts.",
+    "GenImage train, validation, and unseen-test manifest identifiers were previously checked as disjoint.",
+    "The Defactify balanced subset intentionally contains 15000 sample IDs from the official full test.",
+    "No cross-dataset image-content SHA256 or perceptual-hash audit is claimed by this manifest.",
+    "The worktree contained pre-existing untracked files; they were not modified or included."
+  ]
+}
