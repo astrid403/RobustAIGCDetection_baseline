@@ -1,9 +1,9 @@
 # Codex Execution Status
 
 - Current branch: `feature/defactify-external-eval`
-- Last completed part: `Part 07`
-- Last verified commit: `87450b386663157d459ce4c56f614b48ab72be4a`
-- Next part: `Part 08` (`docs/codex_plan/PART_08.md`)
+- Last completed part: `Part 08`
+- Last verified commit: `b6d7e79f31162f0ed6f579142c159c7c35bea364`
+- Next part: `Part 09` (`docs/codex_plan/PART_09.md`)
 - Selected route: `A1`
 - Model frozen: `yes`
 - Numbers frozen: `no`
@@ -177,12 +177,60 @@
   caches, full logs, and figures remain outside Git. No failed run was deleted
   or hidden.
 
+### Part 08 — Formal GenImage and Defactify Evaluation
+
+- Status: completed and accepted.
+- Evaluation-config commit:
+  `22f0f24bd1d596cef678c285fa909bca15c3e09a`.
+- Formal-result registry commit:
+  `b6d7e79f31162f0ed6f579142c159c7c35bea364`.
+- Tests: 32/32 unit tests passed. All twelve full prediction files were
+  independently recomputed at threshold 0.5; all metrics and confusion
+  matrices matched at tolerance `1e-12`.
+- Matrix: B2 and A1 seeds 42/43/44 were each evaluated exactly once on
+  GenImage unseen (4,000) and Defactify official full (45,000). Each
+  Defactify balanced result (15,000) was selected by sample_id from its
+  corresponding full prediction without a second inference.
+- GenImage unseen AUROC mean +/- sample standard deviation: B2
+  `0.984071 +/- 0.000249`; A1 `0.988194 +/- 0.000129`. Balanced accuracy:
+  B2 `0.933250 +/- 0.001639`; A1 `0.937000 +/- 0.003192`.
+- Defactify full AUROC: B2 `0.809061 +/- 0.001318`; A1
+  `0.796040 +/- 0.001584`. Balanced accuracy: B2
+  `0.663524 +/- 0.009654`; A1 `0.662187 +/- 0.011423`.
+- Defactify balanced AUROC: B2 `0.808732 +/- 0.001485`; A1
+  `0.795021 +/- 0.001616`. Balanced accuracy: B2
+  `0.662000 +/- 0.009739`; A1 `0.661622 +/- 0.011898`.
+- Per-generator: five fake generators are present for every full and balanced
+  model/seed analysis (60 rows total). Mean full worst-generator AUROC is
+  `0.772858` for B2 on Stable Diffusion 3 and `0.726247` for A1 on Stable
+  Diffusion XL.
+- Integrity: 24,000 GenImage unseen rows, 270,000 Defactify full rows, and
+  90,000 derived balanced rows were audited. Every prediction file has unique
+  sample IDs, every balanced ID set exactly matches the frozen manifest, and
+  all predicted labels equal `fake_prob >= 0.5`.
+- Failure record: the initial B2 seed-42 Defactify invocation stopped before
+  prediction creation because the sandbox could not create a Hugging Face
+  cache lock file. The identical frozen command succeeded on one permission
+  retry; the failed console log was retained and scientific results were
+  unaffected.
+- Outputs: `artifacts/part08_formal_evaluation_registry.json`,
+  `outputs/metrics/part08_formal_evaluation_summary.csv`, and
+  `outputs/metrics/part08_per_generator_summary.csv`. Full/balanced
+  predictions, feature caches, and large logs remain outside Git.
+- Handoff: Part 08 numbers are complete inputs for analysis but remain
+  unfrozen until Part 10. The preliminary result is a domain trade-off: A1
+  improves GenImage unseen AUROC by about `+0.004123`, while B2 exceeds A1 on
+  Defactify full AUROC by about `+0.013021`. No model selection, retraining,
+  threshold adjustment, or data-protocol change was made after observing
+  Defactify.
+
 ## Current boundary
 
-Part 07 is complete. A1 and its full contract remain frozen, and the six B2/A1
-formal checkpoints are ready for Part 08 evaluation. Do not change the model,
-feature mode, head, training budget, checkpoint rule, threshold, seeds, or
-Protocol v2. Do not start Part 08 automatically.
+Part 08 is complete. Its formal evaluation matrix is ready for Part 09
+robustness, efficiency, and error analysis. The selected route remains frozen
+as A1 despite the documented cross-dataset trade-off. Numbers are not frozen
+until Part 10. Do not retrain, tune the threshold, change Protocol v2, or start
+Part 09 automatically.
 
 ## Status update template
 
