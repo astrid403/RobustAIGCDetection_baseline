@@ -3,8 +3,8 @@
 - Research branch: `research/cross-dataset-robustness-v3`
 - Frozen base branch: `feature/defactify-external-eval`
 - Frozen base commit: `cedc2a18d956948acfed87d575d41d4b93689d1d`
-- Current task: `Task 04`
-- Last completed task: `Task 03`
+- Current task: `Task 05`
+- Last completed task: `Task 04`
 - Protocol v3 frozen: `yes`
 - S1 specification frozen: `yes`
 - Model v3 frozen: `no`
@@ -39,6 +39,27 @@ sorted-path-list SHA256 was:
 `1bae20b07e6476a16f4c0cd74ea087edf54cc8970365101bf8d6d94de3ccb03e`
 
 ## Task history
+
+### Task 04 — Implement and verify the NPR input representation
+
+- Status: completed.
+- Implementation: `models/npr_detector.py`.
+- Tests: `tests/test_npr_detector.py`.
+- Contract: CHW/BCHW float RGB `[0,1]`, exact 224x224 input, signed
+  down-right diagonal difference, no padding, `[3,223,223]` output, fixed
+  range mapping and ImageNet normalization.
+- Analytic tests: constant, horizontal gradient, vertical gradient, and
+  checkerboard passed.
+- Safety tests: shape, dtype, range, finite, determinism, no in-place input
+  mutation, batch/single equivalence, autograd, PIL RGB conversion, and
+  normalization order passed.
+- Tests: 64 unittest tests passed; one CUDA consistency test was skipped
+  because CUDA is unavailable to the sandbox.
+- Full detector implemented: no.
+- Training/inference executed: no.
+- GenImage unseen accessed: no.
+- Defactify accessed: no.
+- Old detector APIs changed: no.
 
 ### Task 03 — Freeze Protocol v3 and the S1 specification
 
@@ -98,5 +119,6 @@ sorted-path-list SHA256 was:
 
 ## Next boundary
 
-Task 04 may implement only the NPR tensor representation and its unit tests.
-It must not implement the full detector or run training.
+Task 05 may implement only deterministic semantic-breaking and paired
+degradation transforms with tests. It must not implement the full detector or
+run training.
