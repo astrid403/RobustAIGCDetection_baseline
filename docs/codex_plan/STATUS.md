@@ -1,12 +1,12 @@
 # Codex Execution Status
 
 - Current branch: `feature/defactify-external-eval`
-- Last completed part: `Part 09`
-- Last verified commit: `59806a4fe4183d55fcbc7b8a73de90c325ba6aeb`
-- Next part: `Part 10` (`docs/codex_plan/PART_10.md`)
+- Last completed part: `Part 10`
+- Last verified commit: `061f9c813f65b0c73aeb13ff47bbc50a48f06a15`
+- Next part: `Part 11` (`docs/codex_plan/PART_11.md`)
 - Selected route: `A1`
 - Model frozen: `yes`
-- Numbers frozen: `no`
+- Numbers frozen: `yes`
 - Blocking issues: `none`
 
 ## Completed parts
@@ -291,14 +291,53 @@
   ranking degradation on Defactify. Part 10 must preserve this wording when
   freezing numbers.
 
+### Part 10 — Final Statistics, Figures, and Number Freeze
+
+- Status: completed and accepted; final reportable numbers are frozen.
+- Statistics/artifact commit:
+  `07d3fa662e74e3c45ed79551d35846bc4ecb31a5`.
+- Number-freeze manifest commit:
+  `061f9c813f65b0c73aeb13ff47bbc50a48f06a15`.
+- Tests: 37/37 unit tests passed. The complete 2-model x 3-seed x 3-scope
+  matrix, nine required metrics, paired deltas, bootstrap CIs, report tables,
+  SVG validity, and all freeze-manifest SHA256 values passed final checks.
+- Aggregate: `outputs/metrics/final_aggregate_results.csv` contains 27 exact
+  scope/metric rows with B2 and A1 mean, sample SD, A1-minus-B2 delta, seeds,
+  and threshold. No seed was excluded.
+- Main result: A1 has supported internal GenImage unseen ranking gains
+  (AUROC `+0.004123`, AUPRC `+0.005566`) and supported Defactify ranking
+  degradation (full AUROC `-0.013021`; balanced AUROC `-0.013711`).
+  Balanced-accuracy confidence intervals cross zero in all three scopes.
+- Contribution wording frozen as: `generalization trade-off / controlled
+  negative result`. A1 may be described as improving internal unseen-generator
+  ranking and compact in-domain corruption robustness, but not as universally
+  or comprehensively superior to B2.
+- Controlled report set: exactly five primary artifacts are frozen:
+  `reports/final_assets/method_diagram.svg`,
+  `reports/final_assets/main_results_table.csv`,
+  `reports/final_assets/core_ablation_table.csv`,
+  `reports/final_assets/generalization_robustness.png`, and
+  `outputs/figures/part09_error_comparison.png`.
+- Outputs: `docs/FINAL_RESULTS_FREEZE.md` is the human-readable source for
+  Parts 11–12; `artifacts/number_freeze_v2_manifest.json` is authoritative for
+  source/artifact hashes, allowed claims, prohibited claims, limitations, and
+  freeze policy.
+- Freeze policy: no retraining, checkpoint reselection, threshold adjustment,
+  seed exclusion, or silent numeric correction is permitted. Any correction
+  requires explicit user approval, an audit note, and reopening the freeze.
+- Handoff: Part 11 may clean reproducibility documentation and write the final
+  report using only the frozen sources and claims. Supplemental plots may not
+  replace or contradict the five primary artifacts.
+
 ## Current boundary
 
-Part 09 is complete. Parts 07–09 now provide the complete inputs for Part 10
-statistics, controlled report artifacts, and number freeze. The selected
-model remains A1, while the contribution narrative is explicitly a
-generalization trade-off/controlled negative result. Numbers remain unfrozen
-until Part 10. Do not retrain, tune, change Protocol v2, or start Part 10
-automatically.
+Part 10 is complete and final reportable numbers are frozen. Part 11 may
+perform reproducibility packaging and report writing from
+`docs/FINAL_RESULTS_FREEZE.md` and
+`artifacts/number_freeze_v2_manifest.json` only. No retraining, reevaluation,
+checkpoint reselection, threshold adjustment, seed exclusion, or numeric
+correction is permitted without explicitly reopening the freeze. Do not start
+Part 11 automatically.
 
 ## Status update template
 
