@@ -1,9 +1,9 @@
 # Codex Execution Status
 
 - Current branch: `feature/defactify-external-eval`
-- Last completed part: `Part 03`
-- Last verified commit: `7f1fbe4d5a4e9c2ba9aa49d85dc0a09839d480a7`
-- Next part: `Part 04` (`docs/codex_plan/PART_04.md`)
+- Last completed part: `Part 04`
+- Last verified commit: `189eee2791769c6b32a99e5971ac8823447d8ac5`
+- Next part: `Part 05` (`docs/codex_plan/PART_05.md`)
 - Selected route: `Main route planned: final + penultimate CLIP dual-level fusion; fallback: penultimate-only; Go/No-Go not yet reached`
 - Model frozen: `no`
 - Numbers frozen: `no`
@@ -54,11 +54,36 @@
   and extraction-version metadata. No classifier, pilot training, formal
   evaluation, or Defactify access was performed.
 
+### Part 04 — Penultimate-only Implementation and Seed-42 Pilot
+
+- Status: completed and accepted.
+- Implementation commit:
+  `a2759ea148ba74057dc80c5bca55c743176321d3`.
+- Result commit: `189eee2791769c6b32a99e5971ac8823447d8ac5`.
+- Tests: 27/27 unit tests passed; real ViT-B-32 penultimate feature/head smoke
+  and post-run artifact verification passed.
+- Outputs: isolated seed-42 penultimate-only config, complete validation log,
+  complete GenImage-unseen metric CSV, and lightweight provenance registry.
+- Validation: best checkpoint selected at epoch 10 by validation AUROC
+  `0.9969138889`; validation AUPRC `0.9967979636`, balanced accuracy
+  `0.9733333333`, and macro-F1 `0.9733330370`.
+- GenImage unseen: AUROC `0.9880475000`, AUPRC `0.9872634407`, balanced
+  accuracy `0.93625`, macro-F1 `0.9361706881`, real recall `0.9715`, and fake
+  recall `0.901`.
+- Handoff: train/validation/unseen cache shapes are respectively
+  `[3000,512]`, `[1200,512]`, and `[4000,512]`; all use schema v2
+  penultimate metadata and newly generated cache signatures. The MLP has
+  263,169 trainable parameters. Training and unseen evaluation wall times were
+  54.18 s and 57.72 s. Exactly one pilot training run and one unseen
+  evaluation were performed. No Defactify access or fusion implementation
+  occurred. Large caches, checkpoints, predictions, logs, and figures remain
+  outside Git.
+
 ## Current boundary
 
-The feature contract is complete, but the project has not implemented a
-penultimate-only classifier or run an algorithm pilot. Part 04 must not start
-unless explicitly requested by the user.
+The penultimate-only seed-42 pilot is complete, but no dual-level fusion has
+been implemented or run. Part 05 must not start unless explicitly requested by
+the user.
 
 ## Status update template
 
