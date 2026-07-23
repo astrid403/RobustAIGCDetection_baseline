@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "manifest_name": "protocol_v2_final_number_freeze",
+  "status": "frozen",
+  "frozen_at": "2026-07-24T00:31:28+08:00",
+  "branch": "feature/defactify-external-eval",
+  "frozen_parent_commit": "07d3fa662e74e3c45ed79551d35846bc4ecb31a5",
+  "freeze_record_commit": "the commit containing this manifest",
+  "selected_route": "A1",
+  "baseline": "B2",
+  "model_frozen": true,
+  "numbers_frozen": true,
+  "seeds": [42, 43, 44],
+  "threshold": 0.5,
+  "contribution_route": "generalization trade-off / controlled negative result",
+  "source_files": {
+    "docs/FINAL_PROTOCOL.md": "a6f659baed8f068b44ab1ab748cf140956b8cee02e366d291cadb898859e34b0",
+    "configs/final_model_contract_v2.yaml": "5e7d544cb77ca33847e07cdcf55a0bf183eae74422eff70cc0d1a37bb623a1b9",
+    "artifacts/part07_formal_training_registry.json": "941401f3edd81459a046e37f7d1b66e690f8ae3e003f36d2516b8de212d5468b",
+    "artifacts/part08_formal_evaluation_registry.json": "b1286f193fcd5676e73d4daf4f7791587699c4ba6ac8be173fc8d418649c9897",
+    "outputs/metrics/part09_analysis_registry.json": "3c330660077a206eaca6c1c0759216412df3c212cda81b78f3832492e9a2727f",
+    "outputs/metrics/part09_mean_sd.csv": "e9f4fee0c75b2245d4f6c513d4501126339beaa92fe52f3629333cf6e641fa5f",
+    "outputs/metrics/part09_a1_minus_b2.csv": "654494011b7d928e2dc319de5aae05a9801959a7a430a422a0b85697f6528a0c",
+    "outputs/metrics/part09_paired_bootstrap_ci.csv": "a6a39074af2445fd9103db4b27afecd1d5eb56c432a0c1790945dd20f2d0712c",
+    "outputs/metrics/final_aggregate_results.csv": "1ac567dc503636129563e0095d3a258594669cc98b9e0de4bdd37c7aa3b16315",
+    "docs/FINAL_RESULTS_FREEZE.md": "47ce46980428385a4d371668479f52c2d2ac24bc45cbe46a4846d691db3ab47d"
+  },
+  "primary_report_artifacts": [
+    {
+      "kind": "method_diagram",
+      "path": "reports/final_assets/method_diagram.svg",
+      "sha256": "c7e4c80b87ce502e9a8dcc17619e3c1b88b94945fece4afdae0a30621ca7ff9b"
+    },
+    {
+      "kind": "main_results_table",
+      "path": "reports/final_assets/main_results_table.csv",
+      "sha256": "9b4ea1695e436c7c24deaa444062db58f033f315ff7df5e927454d6509ce5397"
+    },
+    {
+      "kind": "core_ablation_table",
+      "path": "reports/final_assets/core_ablation_table.csv",
+      "sha256": "3b2f71ddc815050792770d062676e9e0c68ac33896d6422f929eb5e0b9ab2fbc"
+    },
+    {
+      "kind": "generalization_robustness_figure",
+      "path": "reports/final_assets/generalization_robustness.png",
+      "sha256": "8d1258caed0bfbfc82c67da9dfdce5711cc882b80b3a6060f6aeb34461952818"
+    },
+    {
+      "kind": "qualitative_error_figure",
+      "path": "outputs/figures/part09_error_comparison.png",
+      "sha256": "a98d3745188a38c426a1e64d4eaa9d153e265c0ca4473eb55d1b42f2202e3fc9"
+    }
+  ],
+  "statistical_method": {
+    "summary": "mean and sample standard deviation over all three seeds",
+    "paired_ci": "paired hierarchical bootstrap over seeds and matched sample_ids",
+    "bootstrap_repeats": 1000,
+    "bootstrap_seed": 20260723
+  },
+  "supported_claims": [
+    "A1 improves GenImage unseen AUROC and AUPRC relative to B2.",
+    "A1 has higher AUROC than B2 under the frozen JPEG, resize, and blur settings on GenImage unseen.",
+    "A1 degrades Defactify full and balanced AUROC and AUPRC relative to B2.",
+    "A1 improves DALL-E 3 AUROC but degrades four other Defactify fake-generator groups."
+  ],
+  "prohibited_claims": [
+    "A1 is comprehensively or universally superior to B2.",
+    "A1 has statistically supported balanced-accuracy superiority.",
+    "The compact corruption experiment is a comprehensive robustness benchmark.",
+    "Defactify influenced model, checkpoint, threshold, or hyperparameter selection."
+  ],
+  "limitations": [
+    "Only three training seeds are available.",
+    "The compact robustness analysis uses one fixed severity per corruption on GenImage unseen.",
+    "Defactify official full is imbalanced; full 45k and balanced 15k scopes must be labeled explicitly.",
+    "Efficiency timings are environment-specific.",
+    "The selected A1 route remains frozen despite its documented external degradation."
+  ],
+  "freeze_policy": {
+    "retraining_forbidden": true,
+    "checkpoint_reselection_forbidden": true,
+    "threshold_adjustment_forbidden": true,
+    "seed_exclusion_forbidden": true,
+    "correction_requires_user_approval": true,
+    "correction_requires_audit_note": true
+  }
+}
