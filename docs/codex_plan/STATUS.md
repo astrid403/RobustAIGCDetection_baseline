@@ -1,9 +1,9 @@
 # Codex Execution Status
 
 - Current branch: `feature/defactify-external-eval`
-- Last completed part: `Part 06`
-- Last verified commit: `435d9f08d3b519a014bbf69c37ab19deeda9aa96`
-- Next part: `Part 07` (`docs/codex_plan/PART_07.md`)
+- Last completed part: `Part 07`
+- Last verified commit: `87450b386663157d459ce4c56f614b48ab72be4a`
+- Next part: `Part 08` (`docs/codex_plan/PART_08.md`)
 - Selected route: `A1`
 - Model frozen: `yes`
 - Numbers frozen: `no`
@@ -141,11 +141,48 @@
   seed-43/44 run, A2 run, degradation pilot, merge, or push occurred.
   The user explicitly approved `GO_A1`; the contract is now frozen.
 
+### Part 07 — Frozen B2/A1 Three-seed Formal Training
+
+- Status: completed and accepted.
+- Freeze/config commit:
+  `0ae35a061b7ffc7a901500dde3dfbe2bfeacee57`.
+- Formal-run registry commit:
+  `87450b386663157d459ce4c56f614b48ab72be4a`.
+- Tests: 32/32 unit tests passed after all runs; the six config snapshots,
+  best checkpoints, ten-epoch logs, cache schema-v2 metadata, metrics, timing,
+  and SHA256 records passed post-run provenance verification.
+- Runs: B2 final-feature MLP and frozen A1 penultimate-feature MLP each
+  completed seeds 42/43/44. All six official jobs exited successfully without
+  retries. Pilot seed 42 was not reused because its experiment stage/name was
+  not the frozen formal contract.
+- B2 validation mean +/- sample standard deviation: AUROC
+  `0.996549 +/- 0.000047`, AUPRC `0.996457 +/- 0.000046`, balanced accuracy
+  `0.972500 +/- 0.001443`, and macro-F1 `0.972499 +/- 0.001444`.
+- A1 validation mean +/- sample standard deviation: AUROC
+  `0.996939 +/- 0.000082`, AUPRC `0.996824 +/- 0.000091`, balanced accuracy
+  `0.974167 +/- 0.000833`, and macro-F1
+  `0.974166 +/- 0.000833`.
+- Best checkpoints for Part 08:
+  `outputs/checkpoints/final_clip_mlp_genimage_validation_seed{42,43,44}_v2/best_model.pt`
+  and
+  `outputs/checkpoints/final_clip_penultimate_genimage_validation_seed{42,43,44}_v2/best_model.pt`.
+- Outputs: `artifacts/part07_formal_training_registry.json` contains config,
+  split, checkpoint, log, cache, timing, and metric provenance;
+  `outputs/metrics/part07_formal_training_validation.csv` contains the six
+  per-seed validation rows.
+- Handoff: training commit is
+  `0ae35a061b7ffc7a901500dde3dfbe2bfeacee57`; the contract SHA256 is
+  `5e7d544cb77ca33847e07cdcf55a0bf183eae74422eff70cc0d1a37bb623a1b9`.
+  No Defactify access or GenImage-unseen evaluation occurred. Checkpoints,
+  caches, full logs, and figures remain outside Git. No failed run was deleted
+  or hidden.
+
 ## Current boundary
 
-The user approved `GO_A1`; A1 and its complete training contract are frozen.
-Part 07 may run the six formal B2/A1 seed jobs. No structure, feature mode,
-head, budget, checkpoint rule, threshold, or seed change is permitted.
+Part 07 is complete. A1 and its full contract remain frozen, and the six B2/A1
+formal checkpoints are ready for Part 08 evaluation. Do not change the model,
+feature mode, head, training budget, checkpoint rule, threshold, seeds, or
+Protocol v2. Do not start Part 08 automatically.
 
 ## Status update template
 
