@@ -1,0 +1,882 @@
+fold,role,generator,label,format,width,height,count
+holdout_adm,train,BigGAN,0,JPEG,450,450,1
+holdout_adm,train,BigGAN,0,JPEG,450,500,3
+holdout_adm,train,BigGAN,0,JPEG,452,500,2
+holdout_adm,train,BigGAN,0,JPEG,453,500,2
+holdout_adm,train,BigGAN,0,JPEG,454,500,5
+holdout_adm,train,BigGAN,0,JPEG,455,500,1
+holdout_adm,train,BigGAN,0,JPEG,456,500,5
+holdout_adm,train,BigGAN,0,JPEG,457,500,2
+holdout_adm,train,BigGAN,0,JPEG,458,480,1
+holdout_adm,train,BigGAN,0,JPEG,458,500,3
+holdout_adm,train,BigGAN,0,JPEG,459,500,7
+holdout_adm,train,BigGAN,0,JPEG,460,500,3
+holdout_adm,train,BigGAN,0,JPEG,461,500,8
+holdout_adm,train,BigGAN,0,JPEG,462,500,4
+holdout_adm,train,BigGAN,0,JPEG,463,500,2
+holdout_adm,train,BigGAN,0,JPEG,464,454,1
+holdout_adm,train,BigGAN,0,JPEG,464,500,6
+holdout_adm,train,BigGAN,0,JPEG,465,500,6
+holdout_adm,train,BigGAN,0,JPEG,466,500,1
+holdout_adm,train,BigGAN,0,JPEG,467,500,4
+holdout_adm,train,BigGAN,0,JPEG,468,500,6
+holdout_adm,train,BigGAN,0,JPEG,469,500,2
+holdout_adm,train,BigGAN,0,JPEG,470,500,3
+holdout_adm,train,BigGAN,0,JPEG,471,500,3
+holdout_adm,train,BigGAN,0,JPEG,472,500,4
+holdout_adm,train,BigGAN,0,JPEG,473,500,3
+holdout_adm,train,BigGAN,0,JPEG,474,500,5
+holdout_adm,train,BigGAN,0,JPEG,475,500,2
+holdout_adm,train,BigGAN,0,JPEG,476,500,8
+holdout_adm,train,BigGAN,0,JPEG,477,500,4
+holdout_adm,train,BigGAN,0,JPEG,478,500,3
+holdout_adm,train,BigGAN,0,JPEG,479,500,1
+holdout_adm,train,BigGAN,0,JPEG,480,500,1
+holdout_adm,train,BigGAN,0,JPEG,481,500,4
+holdout_adm,train,BigGAN,0,JPEG,482,500,3
+holdout_adm,train,BigGAN,0,JPEG,483,500,2
+holdout_adm,train,BigGAN,0,JPEG,484,500,1
+holdout_adm,train,BigGAN,0,JPEG,486,500,2
+holdout_adm,train,BigGAN,0,JPEG,487,500,5
+holdout_adm,train,BigGAN,0,JPEG,488,500,2
+holdout_adm,train,BigGAN,0,JPEG,489,500,2
+holdout_adm,train,BigGAN,0,JPEG,490,500,4
+holdout_adm,train,BigGAN,0,JPEG,491,500,2
+holdout_adm,train,BigGAN,0,JPEG,492,500,5
+holdout_adm,train,BigGAN,0,JPEG,493,499,1
+holdout_adm,train,BigGAN,0,JPEG,493,500,5
+holdout_adm,train,BigGAN,0,JPEG,494,500,1
+holdout_adm,train,BigGAN,0,JPEG,495,500,3
+holdout_adm,train,BigGAN,0,JPEG,496,495,1
+holdout_adm,train,BigGAN,0,JPEG,496,500,4
+holdout_adm,train,BigGAN,0,JPEG,497,500,4
+holdout_adm,train,BigGAN,0,JPEG,498,500,5
+holdout_adm,train,BigGAN,0,JPEG,499,500,3
+holdout_adm,train,BigGAN,0,JPEG,500,450,5
+holdout_adm,train,BigGAN,0,JPEG,500,451,3
+holdout_adm,train,BigGAN,0,JPEG,500,452,1
+holdout_adm,train,BigGAN,0,JPEG,500,453,5
+holdout_adm,train,BigGAN,0,JPEG,500,454,3
+holdout_adm,train,BigGAN,0,JPEG,500,455,7
+holdout_adm,train,BigGAN,0,JPEG,500,456,3
+holdout_adm,train,BigGAN,0,JPEG,500,457,6
+holdout_adm,train,BigGAN,0,JPEG,500,458,6
+holdout_adm,train,BigGAN,0,JPEG,500,459,4
+holdout_adm,train,BigGAN,0,JPEG,500,460,1
+holdout_adm,train,BigGAN,0,JPEG,500,461,5
+holdout_adm,train,BigGAN,0,JPEG,500,462,3
+holdout_adm,train,BigGAN,0,JPEG,500,463,1
+holdout_adm,train,BigGAN,0,JPEG,500,464,8
+holdout_adm,train,BigGAN,0,JPEG,500,465,5
+holdout_adm,train,BigGAN,0,JPEG,500,466,3
+holdout_adm,train,BigGAN,0,JPEG,500,467,2
+holdout_adm,train,BigGAN,0,JPEG,500,468,5
+holdout_adm,train,BigGAN,0,JPEG,500,469,6
+holdout_adm,train,BigGAN,0,JPEG,500,470,3
+holdout_adm,train,BigGAN,0,JPEG,500,471,2
+holdout_adm,train,BigGAN,0,JPEG,500,472,3
+holdout_adm,train,BigGAN,0,JPEG,500,473,5
+holdout_adm,train,BigGAN,0,JPEG,500,474,5
+holdout_adm,train,BigGAN,0,JPEG,500,475,4
+holdout_adm,train,BigGAN,0,JPEG,500,476,3
+holdout_adm,train,BigGAN,0,JPEG,500,477,5
+holdout_adm,train,BigGAN,0,JPEG,500,478,6
+holdout_adm,train,BigGAN,0,JPEG,500,479,7
+holdout_adm,train,BigGAN,0,JPEG,500,480,5
+holdout_adm,train,BigGAN,0,JPEG,500,481,7
+holdout_adm,train,BigGAN,0,JPEG,500,482,4
+holdout_adm,train,BigGAN,0,JPEG,500,483,5
+holdout_adm,train,BigGAN,0,JPEG,500,484,4
+holdout_adm,train,BigGAN,0,JPEG,500,485,3
+holdout_adm,train,BigGAN,0,JPEG,500,486,3
+holdout_adm,train,BigGAN,0,JPEG,500,487,3
+holdout_adm,train,BigGAN,0,JPEG,500,488,2
+holdout_adm,train,BigGAN,0,JPEG,500,489,7
+holdout_adm,train,BigGAN,0,JPEG,500,490,3
+holdout_adm,train,BigGAN,0,JPEG,500,491,5
+holdout_adm,train,BigGAN,0,JPEG,500,492,7
+holdout_adm,train,BigGAN,0,JPEG,500,493,2
+holdout_adm,train,BigGAN,0,JPEG,500,494,2
+holdout_adm,train,BigGAN,0,JPEG,500,495,5
+holdout_adm,train,BigGAN,0,JPEG,500,496,5
+holdout_adm,train,BigGAN,0,JPEG,500,497,2
+holdout_adm,train,BigGAN,0,JPEG,500,498,4
+holdout_adm,train,BigGAN,0,JPEG,500,499,5
+holdout_adm,train,BigGAN,0,JPEG,500,500,121
+holdout_adm,train,BigGAN,1,JPEG,128,128,499
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,450,500,2
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,451,480,1
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,451,500,3
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,452,500,2
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,453,500,5
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,454,500,3
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,455,500,3
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,456,500,2
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,457,500,4
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,458,500,2
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,459,500,5
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,460,500,3
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,461,500,3
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,462,500,3
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,463,500,7
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,464,480,1
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,464,500,2
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,465,500,3
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,466,500,3
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,467,500,2
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,468,500,5
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,469,500,2
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,470,500,1
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,471,500,4
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,472,500,2
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,473,500,3
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,474,500,2
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,475,500,1
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,476,500,1
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,477,500,2
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,478,457,1
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,478,500,2
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,479,500,6
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,480,500,2
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,481,500,6
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,482,500,1
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,483,500,4
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,484,500,2
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,485,500,2
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,486,500,6
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,487,500,2
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,488,500,3
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,489,500,4
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,490,500,4
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,491,500,5
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,492,500,3
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,493,456,1
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,493,500,1
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,494,500,5
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,495,500,6
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,496,500,4
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,497,500,2
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,498,500,5
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,499,500,7
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,450,5
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,451,3
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,452,1
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,453,5
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,454,3
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,455,7
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,456,8
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,457,7
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,458,5
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,459,3
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,460,6
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,461,2
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,462,2
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,463,4
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,464,2
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,465,4
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,466,2
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,467,5
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,468,3
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,469,6
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,470,2
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,471,4
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,472,1
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,473,3
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,474,3
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,476,7
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,477,8
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,478,7
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,479,5
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,480,2
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,481,1
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,482,1
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,483,6
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,484,6
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,485,4
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,486,3
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,487,1
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,488,3
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,489,5
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,490,3
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,491,4
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,492,5
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,493,2
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,494,3
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,496,6
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,497,5
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,498,8
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,499,10
+holdout_adm,train,Stable Diffusion V1.5,0,JPEG,500,500,133
+holdout_adm,train,Stable Diffusion V1.5,1,JPEG,512,512,500
+holdout_adm,validation,ADM,0,JPEG,450,500,1
+holdout_adm,validation,ADM,0,JPEG,451,500,1
+holdout_adm,validation,ADM,0,JPEG,452,500,1
+holdout_adm,validation,ADM,0,JPEG,453,500,2
+holdout_adm,validation,ADM,0,JPEG,454,500,1
+holdout_adm,validation,ADM,0,JPEG,455,500,1
+holdout_adm,validation,ADM,0,JPEG,456,500,1
+holdout_adm,validation,ADM,0,JPEG,459,500,1
+holdout_adm,validation,ADM,0,JPEG,460,500,1
+holdout_adm,validation,ADM,0,JPEG,461,500,1
+holdout_adm,validation,ADM,0,JPEG,463,500,1
+holdout_adm,validation,ADM,0,JPEG,464,500,2
+holdout_adm,validation,ADM,0,JPEG,465,500,1
+holdout_adm,validation,ADM,0,JPEG,466,500,1
+holdout_adm,validation,ADM,0,JPEG,468,500,1
+holdout_adm,validation,ADM,0,JPEG,469,500,3
+holdout_adm,validation,ADM,0,JPEG,470,500,1
+holdout_adm,validation,ADM,0,JPEG,472,500,2
+holdout_adm,validation,ADM,0,JPEG,473,500,4
+holdout_adm,validation,ADM,0,JPEG,474,500,2
+holdout_adm,validation,ADM,0,JPEG,475,500,2
+holdout_adm,validation,ADM,0,JPEG,476,500,2
+holdout_adm,validation,ADM,0,JPEG,478,500,1
+holdout_adm,validation,ADM,0,JPEG,479,500,2
+holdout_adm,validation,ADM,0,JPEG,480,500,2
+holdout_adm,validation,ADM,0,JPEG,481,500,1
+holdout_adm,validation,ADM,0,JPEG,482,500,1
+holdout_adm,validation,ADM,0,JPEG,483,500,1
+holdout_adm,validation,ADM,0,JPEG,484,500,4
+holdout_adm,validation,ADM,0,JPEG,486,500,2
+holdout_adm,validation,ADM,0,JPEG,487,500,2
+holdout_adm,validation,ADM,0,JPEG,488,500,2
+holdout_adm,validation,ADM,0,JPEG,489,500,1
+holdout_adm,validation,ADM,0,JPEG,490,500,3
+holdout_adm,validation,ADM,0,JPEG,491,500,1
+holdout_adm,validation,ADM,0,JPEG,492,500,2
+holdout_adm,validation,ADM,0,JPEG,494,500,6
+holdout_adm,validation,ADM,0,JPEG,496,500,3
+holdout_adm,validation,ADM,0,JPEG,497,500,1
+holdout_adm,validation,ADM,0,JPEG,498,500,3
+holdout_adm,validation,ADM,0,JPEG,499,500,4
+holdout_adm,validation,ADM,0,JPEG,500,450,3
+holdout_adm,validation,ADM,0,JPEG,500,451,1
+holdout_adm,validation,ADM,0,JPEG,500,452,1
+holdout_adm,validation,ADM,0,JPEG,500,453,2
+holdout_adm,validation,ADM,0,JPEG,500,454,1
+holdout_adm,validation,ADM,0,JPEG,500,455,3
+holdout_adm,validation,ADM,0,JPEG,500,456,2
+holdout_adm,validation,ADM,0,JPEG,500,457,2
+holdout_adm,validation,ADM,0,JPEG,500,458,3
+holdout_adm,validation,ADM,0,JPEG,500,459,2
+holdout_adm,validation,ADM,0,JPEG,500,460,1
+holdout_adm,validation,ADM,0,JPEG,500,461,1
+holdout_adm,validation,ADM,0,JPEG,500,462,2
+holdout_adm,validation,ADM,0,JPEG,500,463,4
+holdout_adm,validation,ADM,0,JPEG,500,464,1
+holdout_adm,validation,ADM,0,JPEG,500,465,1
+holdout_adm,validation,ADM,0,JPEG,500,466,1
+holdout_adm,validation,ADM,0,JPEG,500,467,1
+holdout_adm,validation,ADM,0,JPEG,500,468,3
+holdout_adm,validation,ADM,0,JPEG,500,469,1
+holdout_adm,validation,ADM,0,JPEG,500,470,4
+holdout_adm,validation,ADM,0,JPEG,500,471,2
+holdout_adm,validation,ADM,0,JPEG,500,472,2
+holdout_adm,validation,ADM,0,JPEG,500,473,3
+holdout_adm,validation,ADM,0,JPEG,500,474,1
+holdout_adm,validation,ADM,0,JPEG,500,475,3
+holdout_adm,validation,ADM,0,JPEG,500,476,1
+holdout_adm,validation,ADM,0,JPEG,500,477,1
+holdout_adm,validation,ADM,0,JPEG,500,478,1
+holdout_adm,validation,ADM,0,JPEG,500,479,2
+holdout_adm,validation,ADM,0,JPEG,500,480,1
+holdout_adm,validation,ADM,0,JPEG,500,481,3
+holdout_adm,validation,ADM,0,JPEG,500,482,1
+holdout_adm,validation,ADM,0,JPEG,500,484,1
+holdout_adm,validation,ADM,0,JPEG,500,485,3
+holdout_adm,validation,ADM,0,JPEG,500,488,2
+holdout_adm,validation,ADM,0,JPEG,500,489,1
+holdout_adm,validation,ADM,0,JPEG,500,491,1
+holdout_adm,validation,ADM,0,JPEG,500,492,1
+holdout_adm,validation,ADM,0,JPEG,500,493,1
+holdout_adm,validation,ADM,0,JPEG,500,494,1
+holdout_adm,validation,ADM,0,JPEG,500,495,1
+holdout_adm,validation,ADM,0,JPEG,500,496,2
+holdout_adm,validation,ADM,0,JPEG,500,497,2
+holdout_adm,validation,ADM,0,JPEG,500,498,1
+holdout_adm,validation,ADM,0,JPEG,500,499,1
+holdout_adm,validation,ADM,0,JPEG,500,500,46
+holdout_adm,validation,ADM,1,JPEG,256,256,200
+holdout_biggan,train,ADM,0,JPEG,450,457,1
+holdout_biggan,train,ADM,0,JPEG,450,459,1
+holdout_biggan,train,ADM,0,JPEG,450,500,6
+holdout_biggan,train,ADM,0,JPEG,451,500,2
+holdout_biggan,train,ADM,0,JPEG,452,500,2
+holdout_biggan,train,ADM,0,JPEG,453,500,2
+holdout_biggan,train,ADM,0,JPEG,454,500,3
+holdout_biggan,train,ADM,0,JPEG,455,500,4
+holdout_biggan,train,ADM,0,JPEG,456,500,3
+holdout_biggan,train,ADM,0,JPEG,457,500,3
+holdout_biggan,train,ADM,0,JPEG,458,497,1
+holdout_biggan,train,ADM,0,JPEG,458,500,3
+holdout_biggan,train,ADM,0,JPEG,459,500,4
+holdout_biggan,train,ADM,0,JPEG,461,500,1
+holdout_biggan,train,ADM,0,JPEG,462,500,2
+holdout_biggan,train,ADM,0,JPEG,463,500,3
+holdout_biggan,train,ADM,0,JPEG,464,500,3
+holdout_biggan,train,ADM,0,JPEG,465,500,3
+holdout_biggan,train,ADM,0,JPEG,466,500,1
+holdout_biggan,train,ADM,0,JPEG,467,459,1
+holdout_biggan,train,ADM,0,JPEG,467,500,2
+holdout_biggan,train,ADM,0,JPEG,468,500,3
+holdout_biggan,train,ADM,0,JPEG,469,500,1
+holdout_biggan,train,ADM,0,JPEG,470,500,1
+holdout_biggan,train,ADM,0,JPEG,471,500,1
+holdout_biggan,train,ADM,0,JPEG,473,500,2
+holdout_biggan,train,ADM,0,JPEG,474,500,5
+holdout_biggan,train,ADM,0,JPEG,475,500,2
+holdout_biggan,train,ADM,0,JPEG,476,500,1
+holdout_biggan,train,ADM,0,JPEG,477,500,2
+holdout_biggan,train,ADM,0,JPEG,478,500,6
+holdout_biggan,train,ADM,0,JPEG,479,500,1
+holdout_biggan,train,ADM,0,JPEG,480,500,2
+holdout_biggan,train,ADM,0,JPEG,481,500,3
+holdout_biggan,train,ADM,0,JPEG,482,500,3
+holdout_biggan,train,ADM,0,JPEG,483,500,5
+holdout_biggan,train,ADM,0,JPEG,484,500,5
+holdout_biggan,train,ADM,0,JPEG,485,463,1
+holdout_biggan,train,ADM,0,JPEG,485,485,1
+holdout_biggan,train,ADM,0,JPEG,485,500,5
+holdout_biggan,train,ADM,0,JPEG,486,500,4
+holdout_biggan,train,ADM,0,JPEG,487,500,5
+holdout_biggan,train,ADM,0,JPEG,488,500,3
+holdout_biggan,train,ADM,0,JPEG,489,500,3
+holdout_biggan,train,ADM,0,JPEG,490,500,3
+holdout_biggan,train,ADM,0,JPEG,491,500,3
+holdout_biggan,train,ADM,0,JPEG,492,500,1
+holdout_biggan,train,ADM,0,JPEG,493,500,4
+holdout_biggan,train,ADM,0,JPEG,494,500,4
+holdout_biggan,train,ADM,0,JPEG,495,480,1
+holdout_biggan,train,ADM,0,JPEG,495,500,4
+holdout_biggan,train,ADM,0,JPEG,496,500,4
+holdout_biggan,train,ADM,0,JPEG,497,500,3
+holdout_biggan,train,ADM,0,JPEG,498,500,4
+holdout_biggan,train,ADM,0,JPEG,499,500,6
+holdout_biggan,train,ADM,0,JPEG,500,450,7
+holdout_biggan,train,ADM,0,JPEG,500,451,3
+holdout_biggan,train,ADM,0,JPEG,500,452,1
+holdout_biggan,train,ADM,0,JPEG,500,453,3
+holdout_biggan,train,ADM,0,JPEG,500,454,5
+holdout_biggan,train,ADM,0,JPEG,500,455,2
+holdout_biggan,train,ADM,0,JPEG,500,456,1
+holdout_biggan,train,ADM,0,JPEG,500,457,9
+holdout_biggan,train,ADM,0,JPEG,500,458,6
+holdout_biggan,train,ADM,0,JPEG,500,459,5
+holdout_biggan,train,ADM,0,JPEG,500,460,10
+holdout_biggan,train,ADM,0,JPEG,500,461,4
+holdout_biggan,train,ADM,0,JPEG,500,462,4
+holdout_biggan,train,ADM,0,JPEG,500,463,2
+holdout_biggan,train,ADM,0,JPEG,500,464,2
+holdout_biggan,train,ADM,0,JPEG,500,465,6
+holdout_biggan,train,ADM,0,JPEG,500,466,3
+holdout_biggan,train,ADM,0,JPEG,500,467,3
+holdout_biggan,train,ADM,0,JPEG,500,468,2
+holdout_biggan,train,ADM,0,JPEG,500,469,9
+holdout_biggan,train,ADM,0,JPEG,500,470,5
+holdout_biggan,train,ADM,0,JPEG,500,471,2
+holdout_biggan,train,ADM,0,JPEG,500,472,2
+holdout_biggan,train,ADM,0,JPEG,500,473,2
+holdout_biggan,train,ADM,0,JPEG,500,474,2
+holdout_biggan,train,ADM,0,JPEG,500,475,4
+holdout_biggan,train,ADM,0,JPEG,500,476,5
+holdout_biggan,train,ADM,0,JPEG,500,477,1
+holdout_biggan,train,ADM,0,JPEG,500,478,9
+holdout_biggan,train,ADM,0,JPEG,500,479,4
+holdout_biggan,train,ADM,0,JPEG,500,480,3
+holdout_biggan,train,ADM,0,JPEG,500,481,4
+holdout_biggan,train,ADM,0,JPEG,500,482,6
+holdout_biggan,train,ADM,0,JPEG,500,483,5
+holdout_biggan,train,ADM,0,JPEG,500,484,3
+holdout_biggan,train,ADM,0,JPEG,500,485,3
+holdout_biggan,train,ADM,0,JPEG,500,486,3
+holdout_biggan,train,ADM,0,JPEG,500,487,1
+holdout_biggan,train,ADM,0,JPEG,500,488,7
+holdout_biggan,train,ADM,0,JPEG,500,489,4
+holdout_biggan,train,ADM,0,JPEG,500,490,3
+holdout_biggan,train,ADM,0,JPEG,500,491,6
+holdout_biggan,train,ADM,0,JPEG,500,492,3
+holdout_biggan,train,ADM,0,JPEG,500,493,5
+holdout_biggan,train,ADM,0,JPEG,500,494,5
+holdout_biggan,train,ADM,0,JPEG,500,495,2
+holdout_biggan,train,ADM,0,JPEG,500,496,2
+holdout_biggan,train,ADM,0,JPEG,500,497,6
+holdout_biggan,train,ADM,0,JPEG,500,498,5
+holdout_biggan,train,ADM,0,JPEG,500,499,7
+holdout_biggan,train,ADM,0,JPEG,500,500,141
+holdout_biggan,train,ADM,1,JPEG,256,256,500
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,450,500,2
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,451,480,1
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,451,500,3
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,452,500,2
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,453,500,5
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,454,500,3
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,455,500,3
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,456,500,2
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,457,500,4
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,458,500,2
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,459,500,5
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,460,500,3
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,461,500,3
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,462,500,3
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,463,500,7
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,464,480,1
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,464,500,2
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,465,500,3
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,466,500,3
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,467,500,2
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,468,500,5
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,469,500,2
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,470,500,1
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,471,500,4
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,472,500,2
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,473,500,3
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,474,500,2
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,475,500,1
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,476,500,1
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,477,500,2
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,478,457,1
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,478,500,2
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,479,500,6
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,480,500,2
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,481,500,6
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,482,500,1
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,483,500,4
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,484,500,2
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,485,500,2
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,486,500,6
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,487,500,2
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,488,500,3
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,489,500,4
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,490,500,4
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,491,500,5
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,492,500,3
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,493,456,1
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,493,500,1
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,494,500,5
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,495,500,6
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,496,500,4
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,497,500,2
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,498,500,5
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,499,500,7
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,450,5
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,451,3
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,452,1
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,453,5
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,454,3
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,455,7
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,456,8
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,457,7
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,458,5
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,459,3
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,460,6
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,461,2
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,462,2
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,463,4
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,464,2
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,465,4
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,466,2
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,467,5
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,468,3
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,469,6
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,470,2
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,471,4
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,472,1
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,473,3
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,474,3
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,476,7
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,477,8
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,478,7
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,479,5
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,480,2
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,481,1
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,482,1
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,483,6
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,484,6
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,485,4
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,486,3
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,487,1
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,488,3
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,489,5
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,490,3
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,491,4
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,492,5
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,493,2
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,494,3
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,496,6
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,497,5
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,498,8
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,499,10
+holdout_biggan,train,Stable Diffusion V1.5,0,JPEG,500,500,133
+holdout_biggan,train,Stable Diffusion V1.5,1,JPEG,512,512,500
+holdout_biggan,validation,BigGAN,0,JPEG,450,500,3
+holdout_biggan,validation,BigGAN,0,JPEG,452,500,2
+holdout_biggan,validation,BigGAN,0,JPEG,454,500,2
+holdout_biggan,validation,BigGAN,0,JPEG,455,500,2
+holdout_biggan,validation,BigGAN,0,JPEG,456,500,1
+holdout_biggan,validation,BigGAN,0,JPEG,457,500,2
+holdout_biggan,validation,BigGAN,0,JPEG,458,500,3
+holdout_biggan,validation,BigGAN,0,JPEG,459,500,2
+holdout_biggan,validation,BigGAN,0,JPEG,460,500,1
+holdout_biggan,validation,BigGAN,0,JPEG,462,500,3
+holdout_biggan,validation,BigGAN,0,JPEG,463,500,1
+holdout_biggan,validation,BigGAN,0,JPEG,464,500,1
+holdout_biggan,validation,BigGAN,0,JPEG,466,500,2
+holdout_biggan,validation,BigGAN,0,JPEG,468,500,1
+holdout_biggan,validation,BigGAN,0,JPEG,469,500,1
+holdout_biggan,validation,BigGAN,0,JPEG,470,500,1
+holdout_biggan,validation,BigGAN,0,JPEG,472,500,1
+holdout_biggan,validation,BigGAN,0,JPEG,473,500,2
+holdout_biggan,validation,BigGAN,0,JPEG,474,500,1
+holdout_biggan,validation,BigGAN,0,JPEG,476,500,1
+holdout_biggan,validation,BigGAN,0,JPEG,477,500,2
+holdout_biggan,validation,BigGAN,0,JPEG,478,500,2
+holdout_biggan,validation,BigGAN,0,JPEG,480,500,2
+holdout_biggan,validation,BigGAN,0,JPEG,481,500,2
+holdout_biggan,validation,BigGAN,0,JPEG,482,500,1
+holdout_biggan,validation,BigGAN,0,JPEG,483,500,1
+holdout_biggan,validation,BigGAN,0,JPEG,485,500,4
+holdout_biggan,validation,BigGAN,0,JPEG,486,459,1
+holdout_biggan,validation,BigGAN,0,JPEG,486,480,1
+holdout_biggan,validation,BigGAN,0,JPEG,486,500,3
+holdout_biggan,validation,BigGAN,0,JPEG,487,500,3
+holdout_biggan,validation,BigGAN,0,JPEG,488,500,1
+holdout_biggan,validation,BigGAN,0,JPEG,490,500,1
+holdout_biggan,validation,BigGAN,0,JPEG,491,500,1
+holdout_biggan,validation,BigGAN,0,JPEG,492,500,2
+holdout_biggan,validation,BigGAN,0,JPEG,493,500,1
+holdout_biggan,validation,BigGAN,0,JPEG,494,500,1
+holdout_biggan,validation,BigGAN,0,JPEG,495,500,1
+holdout_biggan,validation,BigGAN,0,JPEG,496,500,1
+holdout_biggan,validation,BigGAN,0,JPEG,498,500,2
+holdout_biggan,validation,BigGAN,0,JPEG,499,500,3
+holdout_biggan,validation,BigGAN,0,JPEG,500,450,7
+holdout_biggan,validation,BigGAN,0,JPEG,500,451,2
+holdout_biggan,validation,BigGAN,0,JPEG,500,452,2
+holdout_biggan,validation,BigGAN,0,JPEG,500,453,1
+holdout_biggan,validation,BigGAN,0,JPEG,500,454,3
+holdout_biggan,validation,BigGAN,0,JPEG,500,455,4
+holdout_biggan,validation,BigGAN,0,JPEG,500,456,1
+holdout_biggan,validation,BigGAN,0,JPEG,500,457,1
+holdout_biggan,validation,BigGAN,0,JPEG,500,458,2
+holdout_biggan,validation,BigGAN,0,JPEG,500,459,2
+holdout_biggan,validation,BigGAN,0,JPEG,500,460,2
+holdout_biggan,validation,BigGAN,0,JPEG,500,461,2
+holdout_biggan,validation,BigGAN,0,JPEG,500,462,7
+holdout_biggan,validation,BigGAN,0,JPEG,500,463,2
+holdout_biggan,validation,BigGAN,0,JPEG,500,464,2
+holdout_biggan,validation,BigGAN,0,JPEG,500,465,1
+holdout_biggan,validation,BigGAN,0,JPEG,500,466,1
+holdout_biggan,validation,BigGAN,0,JPEG,500,467,3
+holdout_biggan,validation,BigGAN,0,JPEG,500,469,2
+holdout_biggan,validation,BigGAN,0,JPEG,500,470,1
+holdout_biggan,validation,BigGAN,0,JPEG,500,471,2
+holdout_biggan,validation,BigGAN,0,JPEG,500,472,3
+holdout_biggan,validation,BigGAN,0,JPEG,500,473,2
+holdout_biggan,validation,BigGAN,0,JPEG,500,474,2
+holdout_biggan,validation,BigGAN,0,JPEG,500,479,2
+holdout_biggan,validation,BigGAN,0,JPEG,500,481,1
+holdout_biggan,validation,BigGAN,0,JPEG,500,483,1
+holdout_biggan,validation,BigGAN,0,JPEG,500,485,3
+holdout_biggan,validation,BigGAN,0,JPEG,500,486,1
+holdout_biggan,validation,BigGAN,0,JPEG,500,488,1
+holdout_biggan,validation,BigGAN,0,JPEG,500,489,2
+holdout_biggan,validation,BigGAN,0,JPEG,500,490,2
+holdout_biggan,validation,BigGAN,0,JPEG,500,491,3
+holdout_biggan,validation,BigGAN,0,JPEG,500,492,3
+holdout_biggan,validation,BigGAN,0,JPEG,500,493,2
+holdout_biggan,validation,BigGAN,0,JPEG,500,496,3
+holdout_biggan,validation,BigGAN,0,JPEG,500,497,1
+holdout_biggan,validation,BigGAN,0,JPEG,500,498,1
+holdout_biggan,validation,BigGAN,0,JPEG,500,499,2
+holdout_biggan,validation,BigGAN,0,JPEG,500,500,46
+holdout_biggan,validation,BigGAN,1,JPEG,128,128,200
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,450,457,1
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,450,459,1
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,450,500,6
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,451,500,2
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,452,500,2
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,453,500,2
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,454,500,3
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,455,500,4
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,456,500,3
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,457,500,3
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,458,497,1
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,458,500,3
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,459,500,4
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,461,500,1
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,462,500,2
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,463,500,3
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,464,500,3
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,465,500,3
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,466,500,1
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,467,459,1
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,467,500,2
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,468,500,3
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,469,500,1
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,470,500,1
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,471,500,1
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,473,500,2
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,474,500,5
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,475,500,2
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,476,500,1
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,477,500,2
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,478,500,6
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,479,500,1
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,480,500,2
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,481,500,3
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,482,500,3
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,483,500,5
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,484,500,5
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,485,463,1
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,485,485,1
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,485,500,5
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,486,500,4
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,487,500,5
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,488,500,3
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,489,500,3
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,490,500,3
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,491,500,3
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,492,500,1
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,493,500,4
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,494,500,4
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,495,480,1
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,495,500,4
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,496,500,4
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,497,500,3
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,498,500,4
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,499,500,6
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,450,7
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,451,3
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,452,1
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,453,3
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,454,5
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,455,2
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,456,1
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,457,9
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,458,6
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,459,5
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,460,10
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,461,4
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,462,4
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,463,2
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,464,2
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,465,6
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,466,3
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,467,3
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,468,2
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,469,9
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,470,5
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,471,2
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,472,2
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,473,2
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,474,2
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,475,4
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,476,5
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,477,1
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,478,9
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,479,4
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,480,3
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,481,4
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,482,6
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,483,5
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,484,3
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,485,3
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,486,3
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,487,1
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,488,7
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,489,4
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,490,3
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,491,6
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,492,3
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,493,5
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,494,5
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,495,2
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,496,2
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,497,6
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,498,5
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,499,7
+holdout_stable_diffusion_v15,train,ADM,0,JPEG,500,500,141
+holdout_stable_diffusion_v15,train,ADM,1,JPEG,256,256,500
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,450,450,1
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,450,500,3
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,452,500,2
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,453,500,2
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,454,500,5
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,455,500,1
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,456,500,5
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,457,500,2
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,458,480,1
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,458,500,3
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,459,500,7
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,460,500,3
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,461,500,8
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,462,500,4
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,463,500,2
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,464,454,1
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,464,500,6
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,465,500,6
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,466,500,1
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,467,500,4
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,468,500,6
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,469,500,2
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,470,500,3
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,471,500,3
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,472,500,4
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,473,500,3
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,474,500,5
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,475,500,2
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,476,500,8
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,477,500,4
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,478,500,3
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,479,500,1
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,480,500,1
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,481,500,4
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,482,500,3
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,483,500,2
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,484,500,1
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,486,500,2
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,487,500,5
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,488,500,2
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,489,500,2
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,490,500,4
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,491,500,2
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,492,500,5
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,493,499,1
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,493,500,5
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,494,500,1
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,495,500,3
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,496,495,1
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,496,500,4
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,497,500,4
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,498,500,5
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,499,500,3
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,450,5
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,451,3
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,452,1
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,453,5
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,454,3
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,455,7
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,456,3
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,457,6
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,458,6
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,459,4
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,460,1
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,461,5
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,462,3
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,463,1
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,464,8
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,465,5
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,466,3
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,467,2
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,468,5
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,469,6
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,470,3
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,471,2
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,472,3
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,473,5
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,474,5
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,475,4
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,476,3
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,477,5
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,478,6
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,479,7
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,480,5
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,481,7
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,482,4
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,483,5
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,484,4
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,485,3
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,486,3
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,487,3
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,488,2
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,489,7
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,490,3
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,491,5
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,492,7
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,493,2
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,494,2
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,495,5
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,496,5
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,497,2
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,498,4
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,499,5
+holdout_stable_diffusion_v15,train,BigGAN,0,JPEG,500,500,121
+holdout_stable_diffusion_v15,train,BigGAN,1,JPEG,128,128,500
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,450,500,1
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,451,500,4
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,452,500,1
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,453,500,2
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,454,500,2
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,455,500,2
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,456,500,3
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,458,500,6
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,459,500,2
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,460,450,1
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,460,500,2
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,461,500,1
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,462,500,1
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,463,500,1
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,464,500,2
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,466,500,1
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,468,500,1
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,472,500,1
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,474,500,1
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,476,500,4
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,477,500,1
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,481,500,2
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,482,500,3
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,484,500,1
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,485,500,2
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,486,500,1
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,487,500,1
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,488,500,3
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,489,500,3
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,490,500,1
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,491,500,3
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,493,500,1
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,495,500,1
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,496,500,1
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,499,500,1
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,450,2
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,451,2
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,452,1
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,453,3
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,454,2
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,455,4
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,456,3
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,457,5
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,458,2
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,459,5
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,460,3
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,461,1
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,463,2
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,464,2
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,465,3
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,466,1
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,468,5
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,469,2
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,470,1
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,473,2
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,474,1
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,475,2
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,478,1
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,479,2
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,480,1
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,481,2
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,482,2
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,483,2
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,485,3
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,486,1
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,487,2
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,488,2
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,489,2
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,491,2
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,492,3
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,494,1
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,495,1
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,496,2
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,497,5
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,498,1
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,499,3
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,0,JPEG,500,500,44
+holdout_stable_diffusion_v15,validation,Stable Diffusion V1.5,1,JPEG,512,512,200

@@ -735,7 +735,7 @@ No-Go 后不得调 α、换 block、加增强、重选 checkpoint 或重跑 Defa
 | Task | 名称 | 初始状态 | 是否运行训练 | 是否可访问 GenImage unseen | 是否可访问 Defactify |
 |---|---|---|---:|---:|---:|
 | 01 | 创建独立研究分支与边界快照 | completed | 否 | 否 | 否 |
-| 02 | 数据审计与 LOGO 协议设计 | pending | 否 | 否 | 否 |
+| 02 | 数据审计与 LOGO 协议设计 | completed | 否 | 否 | 否 |
 | 03 | Protocol v3 与 S1 规格冻结 | pending | 否 | 否 | 否 |
 | 04 | NPR 特征变换实现与单元测试 | pending | 否 | 否 | 否 |
 | 05 | 语义破坏和退化视图管线 | pending | 否 | 否 | 否 |

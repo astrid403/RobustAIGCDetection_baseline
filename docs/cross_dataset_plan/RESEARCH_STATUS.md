@@ -3,8 +3,8 @@
 - Research branch: `research/cross-dataset-robustness-v3`
 - Frozen base branch: `feature/defactify-external-eval`
 - Frozen base commit: `cedc2a18d956948acfed87d575d41d4b93689d1d`
-- Current task: `Task 02`
-- Last completed task: `Task 01`
+- Current task: `Task 03`
+- Last completed task: `Task 02`
 - Protocol v3 frozen: `no`
 - S1 specification frozen: `no`
 - Model v3 frozen: `no`
@@ -40,6 +40,27 @@ sorted-path-list SHA256 was:
 
 ## Task history
 
+### Task 02 — Audit development data and propose source-aware LOGO
+
+- Status: completed.
+- Scope: GenImage train/validation only.
+- Input rows: 3,000 train and 1,200 validation.
+- Original sample-ID/exact-content/source-group overlaps: all zero.
+- Proposed folds: hold out ADM, BigGAN, or Stable Diffusion V1.5.
+- Fold validation rows: 400 each, balanced 200/200.
+- Fold training rows: 1,999 / 2,000 / 2,000.
+- Near-duplicate exclusions: one BigGAN fake row in the ADM holdout fold.
+- Determinism: all six manifests and distribution CSV were byte-identical on
+  an isolated second run.
+- Tests: 43 unittest tests passed.
+- Initial environment retries: system Python lacked pandas; the first conda
+  test invocation used unavailable pytest. The user approved conversion to
+  the repository's unittest style; no dependency was installed.
+- Training/inference executed: no.
+- GenImage unseen accessed: no.
+- Defactify accessed: no.
+- Decision: GO for Task 03 protocol design.
+
 ### Task 01 — Create isolated research branch and boundary snapshot
 
 - Status: completed.
@@ -55,5 +76,6 @@ sorted-path-list SHA256 was:
 
 ## Next boundary
 
-Task 02 may audit only GenImage train/validation inventories and manifests.
-It must not inspect GenImage unseen or any Defactify data/predictions.
+Task 03 may write only the Protocol v3/S1 contract, machine-readable contract
+metadata, and contract-validation tests. It must not implement or train a
+model, and it ends at an explicit user-approval gate.

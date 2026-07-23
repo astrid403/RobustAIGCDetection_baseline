@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "scope": "GenImage train/validation only",
+  "forbidden_scopes_accessed": [],
+  "inputs": {
+    "train": {
+      "path": "outputs/splits/genimage_splitB_available_train.csv",
+      "rows": 3000,
+      "sha256": "2b2e1112f044f079a2ef4fa9255d42e850359861c934e8c3bf938527701b5bd8"
+    },
+    "validation": {
+      "path": "outputs/splits/genimage_splitB_available_val.csv",
+      "rows": 1200,
+      "sha256": "5c73cbc97dc41e8ef63b2021fb1758201b4b484f04d4ebb1559f3535c4e44698"
+    }
+  },
+  "generators": [
+    "ADM",
+    "BigGAN",
+    "Stable Diffusion V1.5"
+  ],
+  "original_sample_id_overlap": 0,
+  "original_exact_content_overlap": 0,
+  "original_source_group_overlap": 0,
+  "folds": [
+    {
+      "held_out_generator": "ADM",
+      "max_dhash_hamming": 4,
+      "train_rows_before_filter": 2000,
+      "train_rows_after_filter": 1999,
+      "validation_rows": 400,
+      "blocked_source_group_rows": 0,
+      "blocked_exact_content_rows": 0,
+      "blocked_near_duplicate_rows": 1,
+      "blocked_unique_rows": 1
+    },
+    {
+      "held_out_generator": "BigGAN",
+      "max_dhash_hamming": 4,
+      "train_rows_before_filter": 2000,
+      "train_rows_after_filter": 2000,
+      "validation_rows": 400,
+      "blocked_source_group_rows": 0,
+      "blocked_exact_content_rows": 0,
+      "blocked_near_duplicate_rows": 0,
+      "blocked_unique_rows": 0
+    },
+    {
+      "held_out_generator": "Stable Diffusion V1.5",
+      "max_dhash_hamming": 4,
+      "train_rows_before_filter": 2000,
+      "train_rows_after_filter": 2000,
+      "validation_rows": 400,
+      "blocked_source_group_rows": 0,
+      "blocked_exact_content_rows": 0,
+      "blocked_near_duplicate_rows": 0,
+      "blocked_unique_rows": 0
+    }
+  ],
+  "manifests": [
+    {
+      "path": "outputs/research_v3/audits/holdout_adm_train.csv",
+      "rows": 1999,
+      "sha256": "c9b11beab9ac935117756a83dc0d90f0cd1398cf9bd7eeb3eea76d7e9f89dc61"
+    },
+    {
+      "path": "outputs/research_v3/audits/holdout_adm_validation.csv",
+      "rows": 400,
+      "sha256": "32747632cf05dd84ee4359308abf1555e672070abe4f072292dac184342707d2"
+    },
+    {
+      "path": "outputs/research_v3/audits/holdout_biggan_train.csv",
+      "rows": 2000,
+      "sha256": "27d8660fe9205060408bedce70abaec8373e81dc3f867701c645ee93ffc8eb61"
+    },
+    {
+      "path": "outputs/research_v3/audits/holdout_biggan_validation.csv",
+      "rows": 400,
+      "sha256": "f3dcf1051a48f199dcdbfb8f63a61147c13b9889244133a5b4c68014e22ebad9"
+    },
+    {
+      "path": "outputs/research_v3/audits/holdout_stable_diffusion_v15_train.csv",
+      "rows": 2000,
+      "sha256": "a164653238ac6a6a7d44d5c9cbdd4c19e46c019564d9cb63b5fdc80524e44a46"
+    },
+    {
+      "path": "outputs/research_v3/audits/holdout_stable_diffusion_v15_validation.csv",
+      "rows": 400,
+      "sha256": "bcfb64353372c0c5210a0432dfa5de88267f062c5bf44be6724e0f05bc9b5fef"
+    }
+  ],
+  "distribution": {
+    "path": "outputs/research_v3/audits/logo_distribution.csv",
+    "rows": 881,
+    "sha256": "b6c4416f9368fed2244f175910dbae5c4ca37e1775c053c031ec9f7f9ed370e7"
+  }
+}
