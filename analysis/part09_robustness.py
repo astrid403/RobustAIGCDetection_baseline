@@ -136,7 +136,7 @@ def main():
 
     frame = pd.DataFrame(rows)
     for metric in ("auroc", "auprc", "balanced_accuracy"):
-        clean_values = frame[frame.transform == "clean"].set_index(["role", "seed"])[metric]
+        clean_values = frame[frame["transform"] == "clean"].set_index(["role", "seed"])[metric]
         frame[f"{metric}_delta_from_clean"] = frame.apply(
             lambda row: row[metric] - clean_values.loc[(row.role, row.seed)], axis=1
         )

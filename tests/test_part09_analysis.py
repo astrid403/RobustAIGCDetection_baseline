@@ -20,6 +20,10 @@ class Part09AnalysisTest(unittest.TestCase):
         self.assertEqual(len(mean_sd), 18)
         self.assertTrue((delta["a1_minus_b2"].round(12) == 0.1).all())
 
+    def test_transform_column_requires_explicit_indexing(self):
+        frame = pd.DataFrame({"transform": ["clean", "jpeg"]})
+        self.assertEqual(frame[frame["transform"] == "clean"].shape[0], 1)
+
 
 if __name__ == "__main__":
     unittest.main()
