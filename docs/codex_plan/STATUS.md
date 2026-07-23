@@ -1,9 +1,9 @@
 # Codex Execution Status
 
 - Current branch: `feature/defactify-external-eval`
-- Last completed part: `Part 08`
-- Last verified commit: `b6d7e79f31162f0ed6f579142c159c7c35bea364`
-- Next part: `Part 09` (`docs/codex_plan/PART_09.md`)
+- Last completed part: `Part 09`
+- Last verified commit: `59806a4fe4183d55fcbc7b8a73de90c325ba6aeb`
+- Next part: `Part 10` (`docs/codex_plan/PART_10.md`)
 - Selected route: `A1`
 - Model frozen: `yes`
 - Numbers frozen: `no`
@@ -224,13 +224,81 @@
   threshold adjustment, or data-protocol change was made after observing
   Defactify.
 
+### Part 09 — Compact Robustness, Efficiency, and Error Cases
+
+- Status: completed and accepted.
+- Analysis implementation commit:
+  `27994e592fce50a5a2d0d8a1215d4a5ef32262a5`.
+- Robustness aggregation repair commit:
+  `39a579436da0901de296b580bfe42c7b4cc1972d`.
+- User-approved registry repair commit:
+  `8f05566239f70a9ad079ce45bc5bcdad7aa66e9b`.
+- Result commit:
+  `59806a4fe4183d55fcbc7b8a73de90c325ba6aeb`.
+- Tests: 35/35 unit tests passed. Registry SHA256, robustness matrix,
+  bootstrap table, efficiency table, and error manifests passed final
+  provenance and row-count checks.
+- Paired hierarchical bootstrap: 1,000 repetitions with fixed seed
+  `20260723`, resampling both the three training seeds and matched sample IDs.
+  On GenImage unseen, A1-minus-B2 is supported positive for AUROC
+  (`95% CI [0.002493, 0.006033]`) and AUPRC
+  (`[0.002962, 0.008906]`), but not balanced accuracy
+  (`[-0.002362, 0.009813]`).
+- External statistical result: A1-minus-B2 is supported negative on Defactify
+  full for AUROC (`[-0.016487, -0.009541]`) and AUPRC
+  (`[-0.004176, -0.001467]`), and on Defactify balanced for AUROC
+  (`[-0.017987, -0.009504]`) and AUPRC
+  (`[-0.014367, -0.002824]`). Balanced-accuracy intervals cross zero in both
+  scopes.
+- Robustness: on GenImage unseen, A1 mean AUROC exceeds B2 under clean
+  (`+0.004123`), JPEG quality 70 (`+0.009764`), resize scale 0.5
+  (`+0.007514`), and Gaussian blur radius 1.0 (`+0.008178`). A1 also has a
+  smaller clean-to-corruption AUROC drop for all three corruptions. This is a
+  compact in-domain robustness result, not evidence of universal
+  cross-dataset superiority.
+- Per-generator: A1 improves Defactify full DALL-E 3 AUROC by
+  `+0.042666`, but declines on the other four generators. The largest decline
+  is Stable Diffusion XL (`-0.054460`); the A1 worst-generator full AUROC is
+  `0.726247`, versus B2's worst-generator AUROC `0.772858` on Stable
+  Diffusion 3.
+- Efficiency: both models have 151,540,482 total parameters including frozen
+  CLIP, 263,169 trainable parameters, 3,165,301-byte checkpoints, and
+  8,912,778-byte training feature caches per run. Mean training time is about
+  62.62 s for B2 and 55.80 s for A1. The compact degraded-feature timing
+  averaged about 24.89 images/s for B2 final and 26.26 images/s for A1
+  penultimate under the recorded batch-32 protocol.
+- Error alignment: every B2/A1 pair was joined by sample_id for all three
+  seeds and scopes. GenImage unseen totals include 529 both-wrong,
+  272 B2-wrong/A1-correct, and 227 B2-correct/A1-wrong cases. Defactify full
+  shows the reverse trade-off: 4,792 B2-wrong/A1-correct versus 5,665
+  B2-correct/A1-wrong cases.
+- Outputs: `outputs/metrics/part09_analysis_registry.json`, mean/SD and delta
+  tables, paired-bootstrap CIs, raw and aggregated robustness tables,
+  efficiency table, per-generator delta table, error-count table, deterministic
+  180-row error-case manifest, and
+  `outputs/figures/part09_error_comparison.png`. No image copies, predictions,
+  caches, checkpoints, or large logs were committed.
+- Repairs: the first robustness run completed inference but failed at pandas
+  column selection; one tested aggregation repair was applied. The first
+  statistical run completed tables but failed registry serialization on a
+  Python boolean typo; the user explicitly approved the tested registry-only
+  repair. Neither repair changed scientific inputs or numbers; failed logs
+  remain preserved.
+- Handoff: the honest contribution is a generalization trade-off/controlled
+  negative result rather than comprehensive superiority. Penultimate features
+  provide statistically supported internal unseen-generator ranking gains and
+  stronger compact degradation robustness, but statistically supported
+  ranking degradation on Defactify. Part 10 must preserve this wording when
+  freezing numbers.
+
 ## Current boundary
 
-Part 08 is complete. Its formal evaluation matrix is ready for Part 09
-robustness, efficiency, and error analysis. The selected route remains frozen
-as A1 despite the documented cross-dataset trade-off. Numbers are not frozen
-until Part 10. Do not retrain, tune the threshold, change Protocol v2, or start
-Part 09 automatically.
+Part 09 is complete. Parts 07–09 now provide the complete inputs for Part 10
+statistics, controlled report artifacts, and number freeze. The selected
+model remains A1, while the contribution narrative is explicitly a
+generalization trade-off/controlled negative result. Numbers remain unfrozen
+until Part 10. Do not retrain, tune, change Protocol v2, or start Part 10
+automatically.
 
 ## Status update template
 
