@@ -2,8 +2,8 @@
   "schema_version": 1,
   "part": 6,
   "decision_code": "GO_A1",
-  "approval_status": "awaiting_explicit_user_approval",
-  "model_frozen": false,
+  "approval_status": "approved_by_user",
+  "model_frozen": true,
   "evidence_scope": [
     "GenImage validation",
     "GenImage unseen"
@@ -14,15 +14,15 @@
   "degradation_augmentation_selected": false,
   "decision_record": {
     "path": "docs/codex_plan/PART_06_DECISION.md",
-    "sha256": "2964dd1c6de46aba19604c882c1ce7b7d30ab39880a78e1620ccc280d0de1940"
+    "sha256": "4bfcf06b9f9716a2b91a42ed951753cd3f781951348e2df1462ebc9391ca2af0"
   },
   "comparison": {
     "path": "outputs/metrics/part06_seed42_validation_unseen_comparison.csv",
     "sha256": "7279e6f899a2f1f0604b75cc538492762360114b3fdffd8ae913cc36a6977e7b"
   },
   "freeze_candidate": {
-    "path": "configs/freeze_candidate_clip_penultimate_v2.yaml",
-    "sha256": "bc14ac3c942a1f0306382fbc1187a960322f2f57ccb98b4bf5b2b67747ddd5a3"
+    "path": "configs/final_model_contract_v2.yaml",
+    "sha256": "5e7d544cb77ca33847e07cdcf55a0bf183eae74422eff70cc0d1a37bb623a1b9"
   },
   "source_artifacts": {
     "B1": {
@@ -48,5 +48,5 @@
       "metrics_sha256": "a3486b2ed9e74ee048f5942431f84a880625b15d7fb05f321b9c2a7532b41837"
     }
   },
-  "next_action": "User must explicitly approve GO_A1 before STATUS may set Model frozen=yes and Part 07 may begin."
+  "next_action": "Execute Part 07 formal training without changing the approved freeze contract."
 }

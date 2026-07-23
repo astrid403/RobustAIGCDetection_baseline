@@ -4,8 +4,8 @@
 
 - Decision code: `GO_A1`.
 - Recommendation: select penultimate-only A1 as the final proposed route.
-- Approval status: awaiting explicit user approval.
-- Model freeze: not active until approval.
+- Approval status: explicitly approved by the user.
+- Model freeze: active.
 - Evidence scope: GenImage validation and unseen only.
 - Defactify used: no.
 
@@ -92,7 +92,7 @@ After user approval, freeze exactly:
 - formal external evaluation: only after all formal configs/checkpoints are
   frozen.
 
-The machine-readable candidate is
-`configs/freeze_candidate_clip_penultimate_v2.yaml`. It must not be used for
-Part 7 until the user explicitly approves `GO_A1`. After approval, STATUS may
-set `Model frozen: yes` and `Next part: Part 07`.
+The approved machine-readable contract is
+`configs/final_model_contract_v2.yaml`. Part 7 must use this contract without
+changing structure, feature mode, head, budget, checkpoint rule, threshold,
+or seeds.

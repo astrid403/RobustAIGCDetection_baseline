@@ -3,11 +3,11 @@
 - Current branch: `feature/defactify-external-eval`
 - Last completed part: `Part 06`
 - Last verified commit: `435d9f08d3b519a014bbf69c37ab19deeda9aa96`
-- Next part: `Awaiting explicit user approval of GO_A1`
-- Selected route: `GO_A1 recommended: penultimate-only A1; pending user approval`
-- Model frozen: `no`
+- Next part: `Part 07` (`docs/codex_plan/PART_07.md`)
+- Selected route: `A1`
+- Model frozen: `yes`
 - Numbers frozen: `no`
-- Blocking issues: `GO_A1 must be explicitly approved before model freeze and Part 07`
+- Blocking issues: `none`
 
 ## Completed parts
 
@@ -139,13 +139,13 @@
   machine-readable pending config is
   `configs/freeze_candidate_clip_penultimate_v2.yaml`. No Defactify access,
   seed-43/44 run, A2 run, degradation pilot, merge, or push occurred.
-  `Model frozen` remains `no` until the user explicitly approves `GO_A1`.
+  The user explicitly approved `GO_A1`; the contract is now frozen.
 
 ## Current boundary
 
-Part 06 analysis is complete and recommends `GO_A1`, but the decision has not
-been approved. Do not begin Part 07, rename the candidate config as final, or
-set `Model frozen: yes` until the user explicitly approves `GO_A1`.
+The user approved `GO_A1`; A1 and its complete training contract are frozen.
+Part 07 may run the six formal B2/A1 seed jobs. No structure, feature mode,
+head, budget, checkpoint rule, threshold, or seed change is permitted.
 
 ## Status update template
 
