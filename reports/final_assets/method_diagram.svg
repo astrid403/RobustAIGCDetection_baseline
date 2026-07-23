@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420">
+  <style>
+    .box { fill:#f7fbff; stroke:#2b8cbe; stroke-width:3; rx:16; }
+    .frozen { fill:#edf8e9; stroke:#31a354; stroke-width:3; rx:16; }
+    .head { fill:#fff7ec; stroke:#d95f0e; stroke-width:3; rx:16; }
+    .text { font-family:Arial,sans-serif; font-size:24px; text-anchor:middle; fill:#1f2933; }
+    .small { font-family:Arial,sans-serif; font-size:18px; text-anchor:middle; fill:#52606d; }
+    .arrow { stroke:#52606d; stroke-width:4; marker-end:url(#arrow); }
+  </style>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#52606d"/>
+    </marker>
+  </defs>
+  <text x="600" y="42" class="text">Frozen CLIP Feature Comparison</text>
+  <rect x="45" y="135" width="210" height="115" class="box"/>
+  <text x="150" y="182" class="text">Input image</text>
+  <text x="150" y="216" class="small">224 × 224</text>
+  <line x1="255" y1="192" x2="350" y2="192" class="arrow"/>
+  <rect x="350" y="105" width="300" height="175" class="frozen"/>
+  <text x="500" y="155" class="text">Frozen ViT-B-32</text>
+  <text x="500" y="190" class="small">No backbone updates</text>
+  <text x="500" y="225" class="small">512-D normalized feature</text>
+  <text x="500" y="255" class="small">B2: final · A1: penultimate</text>
+  <line x1="650" y1="192" x2="745" y2="192" class="arrow"/>
+  <rect x="745" y="105" width="265" height="175" class="head"/>
+  <text x="878" y="155" class="text">Shared MLP head</text>
+  <text x="878" y="190" class="small">512 → 512 → 1</text>
+  <text x="878" y="225" class="small">ReLU · Dropout 0.2</text>
+  <text x="878" y="255" class="small">263,169 trainable params</text>
+  <line x1="1010" y1="192" x2="1080" y2="192" class="arrow"/>
+  <rect x="1080" y="145" width="90" height="95" class="box"/>
+  <text x="1125" y="182" class="small">Fake</text>
+  <text x="1125" y="211" class="small">prob.</text>
+  <text x="600" y="355" class="small">Fixed threshold 0.5 · Seeds 42/43/44 · Same GenImage train/validation protocol</text>
+  <text x="600" y="388" class="small">Defactify is external evaluation only and never influences model selection or tuning</text>
+</svg>
