@@ -1,0 +1,108 @@
+{
+  "part": "Part 08",
+  "status": "complete",
+  "evaluation_commit": "22f0f24bd1d596cef678c285fa909bca15c3e09a",
+  "training_registry": "artifacts/part07_formal_training_registry.json",
+  "models": ["B2", "A1"],
+  "seeds": [42, 43, 44],
+  "threshold": 0.5,
+  "manifests": {
+    "genimage_unseen": {
+      "path": "outputs/splits/genimage_splitB_available_test_unseen.csv",
+      "sha256": "0852a4bbe4ea67efecf7756b697e04a7a5cb5623999caf3fc3dfd625df063c07",
+      "samples": 4000
+    },
+    "defactify_full": {
+      "path": "outputs/splits/defactify_official_test.csv",
+      "sha256": "d17046f8af94215309c613e6aeab4d2aba33cd0bc671c8e3f666e9e6d27b4158",
+      "samples": 45000
+    },
+    "defactify_balanced": {
+      "path": "outputs/splits/defactify_balanced_test.csv",
+      "sha256": "439396912b1ebb91f03f457813015f1a365d3305297103e3fd9fbc6a7642461d",
+      "samples": 15000,
+      "derivation": "sample_id subset of corresponding full prediction; no second inference"
+    }
+  },
+  "runs": [
+    {
+      "role": "B2", "seed": 42,
+      "checkpoint_sha256": "d99f1ce89d3756e97c6bef77b6f98062398bf59493b315e5b50f33fc0f76747f",
+      "genimage_prediction_sha256": "a080532240dc570df79e4248df27e88d603e94a93472a763e1203bd8029fd6de",
+      "defactify_full_prediction_sha256": "b1d66853277be5d85d264afbb4e25839cf28e3306759e79f33d7d42db160d7d4",
+      "defactify_balanced_prediction_sha256": "3ff7d817082f42d37bdb28d104b92dad9ded66d19750247dd77ed9b6001f4afb"
+    },
+    {
+      "role": "B2", "seed": 43,
+      "checkpoint_sha256": "3ca7e894e31ea789ba4a785c5fe5590c566caaa476058b702ceb33f21f7f3690",
+      "genimage_prediction_sha256": "d5d0cd4ef8063fc745008ecb0199e6631864b73a15135861f0130ce41e3efe26",
+      "defactify_full_prediction_sha256": "2015c3ab534a85ca0075f245afdfd3913501625333ca5ceaf311118799bafc59",
+      "defactify_balanced_prediction_sha256": "8ce7f44508bd85febb0365031144760641d03a0dd13892e95d251930cdb94372"
+    },
+    {
+      "role": "B2", "seed": 44,
+      "checkpoint_sha256": "8c4707f4a794ec2cc639820a7488448c6412b1d0bad3823825eb817f12ea5b1b",
+      "genimage_prediction_sha256": "a499184e1843fa45d81cd7aaaf0b7f0ea6b369d538e4ad1584ee5a7bf0bde01a",
+      "defactify_full_prediction_sha256": "92b7520dccbb801d76d76c3f673c3b58056c38f12461f356b6093765d5e60cda",
+      "defactify_balanced_prediction_sha256": "b2223046f0f139d993deb6a00d4d7084872efa3c8f0a309f3f3a5ed72620f1d9"
+    },
+    {
+      "role": "A1", "seed": 42,
+      "checkpoint_sha256": "0c930f63cdc601c2d56a7865dd01a8ecf6f3fee903d0998cc103c0fb043503fc",
+      "genimage_prediction_sha256": "b2f47fba831596262c0842f30c27cdaf1b6246a327f282493b2b435f72d28c03",
+      "defactify_full_prediction_sha256": "b8bbcdd04b4a6eace3defc92ddf73dec635efffa8057bad7a3737900b6e3eb0d",
+      "defactify_balanced_prediction_sha256": "b022ad4d36f93347115a1627dfef1cca7ce049eb752976c13e0a933e66013b80"
+    },
+    {
+      "role": "A1", "seed": 43,
+      "checkpoint_sha256": "4c3a18ed2c34df82a793e6dacb7ee3151ca3a19a0def9cb8ea19818a727c5c30",
+      "genimage_prediction_sha256": "e9bdd82d8b67b262a0231e6e6231469b1074c589dbef74729af65c063035f6f8",
+      "defactify_full_prediction_sha256": "96bfb1e5d514f2f5668e7e617c9d79e6ef0f7a8fdd92ac2fda2dbaf2602d15ed",
+      "defactify_balanced_prediction_sha256": "b235ecb3ba93db493bba91f2c62bd0a72825eb760c23eac923f57b11f69a5f51"
+    },
+    {
+      "role": "A1", "seed": 44,
+      "checkpoint_sha256": "2def0356254c3f32237042f7cce5918bf474e47528f10f58f367f71ea2d0a81c",
+      "genimage_prediction_sha256": "131bf2e6ec09a9404bd9dcdc61da4ce95a45e64808970e9b33e12193756bae76",
+      "defactify_full_prediction_sha256": "48dade0265b5424fecc6850ef1a17e47e662d74f1a827b489ecd6981670a9d47",
+      "defactify_balanced_prediction_sha256": "2d47cbcf1fbaeec2d5e877784748fb8d997567b7048d2acd4524d2d423782414"
+    }
+  ],
+  "cache_provenance": {
+    "genimage_final_sha256": "337cb53e2227324275d434596d9f2c52087426a8928cf210d3e215e6bf54b590",
+    "genimage_penultimate_sha256": "f26f9145f169520fb651e4ab7e65147951cd4b9a6303e7bac0cfc479a44d9c74",
+    "defactify_final_sha256": "218f527b3d4ad72851cd57896f627fa77b5e5c4ae94e05026e32e64b3ae80ded",
+    "defactify_penultimate_sha256": "8e10c6699ff7fe1308e8d3913f2e4c7a56337e853a849def532aaedc086d7054",
+    "reuse_policy": "one validated schema-v2 cache per dataset and feature mode; classifier inference remains checkpoint-specific"
+  },
+  "checks": {
+    "full_predictions": 12,
+    "defactify_balanced_predictions": 6,
+    "genimage_prediction_rows": 24000,
+    "defactify_full_prediction_rows": 270000,
+    "defactify_balanced_prediction_rows": 90000,
+    "duplicate_sample_ids": 0,
+    "per_generator_rows": 60,
+    "metric_recomputation": "exact at tolerance 1e-12",
+    "threshold_label_consistency": true
+  },
+  "failures": [
+    {
+      "scope": "B2 seed 42 Defactify full initial attempt",
+      "cause": "sandbox blocked Hugging Face cache lock-file creation",
+      "prediction_created": false,
+      "resolution": "same frozen command retried once with local-cache write permission",
+      "scientific_impact": "none"
+    }
+  ],
+  "summaries": [
+    "outputs/metrics/part08_formal_evaluation_summary.csv",
+    "outputs/metrics/part08_per_generator_summary.csv"
+  ],
+  "excluded_from_git": [
+    "full predictions",
+    "balanced predictions",
+    "feature caches",
+    "large console logs"
+  ]
+}
