@@ -3,7 +3,7 @@
 - Research branch: `research/cross-dataset-robustness-v3`
 - Frozen base branch: `feature/defactify-external-eval`
 - Frozen base commit: `cedc2a18d956948acfed87d575d41d4b93689d1d`
-- Current task: `Task 03`
+- Current task: `Awaiting Task 03 protocol approval`
 - Last completed task: `Task 02`
 - Protocol v3 frozen: `no`
 - S1 specification frozen: `no`
@@ -11,7 +11,7 @@
 - Research numbers frozen: `no`
 - GenImage unseen accessed by research v3: `no`
 - Defactify accessed by research v3: `no`
-- Blocking issues: `none`
+- Blocking issues: `Protocol v3/S1 contract requires explicit user approval`
 
 ## Frozen Protocol v2 boundary
 
@@ -39,6 +39,26 @@ sorted-path-list SHA256 was:
 `1bae20b07e6476a16f4c0cd74ea087edf54cc8970365101bf8d6d94de3ccb03e`
 
 ## Task history
+
+### Task 03 — Freeze Protocol v3 and the S1 specification
+
+- Status: awaiting approval.
+- Protocol: `docs/cross_dataset_plan/PROTOCOL_V3.md`.
+- Machine contract: `configs/research_v3/s1_contract.yaml`.
+- Candidate manifest:
+  `artifacts/research_v3/protocol_v3_candidate_manifest.json`.
+- NPR representation: signed diagonal down-right difference, no padding,
+  output `[3,223,223]`.
+- NPR expert: ImageNet-pretrained ResNet18, all parameters trainable.
+- Main semantic breaking: 4x4 patch shuffle at probability 0.5.
+- Main consistency loss: disabled.
+- Primary fusion: fixed CLIP/NPR alpha 0.5/0.5.
+- Seeds: 42 pilot; 42/43/44 confirmation.
+- Tests: 53 unittest tests passed, including 10 contract tests.
+- Training/inference executed: no.
+- GenImage unseen accessed: no.
+- Defactify accessed: no.
+- Gate: explicit user approval required before Task 04.
 
 ### Task 02 — Audit development data and propose source-aware LOGO
 
@@ -76,6 +96,6 @@ sorted-path-list SHA256 was:
 
 ## Next boundary
 
-Task 03 may write only the Protocol v3/S1 contract, machine-readable contract
-metadata, and contract-validation tests. It must not implement or train a
-model, and it ends at an explicit user-approval gate.
+Do not begin Task 04 until the user explicitly approves both Protocol v3 and
+the S1 YAML contract. Approval must be recorded without changing any frozen
+Protocol v2 file.

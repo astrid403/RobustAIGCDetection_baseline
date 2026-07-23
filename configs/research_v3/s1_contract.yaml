@@ -1,0 +1,234 @@
+schema_version: 1
+contract_name: cross_dataset_s1_v3
+status: candidate_awaiting_user_approval
+branch: research/cross-dataset-robustness-v3
+frozen_base_commit: cedc2a18d956948acfed87d575d41d4b93689d1d
+labels:
+  real: 0
+  fake: 1
+
+data:
+  dataset: GenImage
+  development_scope: train_and_validation_only
+  external_training_data: forbidden
+  folds:
+    - id: holdout_adm
+      train_csv: outputs/research_v3/audits/holdout_adm_train.csv
+      validation_csv: outputs/research_v3/audits/holdout_adm_validation.csv
+      held_out_generator: ADM
+    - id: holdout_biggan
+      train_csv: outputs/research_v3/audits/holdout_biggan_train.csv
+      validation_csv: outputs/research_v3/audits/holdout_biggan_validation.csv
+      held_out_generator: BigGAN
+    - id: holdout_stable_diffusion_v15
+      train_csv: outputs/research_v3/audits/holdout_stable_diffusion_v15_train.csv
+      validation_csv: outputs/research_v3/audits/holdout_stable_diffusion_v15_validation.csv
+      held_out_generator: Stable Diffusion V1.5
+  genimage_unseen_role: post_model_freeze_internal_diagnostic_only
+  defactify_full_role: separately_approved_once_only_external_evaluation
+  defactify_balanced_role: derive_from_full_predictions_only
+
+b2_control:
+  model_type: clip_mlp
+  clip_model: ViT-B-32
+  pretrained: openai
+  encoder_frozen: true
+  feature_mode: final
+  feature_dim: 512
+  feature_normalized: true
+  hidden_dim: 512
+  activation: ReLU
+  dropout: 0.2
+  optimizer: AdamW
+  learning_rate: 0.001
+  weight_decay: 0.01
+  loss: BCEWithLogitsLoss
+  batch_size: 32
+  epochs: 10
+  scheduler: none
+  checkpoint_metric: auroc
+  checkpoint_mode: max
+  checkpoint_tie_break: earliest_epoch
+  threshold: 0.5
+
+npr:
+  rgb_conversion: RGB
+  resize:
+    height: 224
+    width: 224
+    interpolation: bicubic
+  definition: "rgb[:, :-1, :-1] - rgb[:, 1:, 1:]"
+  directions: diagonal_down_right
+  padding: none
+  output_shape: [3, 223, 223]
+  input_range: [0.0, 1.0]
+  signed_range: [-1.0, 1.0]
+  range_tolerance: 0.000001
+  range_mapping: "(npr + 1) / 2"
+  mapped_range: [0.0, 1.0]
+  normalization:
+    mean: [0.485, 0.456, 0.406]
+    std: [0.229, 0.224, 0.225]
+
+semantic_breaking:
+  branch: npr_only
+  grid: [4, 4]
+  patch_size: [56, 56]
+  training_probability: 0.5
+  validation_probability: 0.0
+  reject_identity_permutation: true
+  preserve_original_when_not_applied: true
+  rng_key: [global_seed, epoch, sample_id]
+  cross_sample_mixing: false
+
+augmentation:
+  horizontal_flip_probability: 0.5
+  random_crop: false
+  color_jitter: false
+  gaussian_noise: false
+  mixup: false
+  cutmix: false
+  degradation_training_probability_main: 0.0
+
+npr_expert:
+  backbone: resnet18
+  backbone_source: torchvision
+  pretrained: imagenet_default
+  trainable_scope: all_parameters
+  input_channels: 3
+  classifier: "Linear(512,1)"
+  optimizer: AdamW
+  learning_rate: 0.0001
+  weight_decay: 0.0001
+  loss: BCEWithLogitsLoss
+  consistency_enabled_main: false
+  consistency_weight_main: 0.0
+  batch_size: 32
+  epochs: 10
+  scheduler: none
+  mixed_precision_cuda: true
+  checkpoint_metric: auroc
+  checkpoint_mode: max
+  checkpoint_tie_break: earliest_epoch
+  threshold: 0.5
+  num_workers: 0
+
+sampler:
+  type: deterministic_generator_label_balanced_with_replacement
+  groups: generator_x_label
+  samples_per_group_per_epoch: 500
+  total_samples_per_epoch: 2000
+  rng_key: [global_seed, epoch]
+  validation_shuffle: false
+
+degradations:
+  clean:
+    probability_evaluation: 1.0
+  jpeg:
+    quality: 70
+    probability_evaluation: 1.0
+  resize:
+    scale: 0.5
+    down_interpolation: bicubic
+    up_interpolation: bicubic
+    probability_evaluation: 1.0
+  blur:
+    radius: 1.0
+    probability_evaluation: 1.0
+  consistency_ablation:
+    enabled_main: false
+    partner_probability: 0.5
+    selection: uniform
+    choices: [jpeg, resize, blur]
+    same_patch_permutation: true
+    loss: sigmoid_probability_mse
+    weight: 0.1
+
+fusion:
+  type: probability_late_fusion
+  primary_alpha_clip: 0.5
+  primary_alpha_npr: 0.5
+  threshold: 0.5
+  learned_head: false
+  calibration: none
+  descriptive_alpha_grid: [0.0, 0.25, 0.5, 0.75, 1.0]
+  alpha_grid_can_replace_primary: false
+  join_key: sample_id
+  require_exact_one_to_one_join: true
+  development_predictions: out_of_fold_only
+
+training:
+  pilot_seed: 42
+  formal_seeds: [42, 43, 44]
+  fixed_optimizer_step_budget: true
+  early_stopping: false
+
+selection:
+  primary_metric: logo_mean_auroc
+  safety_metric: logo_worst_fold_auroc
+  mandatory_metrics:
+    - auroc
+    - auprc
+    - balanced_accuracy
+    - macro_f1
+    - real_recall
+    - fake_recall
+  task08_gate:
+    minimum_mean_auroc_delta: 0.005
+    minimum_worst_fold_auroc_delta: -0.002
+    minimum_improved_folds: 2
+    minimum_fusion_over_best_expert_auroc: 0.002
+    minimum_real_recall: 0.70
+    minimum_fake_recall: 0.70
+    degraded_mean_must_not_decrease: true
+  task10_gate:
+    minimum_three_seed_mean_auroc_delta: 0.005
+    minimum_worst_fold_mean_delta: -0.002
+    require_positive_ci_lower_or_all_seed_deltas: true
+    maximum_inference_time_ratio_vs_b2: 2.5
+    maximum_peak_gpu_memory_mib: 8000
+
+naming:
+  template: "{stage}_{model}_{training_scope}_{evaluation_scope}_seed{seed}_v3"
+  stages: [smoke, pilot, ablation, final]
+  output_root: outputs/research_v3
+  overwrite_existing_runs: false
+
+cache:
+  schema: research_clip_cache_v3
+  b2_signature_fields:
+    - encoder
+    - pretrained
+    - feature_mode
+    - preprocess_fingerprint
+    - manifest_sha256
+    - fold
+    - split_role
+    - extraction_version
+  persist_npr_feature_tensors: false
+
+provenance:
+  required:
+    - branch
+    - commit
+    - command
+    - config_snapshot
+    - config_sha256
+    - manifest_sha256
+    - seed
+    - fold
+    - start_time
+    - end_time
+    - exit_status
+    - checkpoint_sha256
+    - prediction_sha256
+    - environment
+    - failure_reason
+
+forbidden:
+  genimage_unseen_before_model_freeze: true
+  defactify_before_separate_task12_approval: true
+  defactify_train_or_validation: true
+  test_driven_tuning: true
+  seed_exclusion: true
+  overwrite_protocol_v2: true

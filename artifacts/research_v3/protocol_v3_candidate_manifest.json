@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "manifest_name": "cross_dataset_protocol_v3_candidate",
+  "status": "candidate_awaiting_user_approval",
+  "branch": "research/cross-dataset-robustness-v3",
+  "frozen_base_commit": "cedc2a18d956948acfed87d575d41d4b93689d1d",
+  "task02_commit": "344513cfc4ff74878733620af2aa6bf4e3bf07ed",
+  "protocol": {
+    "path": "docs/cross_dataset_plan/PROTOCOL_V3.md",
+    "sha256": "f5f12787942165c440058626d339119aa1cd24758c46b83a7613e1bd93406fd6"
+  },
+  "contract": {
+    "path": "configs/research_v3/s1_contract.yaml",
+    "sha256": "b91f88c07b2e46e5c1f68ea6554088cdc8e51a8bb7ceb1c2cbe569041b02d8ea"
+  },
+  "data_audit": {
+    "path": "docs/cross_dataset_plan/DATA_AUDIT.md",
+    "sha256": "04f667e6f37521cc8c37d5a37bfaa5d71183afe639cd827723556988cea24bed"
+  },
+  "audit_registry": {
+    "path": "outputs/research_v3/audits/audit_report.json",
+    "sha256": "671d9870cd1da8486b3d3c891733aec229335d8af0beeae8e6893f6f7f9dfe19"
+  },
+  "approval_required": true,
+  "implementation_authorized": false,
+  "training_authorized": false,
+  "genimage_unseen_authorized": false,
+  "defactify_authorized": false
+}
