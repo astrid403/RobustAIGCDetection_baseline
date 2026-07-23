@@ -1,0 +1,17 @@
+experiment_name: pilot_clip_linear_genimage_unseen_seed42_v2
+model_type: clip_linear
+clip_model: ViT-B-32
+pretrained: openai
+dataset: GenImage
+train_csv: outputs/splits/genimage_splitB_available_train.csv
+val_csv: outputs/splits/genimage_splitB_available_val.csv
+test_csv: outputs/splits/genimage_splitB_available_test_unseen.csv
+image_size: 224
+batch_size: 32
+epochs: 10
+learning_rate: 0.001
+threshold: 0.5
+cache_clip_features: true
+mixed_precision: false
+seed: 42
+num_workers: 0

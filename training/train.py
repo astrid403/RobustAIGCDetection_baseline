@@ -18,7 +18,7 @@ from data_pipeline.dataset_factory import create_image_dataset
 from data_pipeline.fingerprints import feature_cache_metadata, feature_cache_path, validate_feature_cache
 from evaluation.plots import plot_training_curves
 from models.clip_mlp_detector import (
-    ClipMlpDetector,
+    build_clip_feature_detector,
     extract_clip_features,
     load_feature_cache,
     load_open_clip_model,
@@ -123,7 +123,7 @@ def cache_or_extract(config, split_name, csv_path, preprocess, clip_model, devic
     return {"features": features, "labels": labels, "paths": paths, "sample_ids": paths, "metadata": metadata}
 
 
-def train_clip_mlp(config, device):
+def train_clip_classifier(config, device):
     clip_model, preprocess = load_open_clip_model(config.get("clip_model", "ViT-B/32"), device)
     train_cache = cache_or_extract(config, "train", config["train_csv"], preprocess, clip_model, device)
     val_cache = cache_or_extract(config, "val", config["val_csv"], preprocess, clip_model, device)
@@ -132,10 +132,20 @@ def train_clip_mlp(config, device):
     train_loader = DataLoader(train_ds, batch_size=config.get("batch_size", 32), shuffle=True)
     val_loader = DataLoader(val_ds, batch_size=config.get("batch_size", 32), shuffle=False)
     feature_dim = train_cache["features"].shape[1]
-    model = ClipMlpDetector(feature_dim, config.get("mlp_hidden_dim", 512), config.get("dropout", 0.2)).to(device)
+    model = build_clip_feature_detector(
+        config.get("model_type", "clip_mlp"),
+        feature_dim,
+        config.get("mlp_hidden_dim", 512),
+        config.get("dropout", 0.2),
+    ).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=config.get("learning_rate", 1e-3))
     loss_fn = get_loss()
     return run_epoch_loop(config, model, optimizer, loss_fn, train_loader, val_loader, device, scaler=None, feature_mode=True)
+
+
+def train_clip_mlp(config, device):
+    """Backward-compatible entry point for existing callers."""
+    return train_clip_classifier(config, device)
 
 
 def run_epoch_loop(config, model, optimizer, loss_fn, train_loader, val_loader, device, scaler=None, feature_mode=False):
@@ -198,8 +208,8 @@ def main():
     seed_everything(config.get("seed", 42))
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
-    if config.get("model_type", "resnet") == "clip_mlp":
-        train_clip_mlp(config, device)
+    if config.get("model_type", "resnet") in {"clip_mlp", "clip_linear"}:
+        train_clip_classifier(config, device)
     else:
         train_resnet(config, device)
 

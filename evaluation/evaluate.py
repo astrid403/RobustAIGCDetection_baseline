@@ -16,7 +16,7 @@ from data_pipeline.fingerprints import feature_cache_metadata, feature_cache_pat
 from evaluation.error_analysis import save_error_cases
 from evaluation.metrics import binary_metrics
 from evaluation.plots import plot_confusion_matrix, plot_roc
-from models.clip_mlp_detector import ClipMlpDetector, extract_clip_features, load_feature_cache, load_open_clip_model, save_feature_cache
+from models.clip_mlp_detector import build_clip_feature_detector, extract_clip_features, load_feature_cache, load_open_clip_model, save_feature_cache
 from models.resnet_detector import build_resnet_detector
 from training.losses import get_loss
 from training.train import resnet_transforms
@@ -45,7 +45,7 @@ def predict_resnet(config, checkpoint, csv_path, device):
 
 
 @torch.no_grad()
-def predict_clip_mlp(config, checkpoint, csv_path, device):
+def predict_clip_classifier(config, checkpoint, csv_path, device):
     exp = config["experiment_name"]
     metadata = feature_cache_metadata(csv_path, config)
     cache_path = feature_cache_path(exp, "test", metadata)
@@ -61,7 +61,12 @@ def predict_clip_mlp(config, checkpoint, csv_path, device):
         if config.get("cache_clip_features", True):
             save_feature_cache(cache_path, features, labels, paths, metadata)
     feature_dim = cache["features"].shape[1]
-    model = ClipMlpDetector(feature_dim, config.get("mlp_hidden_dim", 512), config.get("dropout", 0.2)).to(device)
+    model = build_clip_feature_detector(
+        config.get("model_type", "clip_mlp"),
+        feature_dim,
+        config.get("mlp_hidden_dim", 512),
+        config.get("dropout", 0.2),
+    ).to(device)
     state = torch.load(checkpoint, map_location=device)
     model.load_state_dict(state["model_state"])
     model.eval()
@@ -75,8 +80,14 @@ def predict_clip_mlp(config, checkpoint, csv_path, device):
     return labels, probs, cache["paths"]
 
 
+def predict_clip_mlp(config, checkpoint, csv_path, device):
+    """Backward-compatible entry point for existing callers."""
+    return predict_clip_classifier(config, checkpoint, csv_path, device)
+
+
 def save_outputs(config, csv_path, labels, probs, paths):
     exp = config["experiment_name"]
+    threshold = config.get("threshold", 0.5)
     split_df = pd.read_csv(csv_path)
     join_column = "sample_id" if "sample_id" in split_df.columns else "path"
     if split_df[join_column].duplicated().any():
@@ -84,7 +95,7 @@ def save_outputs(config, csv_path, labels, probs, paths):
     meta = split_df.set_index(join_column, drop=False)
     preds = []
     for path, label, prob in zip(paths, labels, probs):
-        pred = int(prob >= 0.5)
+        pred = int(prob >= threshold)
         row = meta.loc[path] if path in meta.index else {}
         preds.append(
             {
@@ -101,7 +112,7 @@ def save_outputs(config, csv_path, labels, probs, paths):
             }
         )
     pred_df = pd.DataFrame(preds)
-    metrics = binary_metrics(labels, probs)
+    metrics = binary_metrics(labels, probs, threshold=threshold)
     Path("outputs/metrics").mkdir(parents=True, exist_ok=True)
     Path("outputs/predictions").mkdir(parents=True, exist_ok=True)
     pred_df.to_csv(Path("outputs/predictions") / f"{exp}_predictions.csv", index=False)
@@ -115,9 +126,16 @@ def save_outputs(config, csv_path, labels, probs, paths):
         "test_generators": ",".join(sorted(pred_df["generator"].dropna().unique())) if not pred_df.empty else "",
         "num_real": int((pred_df["label"] == 0).sum()),
         "num_fake": int((pred_df["label"] == 1).sum()),
+        "threshold": threshold,
         "accuracy": metrics["accuracy"],
         "balanced_accuracy": metrics["balanced_accuracy"],
         "precision": metrics["precision"],
+        "fake_recall": metrics["fake_recall"],
+        "real_recall": metrics["real_recall"],
+        "binary_f1": metrics["binary_f1"],
+        "macro_f1": metrics["macro_f1"],
+        "auprc": metrics["auprc"],
+        "confusion_matrix": metrics["confusion_matrix"].tolist(),
         "recall": metrics["recall"],
         "f1": metrics["f1"],
         "auroc": metrics["auroc"],
@@ -128,16 +146,23 @@ def save_outputs(config, csv_path, labels, probs, paths):
         real = pred_df[pred_df["label_b"] == 0]
         for label_b in sorted(int(value) for value in pred_df["label_b"].dropna().unique() if int(value) != 0):
             subset = pd.concat([real, pred_df[pred_df["label_b"] == label_b]], ignore_index=True)
-            current = binary_metrics(subset["label"], subset["fake_prob"])
+            current = binary_metrics(subset["label"], subset["fake_prob"], threshold=threshold)
             group_rows.append({
                 "experiment_name": exp,
                 "label_b": label_b,
                 "generator": subset[subset["label_b"] == label_b]["generator"].iloc[0],
                 "num_real": int((subset["label"] == 0).sum()),
                 "num_fake": int((subset["label"] == 1).sum()),
+                "threshold": threshold,
                 "accuracy": current["accuracy"],
                 "balanced_accuracy": current["balanced_accuracy"],
                 "precision": current["precision"],
+                "fake_recall": current["fake_recall"],
+                "real_recall": current["real_recall"],
+                "binary_f1": current["binary_f1"],
+                "macro_f1": current["macro_f1"],
+                "auprc": current["auprc"],
+                "confusion_matrix": current["confusion_matrix"].tolist(),
                 "recall": current["recall"],
                 "f1": current["f1"],
                 "auroc": current["auroc"],
@@ -153,9 +178,16 @@ def save_outputs(config, csv_path, labels, probs, paths):
         "split_type": config.get("split_type", "external evaluation"),
         "train_generators": ",".join(config.get("train_generators", [])),
         "test_generators": ",".join(sorted(pred_df["generator"].dropna().unique())) if not pred_df.empty else "",
+        "threshold": threshold,
         "accuracy": metrics["accuracy"],
         "balanced_accuracy": metrics["balanced_accuracy"],
         "precision": metrics["precision"],
+        "fake_recall": metrics["fake_recall"],
+        "real_recall": metrics["real_recall"],
+        "binary_f1": metrics["binary_f1"],
+        "macro_f1": metrics["macro_f1"],
+        "auprc": metrics["auprc"],
+        "confusion_matrix": metrics["confusion_matrix"].tolist(),
         "recall": metrics["recall"],
         "f1": metrics["f1"],
         "auroc": metrics["auroc"],
@@ -186,8 +218,8 @@ def main():
     if not csv_path:
         raise ValueError("No test CSV provided. Add test_csv to config or pass --test-csv.")
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    if config.get("model_type") == "clip_mlp":
-        labels, probs, paths = predict_clip_mlp(config, args.checkpoint, csv_path, device)
+    if config.get("model_type") in {"clip_mlp", "clip_linear"}:
+        labels, probs, paths = predict_clip_classifier(config, args.checkpoint, csv_path, device)
     else:
         labels, probs, paths = predict_resnet(config, args.checkpoint, csv_path, device)
     save_outputs(config, csv_path, labels, probs, paths)

@@ -18,6 +18,25 @@ class ClipMlpDetector(nn.Module):
         return self.classifier(features).squeeze(1)
 
 
+class ClipLinearDetector(nn.Module):
+    """A single linear probe over frozen final CLIP image embeddings."""
+
+    def __init__(self, feature_dim, num_outputs=1):
+        super().__init__()
+        self.classifier = nn.Linear(feature_dim, num_outputs)
+
+    def forward(self, features):
+        return self.classifier(features).squeeze(1)
+
+
+def build_clip_feature_detector(model_type, feature_dim, hidden_dim=512, dropout=0.2):
+    if model_type == "clip_linear":
+        return ClipLinearDetector(feature_dim)
+    if model_type == "clip_mlp":
+        return ClipMlpDetector(feature_dim, hidden_dim, dropout)
+    raise ValueError(f"Unsupported CLIP feature detector: {model_type}")
+
+
 def load_open_clip_model(clip_model="ViT-B/32", device="cpu"):
     try:
         import open_clip
