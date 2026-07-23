@@ -1,4 +1,5 @@
 import unittest
+from pathlib import Path
 
 import pandas as pd
 
@@ -23,6 +24,10 @@ class Part09AnalysisTest(unittest.TestCase):
     def test_transform_column_requires_explicit_indexing(self):
         frame = pd.DataFrame({"transform": ["clean", "jpeg"]})
         self.assertEqual(frame[frame["transform"] == "clean"].shape[0], 1)
+
+    def test_analysis_script_uses_python_boolean_literal(self):
+        source = Path("analysis/part09_analysis.py").read_text()
+        self.assertIn('"image_copies_committed": False', source)
 
 
 if __name__ == "__main__":

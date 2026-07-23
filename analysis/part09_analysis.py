@@ -222,7 +222,7 @@ def main():
             "transforms": {"jpeg_quality": 70, "resize_scale": 0.5, "blur_radius": 1.0},
         },
         "outputs": {name: {"path": str(path), "sha256": sha256(path)} for name, path in files.items()},
-        "image_copies_committed": false,
+        "image_copies_committed": False,
     }
     (output / "part09_analysis_registry.json").write_text(
         json.dumps(registry, indent=2) + "\n"
