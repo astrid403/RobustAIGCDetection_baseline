@@ -1,0 +1,26 @@
+experiment_name: pilot_clip_penultimate_genimage_unseen_seed42_v2
+model_type: clip_mlp
+clip_feature_mode: penultimate
+clip_model: ViT-B-32
+pretrained: openai
+dataset: GenImage
+train_dataset: GenImage
+train_csv: outputs/splits/genimage_splitB_available_train.csv
+val_csv: outputs/splits/genimage_splitB_available_val.csv
+test_csv: outputs/splits/genimage_splitB_available_test_unseen.csv
+train_generators:
+  - Stable Diffusion V1.5
+  - ADM
+  - BigGAN
+split_type: unseen-generator pilot
+image_size: 224
+batch_size: 32
+epochs: 10
+learning_rate: 0.001
+mlp_hidden_dim: 512
+dropout: 0.2
+threshold: 0.5
+cache_clip_features: true
+mixed_precision: false
+seed: 42
+num_workers: 0
