@@ -1,0 +1,80 @@
+{
+  "part": "Part 09",
+  "status": "complete",
+  "threshold": 0.5,
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "bootstrap": {
+    "repeats": 1000,
+    "seed": 20260723,
+    "method": "paired hierarchical bootstrap over seeds and sample_ids"
+  },
+  "robustness": {
+    "scope": "GenImage unseen",
+    "transforms": {
+      "jpeg_quality": 70,
+      "resize_scale": 0.5,
+      "blur_radius": 1.0
+    }
+  },
+  "outputs": {
+    "mean_sd": {
+      "path": "outputs/metrics/part09_mean_sd.csv",
+      "sha256": "e9f4fee0c75b2245d4f6c513d4501126339beaa92fe52f3629333cf6e641fa5f"
+    },
+    "delta": {
+      "path": "outputs/metrics/part09_a1_minus_b2.csv",
+      "sha256": "654494011b7d928e2dc319de5aae05a9801959a7a430a422a0b85697f6528a0c"
+    },
+    "bootstrap": {
+      "path": "outputs/metrics/part09_paired_bootstrap_ci.csv",
+      "sha256": "a6a39074af2445fd9103db4b27afecd1d5eb56c432a0c1790945dd20f2d0712c"
+    },
+    "robustness": {
+      "path": "outputs/metrics/part09_robustness_summary.csv",
+      "sha256": "66b1acb87f05bf79c3eea7942092a37c6dd9cc13cefce44c52ad0d18badc7e85"
+    },
+    "robustness_raw": {
+      "path": "outputs/metrics/part09_robustness_raw.csv",
+      "sha256": "748113b21d52623e85a367c77bbb3294881a636d6eea74a4de51fa44b1ffc930"
+    },
+    "efficiency": {
+      "path": "outputs/metrics/part09_efficiency.csv",
+      "sha256": "f3cd4608d1caa37b8524f1e15acc837405db5ea38f4bff2852865057d750b6ac"
+    },
+    "per_generator_delta": {
+      "path": "outputs/metrics/part09_per_generator_delta.csv",
+      "sha256": "7e68db0ee4a44238be1b0e1c8a6f03b7ec5e59ca87d2a8d75c97190b00ccb93f"
+    },
+    "error_counts": {
+      "path": "outputs/metrics/part09_error_counts.csv",
+      "sha256": "01500b19fc7b4807b22fe2f2a6ca7a9dea7c5df0f43d441e4c9fe23b8b26386c"
+    },
+    "error_manifest": {
+      "path": "outputs/metrics/part09_error_case_manifest.csv",
+      "sha256": "382a4c0dcb3dcbb6879a3a38b4adcc473dc402f71837fc876041689f5836988f"
+    },
+    "error_figure": {
+      "path": "outputs/figures/part09_error_comparison.png",
+      "sha256": "a98d3745188a38c426a1e64d4eaa9d153e265c0ca4473eb55d1b42f2202e3fc9"
+    }
+  },
+  "failures_and_repairs": [
+    {
+      "stage": "robustness aggregation",
+      "cause": "pandas attribute access resolved transform as a method",
+      "repair": "explicit transform column indexing",
+      "scientific_change": false
+    },
+    {
+      "stage": "analysis registry serialization",
+      "cause": "Python boolean literal typo",
+      "repair": "false changed to False after explicit user approval",
+      "scientific_change": false
+    }
+  ],
+  "image_copies_committed": false
+}

@@ -1,0 +1,10 @@
+scope,metric,a1_minus_b2_mean,ci95_low,ci95_high,supported_positive,supported_negative,bootstrap_repeats,bootstrap_seed,method
+genimage_unseen,auroc,0.0041725802387529145,0.002492950936044432,0.006033121803415973,True,False,1000,20260723,paired hierarchical bootstrap over seeds and sample_ids
+genimage_unseen,auprc,0.005656260700522794,0.0029618306323345336,0.008905757093080974,True,False,1000,20260723,paired hierarchical bootstrap over seeds and sample_ids
+genimage_unseen,balanced_accuracy,0.003769000235676647,-0.0023619541524306543,0.009813252178869074,False,False,1000,20260723,paired hierarchical bootstrap over seeds and sample_ids
+defactify_full,auroc,-0.013075050090103091,-0.01648659269283925,-0.009540956905771402,False,True,1000,20260723,paired hierarchical bootstrap over seeds and sample_ids
+defactify_full,auprc,-0.0028279284719246807,-0.004176178929848813,-0.001467486737360008,False,True,1000,20260723,paired hierarchical bootstrap over seeds and sample_ids
+defactify_full,balanced_accuracy,-0.0012409412341163595,-0.006899500366776233,0.004848246638078797,False,False,1000,20260723,paired hierarchical bootstrap over seeds and sample_ids
+defactify_balanced,auroc,-0.013726785461331851,-0.017987276039871467,-0.009503763598969376,False,True,1000,20260723,paired hierarchical bootstrap over seeds and sample_ids
+defactify_balanced,auprc,-0.008887406477931011,-0.014367316235711825,-0.0028238333112252417,False,True,1000,20260723,paired hierarchical bootstrap over seeds and sample_ids
+defactify_balanced,balanced_accuracy,-0.00023893917990604543,-0.0061377693283657855,0.00635806818104015,False,False,1000,20260723,paired hierarchical bootstrap over seeds and sample_ids
