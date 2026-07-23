@@ -3,8 +3,8 @@
 - Research branch: `research/cross-dataset-robustness-v3`
 - Frozen base branch: `feature/defactify-external-eval`
 - Frozen base commit: `cedc2a18d956948acfed87d575d41d4b93689d1d`
-- Current task: `Task 05`
-- Last completed task: `Task 04`
+- Current task: `Awaiting explicit Task 06 approval`
+- Last completed task: `Task 05`
 - Protocol v3 frozen: `yes`
 - S1 specification frozen: `yes`
 - Model v3 frozen: `no`
@@ -39,6 +39,28 @@ sorted-path-list SHA256 was:
 `1bae20b07e6476a16f4c0cd74ea087edf54cc8970365101bf8d6d94de3ccb03e`
 
 ## Task history
+
+### Task 05 — Implement deterministic semantic-breaking and paired degradations
+
+- Status: completed.
+- Implementation: `data_pipeline/research_transforms.py`.
+- Tests: `tests/test_research_transforms.py`.
+- Semantic breaking: NPR-only 4x4 patch shuffle, driven solely by global seed,
+  epoch, sample ID, and transform purpose.
+- Paired views: clean/degraded views retain the same label, sample ID, flip,
+  and patch permutation.
+- Degradations: fixed JPEG quality 70, resize scale 0.5, and Gaussian blur
+  radius 1.0.
+- Evaluation: clean path is non-random by default.
+- RNG/provenance: local generators avoid global Torch RNG drift, and the full
+  transform contract is exposed through provenance.
+- Tests: 74 unittest tests passed; one CUDA consistency test was skipped
+  because CUDA is unavailable to the sandbox.
+- Full detector implemented: no.
+- Training/inference executed: no.
+- GenImage unseen accessed: no.
+- Defactify accessed: no.
+- Old dataset APIs changed: no.
 
 ### Task 04 — Implement and verify the NPR input representation
 
@@ -119,6 +141,7 @@ sorted-path-list SHA256 was:
 
 ## Next boundary
 
-Task 05 may implement only deterministic semantic-breaking and paired
-degradation transforms with tests. It must not implement the full detector or
-run training.
+Task 05 is complete. Task 06 is not authorized by the current request and must
+not start without explicit user approval. Task 06 is the first task allowed to
+assemble the NPR expert and training path and run only its prescribed tiny
+smoke; it still may not access GenImage unseen or Defactify.
