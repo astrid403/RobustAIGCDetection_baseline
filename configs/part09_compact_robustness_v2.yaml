@@ -1,0 +1,25 @@
+experiment_name: final_b2_a1_genimage_unseen_robustness_v2
+formal_stage: final
+dataset: GenImage
+test_csv: outputs/splits/genimage_splitB_available_test_unseen.csv
+image_size: 224
+batch_size: 32
+num_workers: 0
+threshold: 0.5
+transforms: [jpeg, resize, blur]
+jpeg_quality: 70
+resize_scale: 0.5
+blur_radius: 1.0
+models:
+  B2:
+    feature_mode: final
+    checkpoints:
+      42: outputs/checkpoints/final_clip_mlp_genimage_validation_seed42_v2/best_model.pt
+      43: outputs/checkpoints/final_clip_mlp_genimage_validation_seed43_v2/best_model.pt
+      44: outputs/checkpoints/final_clip_mlp_genimage_validation_seed44_v2/best_model.pt
+  A1:
+    feature_mode: penultimate
+    checkpoints:
+      42: outputs/checkpoints/final_clip_penultimate_genimage_validation_seed42_v2/best_model.pt
+      43: outputs/checkpoints/final_clip_penultimate_genimage_validation_seed43_v2/best_model.pt
+      44: outputs/checkpoints/final_clip_penultimate_genimage_validation_seed44_v2/best_model.pt
