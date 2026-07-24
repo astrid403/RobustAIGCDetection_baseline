@@ -5,6 +5,10 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
+S2_MULTIBLOCK_IDS = (3, 6, 9, 12)
+S2_MULTIBLOCK_WIDTH = 768
+
+
 class ClipMlpDetector(nn.Module):
     def __init__(self, feature_dim, hidden_dim=512, dropout=0.2, num_outputs=1):
         super().__init__()
@@ -168,6 +172,72 @@ def _penultimate_visual_embedding(visual, images):
     if visual.proj is not None:
         pooled = pooled @ visual.proj
     return pooled
+
+
+def _validate_s2_multiblock_visual(visual, block_ids):
+    block_ids = tuple(block_ids)
+    if block_ids != S2_MULTIBLOCK_IDS:
+        raise ValueError(
+            "S2 multi-block extraction requires frozen ordered block IDs "
+            f"{S2_MULTIBLOCK_IDS}, got {block_ids}."
+        )
+    required = ("_embeds", "ln_post", "transformer")
+    if not all(hasattr(visual, name) for name in required):
+        raise TypeError(
+            "S2 multi-block mode requires an open_clip VisionTransformer "
+            "with _embeds, transformer, and ln_post."
+        )
+    transformer = visual.transformer
+    if not hasattr(transformer, "resblocks") or not hasattr(
+        transformer, "batch_first"
+    ):
+        raise TypeError("S2 multi-block mode requires open_clip residual blocks.")
+    if len(transformer.resblocks) != S2_MULTIBLOCK_IDS[-1]:
+        raise ValueError(
+            "S2 ViT-B/32 contract requires exactly 12 transformer blocks, "
+            f"got {len(transformer.resblocks)}."
+        )
+    return block_ids
+
+
+@torch.no_grad()
+def encode_clip_multiblock_cls(
+    clip_model,
+    images,
+    block_ids=S2_MULTIBLOCK_IDS,
+):
+    """Extract frozen S2 CLS tokens in one ordered transformer traversal."""
+    visual = getattr(clip_model, "visual", None)
+    if visual is None:
+        raise TypeError("S2 multi-block extraction requires clip_model.visual.")
+    block_ids = _validate_s2_multiblock_visual(visual, block_ids)
+    transformer = visual.transformer
+    tokens = visual._embeds(images)
+    if not transformer.batch_first:
+        tokens = tokens.transpose(0, 1).contiguous()
+
+    captured = []
+    requested = set(block_ids)
+    for block_id, block in enumerate(transformer.resblocks, start=1):
+        tokens = block(tokens, attn_mask=None)
+        if block_id in requested:
+            cls = tokens[:, 0] if transformer.batch_first else tokens[0]
+            captured.append(visual.ln_post(cls))
+
+    if len(captured) != len(block_ids):
+        raise RuntimeError(
+            f"Expected {len(block_ids)} S2 block outputs, captured {len(captured)}."
+        )
+    features = torch.stack(captured, dim=1)
+    expected_shape = (images.shape[0], len(block_ids), S2_MULTIBLOCK_WIDTH)
+    if tuple(features.shape) != expected_shape:
+        raise ValueError(
+            f"Expected S2 multi-block CLS shape {expected_shape}, "
+            f"got {tuple(features.shape)}."
+        )
+    if not torch.isfinite(features).all():
+        raise ValueError("S2 multi-block CLIP extraction produced non-finite values.")
+    return features
 
 
 @torch.no_grad()

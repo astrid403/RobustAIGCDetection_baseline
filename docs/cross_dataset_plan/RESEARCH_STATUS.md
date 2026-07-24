@@ -3,15 +3,15 @@
 - Research branch: `research/cross-dataset-robustness-v3`
 - Frozen base branch: `feature/defactify-external-eval`
 - Frozen base commit: `cedc2a18d956948acfed87d575d41d4b93689d1d`
-- Current task: `Awaiting explicit approval for F02`
-- Last completed task: `Task F01`
+- Current task: `Awaiting explicit approval for F03`
+- Last completed task: `Task F02`
 - Protocol v3 frozen: `yes`
 - S1 specification frozen: `yes`
 - Model v3 frozen: `no`
 - Research numbers frozen: `no`
 - GenImage unseen accessed by research v3: `no`
 - Defactify accessed by research v3: `no`
-- Blocking issues: `none; F02 requires explicit approval`
+- Blocking issues: `none; F03 requires explicit approval`
 
 ## Frozen Protocol v2 boundary
 
@@ -39,6 +39,39 @@ sorted-path-list SHA256 was:
 `1bae20b07e6476a16f4c0cd74ea087edf54cc8970365101bf8d6d94de3ccb03e`
 
 ## Task history
+
+### Task F02 — Multi-block CLIP feature contract
+
+- Status: completed; stopped at the F03 approval gate.
+- Extraction: exact ordered blocks `[3,6,9,12]`, one-based completed-block
+  indexing, one `_embeds` call and one traversal through all 12 residual
+  blocks. Each captured CLS receives the frozen visual `ln_post`; visual
+  projection and raw-feature L2 normalization are not applied.
+- Output: strict `[batch,4,768]` in block order 3, 6, 9, 12; finite,
+  no-gradient, deterministic features. Batch-first and sequence-first layouts
+  are equivalent.
+- Cache: isolated `research_clip_multiblock_cache_v3` signature covers
+  encoder, pretrained tag, open_clip version, ordered block IDs/indexing,
+  extraction version, preprocessing fingerprint, manifest SHA256, LOGO fold,
+  split role, and `[4,768]` feature shape.
+- Hard failures: incorrect/reordered blocks, wrong ViT depth/width, missing
+  visual API, non-finite or wrong-shaped features, incomplete cache, and any
+  required metadata mismatch.
+- Synthetic verification: single-traversal output was tensor-exact with four
+  independent block-reference traversals and repeated extraction.
+- CUDA verification: the first tiny CPU/GPU check exceeded `atol=1e-6` by
+  only `1.78e-7` (maximum difference `1.1780401791838813e-6`). The
+  cross-device test tolerance was fixed to `rtol=1e-6, atol=2e-6`; its single
+  rerun passed. Same-device determinism remains exact.
+- Real feature smoke: cached OpenAI ViT-B/32 on one deterministic synthetic
+  CUDA tensor produced finite `[1,4,768]` features with exact repeatability
+  and no gradient.
+- Contract document:
+  `docs/cross_dataset_plan/MULTIBLOCK_CLIP_FEATURE_CONTRACT.md`.
+- RINE-lite head/SupCon implemented: no.
+- S2 training executed: no.
+- GenImage unseen accessed: no.
+- Defactify accessed: no.
 
 ### Task F01 — S1 failure audit and S2 preregistration
 
@@ -287,7 +320,7 @@ sorted-path-list SHA256 was:
 
 ## Next boundary
 
-Task 08 preflight correctness repair is complete, but none of its six pilot
-runs has started. A new explicit user approval is required before executing
-the seed-42 three-fold B2-v3 then NPR-only matrix. The pilots still may not
-access GenImage unseen or Defactify.
+Task F02 is complete. A new explicit user approval is required before Task
+F03 may implement the frozen RINE-lite projection, TIE, classifier, and
+SupCon objective or run its tiny smoke. GenImage unseen and Defactify remain
+forbidden.

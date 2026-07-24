@@ -1367,6 +1367,7 @@ Task 12 开始前必须再次向用户展示：
 
 ### Task F02 — 多 block CLIP feature contract
 
+- 状态：`awaiting_approval`；实现与验证完成，停在 F03 审批 Gate；
 - 实现一次 forward 抽取多 block CLS；
 - cache signature 包含 block IDs、open_clip 版本、preprocess、split hash；
 - 测试 block 顺序、shape、determinism、single-forward 等价性；

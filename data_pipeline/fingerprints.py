@@ -4,11 +4,16 @@ import json
 from pathlib import Path
 
 import pandas as pd
+import torch
 
 
 FEATURE_EXTRACTION_VERSION = 2
 RESEARCH_CLIP_CACHE_SCHEMA = "research_clip_cache_v3"
 RESEARCH_CLIP_EXTRACTION_VERSION = 3
+RESEARCH_MULTIBLOCK_CACHE_SCHEMA = "research_clip_multiblock_cache_v3"
+RESEARCH_MULTIBLOCK_EXTRACTION_VERSION = "clip_multiblock_cls_v1"
+RESEARCH_MULTIBLOCK_IDS = (3, 6, 9, 12)
+RESEARCH_MULTIBLOCK_SHAPE = (4, 768)
 OPENAI_CLIP_MEAN = (0.48145466, 0.4578275, 0.40821073)
 OPENAI_CLIP_STD = (0.26862954, 0.26130258, 0.27577711)
 
@@ -134,3 +139,113 @@ def validate_research_clip_cache(cache, expected):
         raise ValueError("CLIP cache schema is not research_clip_cache_v3")
     if actual["cache_signature"] != expected["cache_signature"]:
         raise ValueError("Research CLIP cache signature mismatch")
+
+
+def research_multiblock_clip_cache_metadata(
+    csv_path,
+    config,
+    fold,
+    split_role,
+):
+    """Build the closed S2 multi-block cache signature."""
+    if not fold or not split_role:
+        raise ValueError("S2 multi-block cache metadata requires fold and split_role")
+    block_ids = tuple(config.get("clip_block_ids", RESEARCH_MULTIBLOCK_IDS))
+    if block_ids != RESEARCH_MULTIBLOCK_IDS:
+        raise ValueError(
+            "S2 cache metadata requires frozen ordered block IDs "
+            f"{RESEARCH_MULTIBLOCK_IDS}, got {block_ids}"
+        )
+    preprocess_signature = {
+        "implementation": "open_clip:create_model_and_transforms",
+        "image_size": config.get("image_size", 224),
+        "interpolation": config.get("clip_interpolation", "bicubic"),
+        "mean": config.get("clip_mean", OPENAI_CLIP_MEAN),
+        "std": config.get("clip_std", OPENAI_CLIP_STD),
+    }
+    metadata = {
+        "schema": RESEARCH_MULTIBLOCK_CACHE_SCHEMA,
+        "encoder": config.get("clip_model", "ViT-B-32"),
+        "pretrained": config.get("pretrained", "openai"),
+        "open_clip_version": _open_clip_version(),
+        "block_ids": list(block_ids),
+        "block_indexing": "one_based_completed_transformer_blocks",
+        "extraction_version": RESEARCH_MULTIBLOCK_EXTRACTION_VERSION,
+        "preprocess_fingerprint": hashlib.sha256(
+            json.dumps(preprocess_signature, sort_keys=True).encode("utf-8")
+        ).hexdigest(),
+        "manifest_path": str(Path(csv_path)),
+        "manifest_sha256": manifest_fingerprint(csv_path),
+        "fold": str(fold),
+        "split_role": str(split_role),
+        "feature_shape": list(RESEARCH_MULTIBLOCK_SHAPE),
+    }
+    metadata["cache_signature"] = hashlib.sha256(
+        json.dumps(metadata, sort_keys=True).encode("utf-8")
+    ).hexdigest()
+    return metadata
+
+
+def research_multiblock_clip_cache_path(metadata):
+    if metadata.get("schema") != RESEARCH_MULTIBLOCK_CACHE_SCHEMA:
+        raise ValueError("Expected research_clip_multiblock_cache_v3 metadata")
+    return (
+        Path("outputs/research_v3/features")
+        / "multiblock"
+        / metadata["fold"]
+        / f"{metadata['split_role']}_{metadata['cache_signature'][:16]}_multiblock_cls.pt"
+    )
+
+
+def validate_research_multiblock_clip_cache(cache, expected):
+    actual = cache.get("metadata")
+    required = {
+        "schema",
+        "encoder",
+        "pretrained",
+        "open_clip_version",
+        "block_ids",
+        "block_indexing",
+        "extraction_version",
+        "preprocess_fingerprint",
+        "manifest_sha256",
+        "fold",
+        "split_role",
+        "feature_shape",
+        "cache_signature",
+    }
+    if not actual or not required.issubset(actual):
+        raise ValueError(
+            "CLIP cache lacks the research_clip_multiblock_cache_v3 contract"
+        )
+    if actual["schema"] != RESEARCH_MULTIBLOCK_CACHE_SCHEMA:
+        raise ValueError("CLIP cache schema is not research_clip_multiblock_cache_v3")
+    mismatched = sorted(
+        key for key in required if actual.get(key) != expected.get(key)
+    )
+    if mismatched:
+        raise ValueError(
+            "S2 multi-block CLIP cache metadata mismatch: "
+            + ", ".join(mismatched)
+        )
+
+    features = cache.get("features")
+    labels = cache.get("labels")
+    paths = cache.get("paths")
+    if features is None or labels is None or paths is None:
+        raise ValueError("S2 multi-block CLIP cache is incomplete")
+    feature_tensor = torch.as_tensor(features)
+    label_tensor = torch.as_tensor(labels)
+    expected_feature_shape = (
+        len(paths),
+        *RESEARCH_MULTIBLOCK_SHAPE,
+    )
+    if tuple(feature_tensor.shape) != expected_feature_shape:
+        raise ValueError(
+            f"S2 multi-block cache feature shape mismatch: expected "
+            f"{expected_feature_shape}, got {tuple(feature_tensor.shape)}"
+        )
+    if label_tensor.ndim != 1 or len(label_tensor) != len(paths):
+        raise ValueError("S2 multi-block cache label/sample count mismatch")
+    if not torch.isfinite(feature_tensor).all():
+        raise ValueError("S2 multi-block cache contains non-finite features")
