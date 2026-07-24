@@ -1354,6 +1354,12 @@ Task 12 开始前必须再次向用户展示：
 
 备用链只有在 S1 Task 08 或 Task 09 No-Go、且用户明确批准后才启用。
 
+2026-07-24 起，本研究分支按
+`docs/cross_dataset_plan/RESEARCH_EXECUTION_RULES.md` 的持续授权执行。同一 S2
+路线内的工程修复、合法新 ID 重跑、提交和 Go 后阶段切换无需逐 Task 再审批；
+Defactify 首次访问、科学合同变更、S2 No-Go 后换路线及破坏性 Git/产物操作仍
+必须停止。
+
 ### Task F01 — S1 失败审计与 S2 预注册
 
 - 状态：`awaiting_approval`；合同见
@@ -1383,12 +1389,14 @@ Task 12 开始前必须再次向用户展示：
 
 ### Task F04 — S2 Seed-42 LOGO Gate
 
+- 状态：`blocked`；首次运行违反冻结 mixed-precision contract，结果无效；
 - B2-v3 与 S2 三折 seed 42；
 - 使用与 S1 相同开发 Gate；
 - No-Go 则停止；Go 需用户批准。
 
 ### Task F05 — S2 三 seed、冻结与评估
 
+- 状态：`pending`；F04 修复并通过前禁止开始；
 - 复用 Task 10–13 的纪律；
 - 每个阶段仍需单独请求；
 - 不因为 S1 的外部结果选择 S2。

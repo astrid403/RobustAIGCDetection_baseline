@@ -90,6 +90,14 @@ training:
   expected_optimizer_steps_per_fold: 630
   early_stopping: false
   mixed_precision_cuda: true
+  amp:
+    autocast_dtype: float16
+    autocast_scope: model_forward_and_full_objective
+    grad_scaler: true
+    validation_autocast: true
+    inference_autocast: true
+    checkpoint_scaler_state: true
+    cpu_enabled: false
   num_workers: 0
   sampler: deterministic_generator_label_balanced_with_replacement
   samples_per_generator_label_group: 500

@@ -1,0 +1,50 @@
+{
+  "schema": "f04_s2_seed42_manifest_v3",
+  "scientifically_valid": false,
+  "invalid_reason": "CUDA mixed precision was frozen true but head training ran FP32",
+  "branch": "research/cross-dataset-robustness-v3",
+  "task_start_commit": "66a41ddd95628af1e1d520a10f0035ca72e40ff3",
+  "execution_commit": "159c2ff344085f7a4d4acbe20a7f91a532582906",
+  "seed": 42,
+  "folds": ["holdout_adm", "holdout_biggan", "holdout_stable_diffusion_v15"],
+  "summary": {
+    "path": "outputs/research_v3/f04_s2_seed42_v3/f04_summary.json",
+    "sha256": "4740b52c54a97496f027a1257ae824d19edf03f580767f9858a17e6697ebe240"
+  },
+  "run_registries": {
+    "holdout_adm": "616a525ad830a77b732f20e7ec33b395ff90b69cb1c6cc33231fdcb76b2ae242",
+    "holdout_biggan": "49956975777c0042f6dfdcf94c698bc483eb9189d6b3add5b1763761e65ca8b3",
+    "holdout_stable_diffusion_v15": "0c5d5f68e256cc3b998da998ee8c2804d0ba9da55673ce1c5c64b16bb19178c1"
+  },
+  "best_checkpoints": {
+    "holdout_adm": {
+      "epoch": 1,
+      "auroc": 0.9927250000000001,
+      "sha256": "e899fa924454313572af39ef0e0121a9e9938948e11be9b32576eae818bc9734"
+    },
+    "holdout_biggan": {
+      "epoch": 6,
+      "auroc": 0.99985,
+      "sha256": "f130bce8427a4f88bcd86f551d7ea22f051622fdc6721c18f596edef1e258f15"
+    },
+    "holdout_stable_diffusion_v15": {
+      "epoch": 1,
+      "auroc": 0.9720000000000001,
+      "sha256": "b958bd8a945a7dae322299f5563f296c6b16dc997b2a883af327723afe8a68db"
+    }
+  },
+  "gate": {
+    "decision": "not_evaluated_invalid_execution",
+    "clean_mean_auroc_delta": 0.022141666666666726,
+    "clean_worst_fold_auroc_delta": 0.03807500000000008,
+    "improved_folds": 3,
+    "degraded_mean_auroc_delta": 0.05179722222222205,
+    "clean_real_recall": 0.99,
+    "clean_fake_recall": 0.6633333333333333,
+    "failed_criterion": "minimum_clean_fake_recall"
+  },
+  "job_retries": 0,
+  "genimage_unseen_accessed": false,
+  "defactify_accessed": false,
+  "f05_status": "blocked"
+}

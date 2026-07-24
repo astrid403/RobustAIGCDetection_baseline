@@ -134,6 +134,7 @@ def predict_rine_lite(
     degradation,
     device,
     batch_size=32,
+    amp_enabled=False,
 ):
     dataset = DegradedImageDataset(csv_path, degradation, transform=preprocess)
     loader = DataLoader(dataset, batch_size=batch_size, shuffle=False, num_workers=0)
@@ -141,8 +142,14 @@ def predict_rine_lite(
     head.eval()
     rows, importance_rows = [], []
     for images, labels, sample_ids in loader:
-        features = encode_clip_multiblock_cls(encoder, images.to(device))
-        output = head.forward_with_aux(features)
+        effective_amp = bool(amp_enabled and device.type == "cuda")
+        with torch.autocast(
+            device_type=device.type,
+            dtype=torch.float16 if device.type == "cuda" else torch.bfloat16,
+            enabled=effective_amp,
+        ):
+            features = encode_clip_multiblock_cls(encoder, images.to(device))
+            output = head.forward_with_aux(features)
         probabilities = torch.sigmoid(output["logits"]).cpu().tolist()
         importance = output["importance"].cpu().tolist()
         for sample_id, label, probability, weights in zip(
@@ -211,6 +218,7 @@ def write_run_registry(
     sample_order_sha256,
     cache_records=None,
     importance_records=None,
+    amp_record=None,
 ):
     registry_path = Path(registry_path)
     if registry_path.exists():
@@ -234,6 +242,7 @@ def write_run_registry(
         "sample_order_sha256": sample_order_sha256,
         "feature_caches": cache_records or {},
         "block_importance": importance_records or {},
+        "amp": amp_record or {},
         "checkpoint_selection": {
             "split": "held_out_fold_validation",
             "metric": "auroc",

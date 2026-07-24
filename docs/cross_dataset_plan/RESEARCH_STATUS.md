@@ -3,7 +3,7 @@
 - Research branch: `research/cross-dataset-robustness-v3`
 - Frozen base branch: `feature/defactify-external-eval`
 - Frozen base commit: `cedc2a18d956948acfed87d575d41d4b93689d1d`
-- Current task: `Awaiting explicit approval for F04`
+- Current task: `Task F04 mixed-precision repair authorized and in progress`
 - Last completed task: `Task F03`
 - Protocol v3 frozen: `yes`
 - S1 specification frozen: `yes`
@@ -11,7 +11,15 @@
 - Research numbers frozen: `no`
 - GenImage unseen accessed by research v3: `no`
 - Defactify accessed by research v3: `no`
-- Blocking issues: `none; F04 requires explicit approval`
+- Blocking issues: `none; invalid FP32 runs remain excluded from all decisions`
+
+## Standing research authorization
+
+On 2026-07-24 the user authorized continuous execution within the active S2
+route under `docs/cross_dataset_plan/RESEARCH_EXECUTION_RULES.md`. Ordinary
+engineering repairs and same-route task transitions no longer require
+separate approval. The mandatory stop boundaries in that document remain in
+force, especially first Defactify access and any scientific-contract change.
 
 ## Frozen Protocol v2 boundary
 
@@ -39,6 +47,30 @@ sorted-path-list SHA256 was:
 `1bae20b07e6476a16f4c0cd74ea087edf54cc8970365101bf8d6d94de3ccb03e`
 
 ## Task history
+
+### Task F04 — S2 seed-42 LOGO Gate (invalid first execution)
+
+- Status: blocked; no Gate decision is valid and F05 is forbidden.
+- Execution: three S2 folds ran serially from implementation commit
+  `159c2ff344085f7a4d4acbe20a7f91a532582906`; existing same-fold Task 08
+  B2-v3 controls were reused. All training and tee exit codes were zero and
+  no job was retried.
+- Best validation-AUROC checkpoints: ADM epoch 1 (`0.992725`), BigGAN epoch 6
+  (`0.999850`), and SD1.5 epoch 1 (`0.972000`).
+- Clean ranking: S2 fold-mean AUROC `0.988192` versus B2 `0.966050`, delta
+  `+0.022142`; worst-fold delta `+0.038075`; all three folds improved.
+- Degradations: S2-minus-B2 mean fold-AUROC across JPEG/resize/blur was
+  `+0.051797`.
+- Recall Gate: clean real recall `0.990000` passed, but fake recall
+  `0.663333` failed the mandatory `0.70` floor. Held-out SD1.5 fake recall
+  was `0.09` despite AUROC `0.972`, indicating cross-fold score bias.
+- Integrity: all configs, splits, caches, best checkpoints, predictions,
+  block-importance outputs, sample IDs/order, registries, and hashes passed.
+- Invalid-run evidence:
+  `docs/cross_dataset_plan/S2_SEED42_DECISION.md`.
+- Manifest: `artifacts/research_v3/f04_s2_seed42_manifest.json`.
+- GenImage unseen accessed: no.
+- Defactify accessed: no.
 
 ### Task F03 — RINE-lite head and SupCon smoke
 
@@ -351,6 +383,7 @@ sorted-path-list SHA256 was:
 
 ## Next boundary
 
-Task F03 is complete. A new explicit user approval is required before Task
-F04 may integrate the frozen S2 training path or run the seed-42 three-fold
-LOGO Gate. GenImage unseen and Defactify remain forbidden.
+The first F04 execution is invalid because CUDA mixed precision was frozen
+enabled but the new head epoch ran FP32. All outputs must remain preserved.
+A corrected implementation and three new run IDs require explicit approval;
+F05 must not run. GenImage unseen and Defactify remain unaccessed.

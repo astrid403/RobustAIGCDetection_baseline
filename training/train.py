@@ -123,12 +123,13 @@ def make_loader(csv_path, transform, batch_size, shuffle, workers, max_samples_p
     return DataLoader(dataset, batch_size=batch_size, shuffle=shuffle, num_workers=workers, pin_memory=torch.cuda.is_available())
 
 
-def save_checkpoint(path, model, optimizer, epoch, best_score, config):
+def save_checkpoint(path, model, optimizer, epoch, best_score, config, scaler=None):
     path.parent.mkdir(parents=True, exist_ok=True)
     torch.save(
         {
             "model_state": model.state_dict(),
             "optimizer_state": optimizer.state_dict() if optimizer else None,
+            "scaler_state": scaler.state_dict() if scaler is not None else None,
             "epoch": epoch,
             "best_score": best_score,
             "config": config,
@@ -137,11 +138,13 @@ def save_checkpoint(path, model, optimizer, epoch, best_score, config):
     )
 
 
-def load_training_checkpoint(path, model, optimizer, device):
+def load_training_checkpoint(path, model, optimizer, device, scaler=None):
     checkpoint = torch.load(path, map_location=device)
     model.load_state_dict(checkpoint["model_state"])
     if optimizer is not None and checkpoint.get("optimizer_state"):
         optimizer.load_state_dict(checkpoint["optimizer_state"])
+    if scaler is not None and checkpoint.get("scaler_state"):
+        scaler.load_state_dict(checkpoint["scaler_state"])
     return checkpoint
 
 
@@ -557,8 +560,13 @@ def _multiblock_cache_or_extract(
     return cache, path
 
 
-def _rine_lite_epoch(model, loader, objective, device, optimizer=None):
+def _rine_lite_epoch(
+    model, loader, objective, device, optimizer=None, scaler=None, amp_enabled=False
+):
     training = optimizer is not None
+    effective_amp = bool(amp_enabled and device.type == "cuda")
+    if training and effective_amp and (scaler is None or not scaler.is_enabled()):
+        raise ValueError("CUDA AMP training requires an enabled GradScaler")
     model.train(training)
     total_loss, labels_all, probabilities_all, importance_all = 0.0, [], [], []
     for features, labels in loader:
@@ -566,11 +574,21 @@ def _rine_lite_epoch(model, loader, objective, device, optimizer=None):
         labels = labels.to(device).long()
         if training:
             optimizer.zero_grad(set_to_none=True)
-        output = model.forward_with_aux(features)
-        losses = objective(output["logits"], output["embedding"], labels)
+        with torch.autocast(
+            device_type=device.type,
+            dtype=torch.float16 if device.type == "cuda" else torch.bfloat16,
+            enabled=effective_amp,
+        ):
+            output = model.forward_with_aux(features)
+            losses = objective(output["logits"], output["embedding"], labels)
         if training:
-            losses["total"].backward()
-            optimizer.step()
+            if effective_amp:
+                scaler.scale(losses["total"]).backward()
+                scaler.step(optimizer)
+                scaler.update()
+            else:
+                losses["total"].backward()
+                optimizer.step()
         total_loss += float(losses["total"].detach()) * len(labels)
         labels_all.extend(labels.cpu().tolist())
         probabilities_all.extend(torch.sigmoid(output["logits"]).detach().cpu().tolist())
@@ -580,6 +598,11 @@ def _rine_lite_epoch(model, loader, objective, device, optimizer=None):
         "loss": total_loss / len(labels_all),
         **{key: value for key, value in metrics.items() if key != "confusion_matrix"},
         "importance_mean": torch.cat(importance_all).mean(dim=0).tolist(),
+        "amp_enabled": effective_amp,
+        "amp_dtype": "float16" if effective_amp else "disabled",
+        "grad_scaler_enabled": bool(
+            training and scaler is not None and scaler.is_enabled()
+        ),
     }
 
 
@@ -596,6 +619,12 @@ def _validate_s2_pilot_config(config):
         "supcon_temperature": 0.07,
         "seed": 42,
         "num_workers": 0,
+        "mixed_precision": True,
+        "amp_dtype": "float16",
+        "amp_autocast_scope": "model_forward_and_full_objective",
+        "grad_scaler": True,
+        "validation_autocast": True,
+        "inference_autocast": True,
     }
     mismatches = {
         key: (config.get(key), value)
@@ -645,6 +674,15 @@ def train_research_rine_lite(config, device):
     )
     model = build_rine_lite_detector().to(device)
     objective = RineLiteObjective()
+    amp_enabled = bool(config["mixed_precision"] and device.type == "cuda")
+    scaler = torch.amp.GradScaler("cuda", enabled=amp_enabled)
+    print(
+        "S2 AMP: "
+        f"requested={config['mixed_precision']} effective={amp_enabled} "
+        f"dtype={config['amp_dtype']} scaler={scaler.is_enabled()} "
+        f"validation={config['validation_autocast']} "
+        f"inference={config['inference_autocast']}"
+    )
     optimizer = torch.optim.AdamW(
         model.parameters(), lr=0.001, weight_decay=0.01
     )
@@ -652,19 +690,22 @@ def train_research_rine_lite(config, device):
     for epoch in range(1, 11):
         sampler.set_epoch(epoch)
         train_result = _rine_lite_epoch(
-            model, train_loader, objective, device, optimizer
+            model, train_loader, objective, device, optimizer, scaler, amp_enabled
         )
         with torch.no_grad():
             validation = _rine_lite_epoch(
-                model, val_loader, objective, device
+                model, val_loader, objective, device, amp_enabled=amp_enabled
             )
         row = {
             "epoch": epoch,
             "train_loss": train_result["loss"],
+            "amp_enabled": int(amp_enabled),
+            "grad_scaler_enabled": int(scaler.is_enabled()),
             **{
                 f"val_{key}": value
                 for key, value in validation.items()
-                if key != "importance_mean"
+                if key not in {"importance_mean", "amp_enabled", "amp_dtype",
+                               "grad_scaler_enabled"}
             },
             **{
                 f"importance_block_{block}": value
@@ -680,13 +721,13 @@ def train_research_rine_lite(config, device):
         score = validation["auroc"]
         save_checkpoint(
             paths["checkpoints"] / "last_model.pt",
-            model, optimizer, epoch, best_score, config
+            model, optimizer, epoch, best_score, config, scaler
         )
         if score > best_score:
             best_score = score
             save_checkpoint(
                 paths["checkpoints"] / "best_model.pt",
-                model, optimizer, epoch, best_score, config
+                model, optimizer, epoch, best_score, config, scaler
             )
         print(
             f"Epoch {epoch}: train_loss={train_result['loss']:.4f} "
@@ -700,7 +741,7 @@ def train_research_rine_lite(config, device):
     for degradation in DEGRADATIONS:
         predictions[degradation], importance_frames[degradation] = predict_rine_lite(
             encoder, model, preprocess, config["val_csv"], config["fold"],
-            degradation, device, 32
+            degradation, device, 32, amp_enabled=amp_enabled
         )
     prediction_records, sample_order_hash = save_degradation_predictions(
         predictions, paths["predictions"]
@@ -735,6 +776,16 @@ def train_research_rine_lite(config, device):
         checkpoint_path=checkpoint_path, prediction_records=prediction_records,
         sample_order_sha256=sample_order_hash, cache_records=cache_records,
         importance_records=importance_records,
+        amp_record={
+            "requested": bool(config["mixed_precision"]),
+            "effective": amp_enabled,
+            "autocast_dtype": config["amp_dtype"],
+            "autocast_scope": config["amp_autocast_scope"],
+            "grad_scaler_enabled": scaler.is_enabled(),
+            "validation_autocast": bool(config["validation_autocast"]),
+            "inference_autocast": bool(config["inference_autocast"]),
+            "checkpoint_scaler_state": True,
+        },
     )
     return rows
 

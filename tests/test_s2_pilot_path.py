@@ -12,7 +12,12 @@ import yaml
 from evaluation.research_inference import predict_rine_lite
 from models.rine_lite_detector import RineLiteDetector
 from training.contrastive_losses import RineLiteObjective
-from training.train import _rine_lite_epoch, _validate_s2_pilot_config
+from training.train import (
+    _rine_lite_epoch,
+    _validate_s2_pilot_config,
+    load_training_checkpoint,
+    save_checkpoint,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -26,18 +31,23 @@ FOLDS = (
 class S2PilotPathTests(unittest.TestCase):
     def test_three_configs_match_frozen_budget(self):
         for fold in FOLDS:
-            path = ROOT / f"configs/research_v3/pilot_s2_{fold}_seed42_v3.yaml"
+            path = ROOT / (
+                f"configs/research_v3/pilot_s2_{fold}_seed42_amp_retry1_v3.yaml"
+            )
             config = yaml.safe_load(path.read_text())
             _validate_s2_pilot_config(config)
             self.assertEqual(config["fold"], fold)
             self.assertEqual(config["model_type"], "rine_lite")
             self.assertEqual(config["clip_block_ids"], [3, 6, 9, 12])
             self.assertEqual(config["output_root"], "outputs/research_v3")
+            self.assertTrue(config["mixed_precision"])
+            self.assertEqual(config["amp_dtype"], "float16")
 
     def test_config_mismatch_hard_fails(self):
         config = yaml.safe_load(
             (
-                ROOT / "configs/research_v3/pilot_s2_holdout_adm_seed42_v3.yaml"
+                ROOT / "configs/research_v3/"
+                "pilot_s2_holdout_adm_seed42_amp_retry1_v3.yaml"
             ).read_text()
         )
         for key, value in (
@@ -45,6 +55,8 @@ class S2PilotPathTests(unittest.TestCase):
             ("batch_size", 64),
             ("epochs", 9),
             ("supcon_weight", 0.2),
+            ("mixed_precision", False),
+            ("amp_dtype", "bfloat16"),
         ):
             invalid = dict(config)
             invalid[key] = value
@@ -74,6 +86,46 @@ class S2PilotPathTests(unittest.TestCase):
             self.assertTrue(torch.isfinite(torch.tensor(result["loss"])))
             self.assertEqual(len(result["importance_mean"]), 4)
             self.assertAlmostEqual(sum(result["importance_mean"]), 1.0, places=6)
+            self.assertFalse(result["amp_enabled"])
+
+    @unittest.skipUnless(torch.cuda.is_available(), "CUDA unavailable")
+    def test_cuda_amp_is_actually_enabled(self):
+        class ObservedRine(RineLiteDetector):
+            def __init__(self):
+                super().__init__()
+                self.observed_autocast = False
+
+            def forward_with_aux(self, features):
+                self.observed_autocast = torch.is_autocast_enabled("cuda")
+                return super().forward_with_aux(features)
+
+        device = torch.device("cuda")
+        model = ObservedRine().to(device)
+        loader = DataLoader(
+            TensorDataset(torch.randn(32, 4, 768), torch.tensor([0, 1] * 16)),
+            batch_size=32,
+        )
+        optimizer = torch.optim.AdamW(model.parameters(), lr=0.001)
+        scaler = torch.amp.GradScaler("cuda", enabled=True)
+        result = _rine_lite_epoch(
+            model, loader, RineLiteObjective(), device, optimizer, scaler, True
+        )
+        self.assertTrue(model.observed_autocast)
+        self.assertTrue(result["amp_enabled"])
+        self.assertTrue(result["grad_scaler_enabled"])
+
+        with tempfile.TemporaryDirectory() as directory:
+            checkpoint = Path(directory) / "amp.pt"
+            save_checkpoint(
+                checkpoint, model, optimizer, 1, 0.5, {"amp": True}, scaler
+            )
+            payload = torch.load(checkpoint, map_location=device)
+            self.assertIsNotNone(payload["scaler_state"])
+            restored = torch.amp.GradScaler("cuda", enabled=True)
+            load_training_checkpoint(
+                checkpoint, model, optimizer, device, scaler=restored
+            )
+            self.assertEqual(restored.state_dict(), scaler.state_dict())
 
     def test_prediction_schema_and_importance_order(self):
         with tempfile.TemporaryDirectory() as directory:
