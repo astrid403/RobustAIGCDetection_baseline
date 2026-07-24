@@ -617,7 +617,6 @@ def _validate_s2_pilot_config(config):
         "weight_decay": 0.01,
         "supcon_weight": 0.1,
         "supcon_temperature": 0.07,
-        "seed": 42,
         "num_workers": 0,
         "mixed_precision": True,
         "amp_dtype": "float16",
@@ -633,6 +632,8 @@ def _validate_s2_pilot_config(config):
     }
     if mismatches:
         raise ValueError(f"S2 pilot config violates frozen contract: {mismatches}")
+    if config.get("seed") not in {42, 43, 44}:
+        raise ValueError("S2 pilot config violates frozen contract: confirmation seed")
 
 
 def train_research_rine_lite(config, device):

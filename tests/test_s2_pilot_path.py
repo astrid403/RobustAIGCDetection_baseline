@@ -62,6 +62,10 @@ class S2PilotPathTests(unittest.TestCase):
             invalid[key] = value
             with self.assertRaisesRegex(ValueError, "frozen contract"):
                 _validate_s2_pilot_config(invalid)
+        invalid = dict(config)
+        invalid["seed"] = 45
+        with self.assertRaisesRegex(ValueError, "frozen contract"):
+            _validate_s2_pilot_config(invalid)
 
     def test_synthetic_cached_feature_epoch_is_finite(self):
         torch.manual_seed(42)
