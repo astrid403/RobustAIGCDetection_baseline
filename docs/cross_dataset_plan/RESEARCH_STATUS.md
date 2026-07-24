@@ -3,15 +3,15 @@
 - Research branch: `research/cross-dataset-robustness-v3`
 - Frozen base branch: `feature/defactify-external-eval`
 - Frozen base commit: `cedc2a18d956948acfed87d575d41d4b93689d1d`
-- Current task: `Task F05 one-time Defactify external evaluation`
-- Last completed task: `Task F05 pre-Defactify stages`
+- Current task: `Awaiting approval for final statistics and research number freeze`
+- Last completed task: `Task F05 one-time Defactify external evaluation`
 - Protocol v3 frozen: `yes`
 - S1 specification frozen: `yes`
 - Model v3 frozen: `yes; three-fold equal-probability ensemble per seed`
 - Research numbers frozen: `no`
 - GenImage unseen accessed by research v3: `yes; frozen read-only diagnostic complete`
-- Defactify accessed by research v3: `no`
-- Blocking issues: `none; immediate Defactify approval received`
+- Defactify accessed by research v3: `yes; frozen one-time external evaluation complete`
+- Blocking issues: `research number/conclusion freeze requires approval`
 
 ## Defactify immediate approval
 
@@ -58,6 +58,18 @@ sorted-path-list SHA256 was:
 `1bae20b07e6476a16f4c0cd74ea087edf54cc8970365101bf8d6d94de3ccb03e`
 
 ## Task history
+
+### Task F05 — Frozen Defactify external evaluation
+
+- Status: completed; no tuning or follow-up experiment authorized.
+- Matrix: B2-v3 and S2 seeds 42/43/44, each a fixed three-fold
+  equal-probability ensemble; full inference only, balanced derived by ID.
+- Mean full AUROC: B2 `0.670774`, S2 `0.719800`, delta `+0.049026`.
+- Mean balanced AUROC: B2 `0.669366`, S2 `0.717464`, delta `+0.048098`.
+- Integrity: 6 × 45,000 full rows, 6 × 15,000 balanced rows, 60 complete
+  per-generator rows; all hashes and independent recomputation passed.
+- Failures/retries: none; evaluation and tee exit codes zero.
+- Defactify accessed: yes, once under explicit approval.
 
 ### Task F05 — Frozen GenImage unseen diagnostic
 
@@ -436,6 +448,6 @@ sorted-path-list SHA256 was:
 
 ## Next boundary
 
-F05 through the frozen GenImage unseen diagnostic is complete. Stop before
-the first Defactify access and present frozen hashes, exact commands, seeds,
-full-to-balanced derivation, retry policy, and the no-tuning declaration.
+The frozen Defactify matrix is complete. No new experiment or model change is
+allowed. Final statistics and research number/conclusion freeze require
+approval.

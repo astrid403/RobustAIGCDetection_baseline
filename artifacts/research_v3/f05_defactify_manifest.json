@@ -1,0 +1,26 @@
+{
+  "schema": "f05_defactify_ensemble_manifest_v3",
+  "execution_commit": "1740abb",
+  "contract_sha256": "84015c97a5cb12fffa2c95f24b3bdbe2288a31586db854336b61ccc8f77d9407",
+  "registry": {
+    "path": "outputs/research_v3/f05_defactify_ensemble_v3/registry.json",
+    "sha256": "6bb50f662aef02428a9df83e441738589226305f82d90071501ac8fefaec388e"
+  },
+  "metrics": {
+    "path": "outputs/research_v3/f05_defactify_ensemble_v3/metrics.csv",
+    "sha256": "a84945ed9f3fcdb3a04a0ce3b213018792f5d09eb1789500dd6159f52866b2b9"
+  },
+  "per_generator": {
+    "path": "outputs/research_v3/f05_defactify_ensemble_v3/per_generator.csv",
+    "sha256": "7d34d99625508ecbcb1937ed5ce46cd2f27c3a7e3df74b12390e76a73ac27d6f"
+  },
+  "full_prediction_files": 6,
+  "balanced_prediction_files": 6,
+  "full_samples_per_file": 45000,
+  "balanced_samples_per_file": 15000,
+  "evaluation_exit_code": 0,
+  "tee_exit_code": 0,
+  "retries": 0,
+  "defactify_accessed": true,
+  "model_or_threshold_changed": false
+}

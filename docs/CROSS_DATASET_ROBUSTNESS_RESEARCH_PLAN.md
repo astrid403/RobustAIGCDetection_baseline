@@ -1397,8 +1397,8 @@ Defactify 首次访问、科学合同变更、S2 No-Go 后换路线及破坏性 
 
 ### Task F05 — S2 三 seed、冻结与评估
 
-- 状态：`completed_pre_defactify`；三 seed Gate、等权三折 ensemble 冻结及
-  GenImage unseen 只读诊断完成，停在首次 Defactify 即时审批 Gate；
+- 状态：`completed_external_eval`；三 seed Gate、ensemble 冻结、GenImage
+  unseen 诊断及一次性 Defactify full→balanced 外部评估均完成；
 - 复用 Task 10–13 的纪律；
 - 每个阶段仍需单独请求；
 - 不因为 S1 的外部结果选择 S2。
