@@ -1,0 +1,15 @@
+{
+  "schema": "f04_s2_seed42_amp_retry1_manifest_v3",
+  "scientifically_valid": true,
+  "execution_commit": "8f1f860",
+  "contract_sha256": "be3717d9c607b9d5cf74e22b51d71baef6271ebd139cb6938600a0cb29b32796",
+  "summary": {
+    "path": "outputs/research_v3/f04_s2_seed42_amp_retry1_v3/f04_summary.json",
+    "sha256": "1db558f4f788e88cfffbab600826785eff34b050ab3a876354142f74dc17ac5f"
+  },
+  "gate_decision": "go",
+  "job_retries": 0,
+  "invalid_fp32_runs_preserved": true,
+  "genimage_unseen_accessed": false,
+  "defactify_accessed": false
+}

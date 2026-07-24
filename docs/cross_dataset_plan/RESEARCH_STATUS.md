@@ -3,8 +3,8 @@
 - Research branch: `research/cross-dataset-robustness-v3`
 - Frozen base branch: `feature/defactify-external-eval`
 - Frozen base commit: `cedc2a18d956948acfed87d575d41d4b93689d1d`
-- Current task: `Task F04 mixed-precision repair authorized and in progress`
-- Last completed task: `Task F03`
+- Current task: `Task F05 pre-Defactify stages`
+- Last completed task: `Task F04`
 - Protocol v3 frozen: `yes`
 - S1 specification frozen: `yes`
 - Model v3 frozen: `no`
@@ -47,6 +47,21 @@ sorted-path-list SHA256 was:
 `1bae20b07e6476a16f4c0cd74ea087edf54cc8970365101bf8d6d94de3ccb03e`
 
 ## Task history
+
+### Task F04 — S2 seed-42 LOGO Gate (corrected CUDA AMP execution)
+
+- Status: completed with Development Gate Go.
+- Execution commit: `8f1f860`; three new
+  `pilot_s2_*_seed42_amp_retry1_v3` runs completed without retry.
+- AMP: CUDA float16 autocast covered the forward and complete objective;
+  GradScaler was enabled; validation/inference used float16 autocast; scaler
+  state was saved. Configs, logs, checkpoints, and registries record requested
+  and effective state.
+- Gate: clean mean delta `+0.022829`, clean worst delta `+0.003950`, `3/3`
+  folds improved, degraded mean delta `+0.051997`, real recall `0.988333`,
+  fake recall `0.718333`; all mandatory criteria passed.
+- The three prior FP32 runs remain preserved and scientifically invalid.
+- GenImage unseen accessed: no. Defactify accessed: no.
 
 ### Task F04 — S2 seed-42 LOGO Gate (invalid first execution)
 
@@ -383,7 +398,7 @@ sorted-path-list SHA256 was:
 
 ## Next boundary
 
-The first F04 execution is invalid because CUDA mixed precision was frozen
-enabled but the new head epoch ran FP32. All outputs must remain preserved.
-A corrected implementation and three new run IDs require explicit approval;
-F05 must not run. GenImage unseen and Defactify remain unaccessed.
+F04 passed on the corrected CUDA AMP runs. Standing authorization permits F05
+through model freeze and GenImage-unseen read-only diagnosis. Execution must
+stop before the first Defactify access and present the frozen hashes, exact
+commands, run matrix, balanced derivation, and retry policy.

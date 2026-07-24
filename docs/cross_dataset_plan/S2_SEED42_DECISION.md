@@ -1,5 +1,25 @@
 # S2 Seed-42 LOGO Invalid Execution Record
 
+## Corrected CUDA AMP execution and Development Gate
+
+The three FP32 runs documented below remain invalid and preserved. A corrected
+execution from commit `8f1f860` used three new
+`pilot_s2_*_seed42_amp_retry1_v3` IDs. Every job and tee exited zero, registry
+AMP provenance reports CUDA float16 autocast and an enabled GradScaler, and
+all config/split/cache/checkpoint/prediction/sample-order hashes passed.
+
+The corrected run passes every frozen Development Gate criterion:
+
+- clean fold-mean AUROC delta versus same-fold B2-v3: `+0.022829`;
+- clean worst-fold AUROC delta: `+0.003950`;
+- improved clean folds: `3/3`;
+- degraded JPEG/resize/blur mean fold-AUROC delta: `+0.051997`;
+- clean real recall: `0.988333`;
+- clean fake recall: `0.718333`.
+
+Decision: **Go S2**. Only the corrected AMP results support this decision.
+GenImage unseen and Defactify were not accessed.
+
 ## Decision
 
 **No Gate decision is valid.** The first F04 execution used FP32 head
