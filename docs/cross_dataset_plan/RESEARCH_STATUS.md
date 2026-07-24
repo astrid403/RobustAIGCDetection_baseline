@@ -3,15 +3,15 @@
 - Research branch: `research/cross-dataset-robustness-v3`
 - Frozen base branch: `feature/defactify-external-eval`
 - Frozen base commit: `cedc2a18d956948acfed87d575d41d4b93689d1d`
-- Current task: `Awaiting explicit approval to run Task 08 pilots`
-- Last completed task: `Task 07`
+- Current task: `S1 stopped at Task 08 Development Gate (No-Go)`
+- Last completed task: `Task 08`
 - Protocol v3 frozen: `yes`
 - S1 specification frozen: `yes`
 - Model v3 frozen: `no`
 - Research numbers frozen: `no`
 - GenImage unseen accessed by research v3: `no`
 - Defactify accessed by research v3: `no`
-- Blocking issues: `none`
+- Blocking issues: `S1 failed the preregistered Development Gate; S2 requires separate approval`
 
 ## Frozen Protocol v2 boundary
 
@@ -39,6 +39,39 @@ sorted-path-list SHA256 was:
 `1bae20b07e6476a16f4c0cd74ea087edf54cc8970365101bf8d6d94de3ccb03e`
 
 ## Task history
+
+### Task 08 — Seed-42 three-fold LOGO pilot
+
+- Status: completed with a preregistered **No-Go** decision.
+- Runs: reused three successful B2-v3 and three successful NPR-only seed-42
+  LOGO runs. All training and tee exit codes were zero; no training was rerun
+  during the OOF analysis repair.
+- OOF integrity: all six registries, best-checkpoint predictions, hashes,
+  ordered sample IDs, folds, and labels passed strict checks. Each condition
+  contains 1,200 unique OOF samples, 400 per held-out fold.
+- Primary fusion: fixed B2/NPR probability alpha 0.5/0.5; the descriptive
+  alpha grid did not replace the primary result.
+- Clean fold-mean AUROC: B2 `0.966050`, NPR `0.950383`, fusion `0.962717`.
+  Fusion-minus-B2 was `-0.003333`; clean worst-fold delta was `-0.015400`.
+- Fold deltas: ADM `+0.002475`, BigGAN `+0.002925`, Stable Diffusion V1.5
+  `-0.015400`; two of three folds improved.
+- Degradations: fusion-minus-B2 mean fold-AUROC across JPEG/resize/blur was
+  `+0.030631`, satisfying only the degradation criterion.
+- Complementarity: 102 shared errors, 127 B2-wrong/NPR-right, 103
+  NPR-wrong/B2-right, and 230 prediction disagreements among 1,200 clean
+  samples. Fusion still trailed the stronger clean expert by `-0.003333`.
+- Collapse check: clean fusion real recall was `0.988333`, but fake recall
+  was `0.631667`, below the frozen `0.70` minimum.
+- Analysis repair: the initial partial clean OOF directory was preserved.
+  A regression-tested single-expert summary path was added; successful
+  analysis used a new `retry1` directory without rerunning any pilot.
+- Decision: No-Go because mean gain, worst-fold safety, stronger-expert
+  margin, and fake-recall requirements failed. Tasks 09–13 are
+  `skipped_by_gate`; S2 requires separate user approval.
+- Evidence: `docs/cross_dataset_plan/S1_SEED42_DECISION.md` and
+  `artifacts/research_v3/task08_seed42_manifest.json`.
+- GenImage unseen accessed: no.
+- Defactify accessed: no.
 
 ### Task 08 preflight — Repair pilot correctness infrastructure
 

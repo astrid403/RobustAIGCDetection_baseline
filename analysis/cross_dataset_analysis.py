@@ -6,7 +6,11 @@ import numpy as np
 import pandas as pd
 
 from evaluation.metrics import binary_metrics
-from models.late_fusion import DESCRIPTIVE_ALPHA_GRID, fuse_aligned_probabilities
+from models.late_fusion import (
+    DESCRIPTIVE_ALPHA_GRID,
+    fuse_aligned_probabilities,
+    validate_oof_predictions,
+)
 
 
 METRIC_KEYS = (
@@ -54,11 +58,32 @@ def error_complementarity(aligned: pd.DataFrame, threshold: float = 0.5) -> dict
 
 
 def summarize_oof(fused: pd.DataFrame, threshold: float = 0.5) -> dict:
+    summary = _summarize_probability_column(fused, "fused_probability", threshold)
+    summary["complementarity"] = error_complementarity(fused, threshold)
+    return summary
+
+
+def summarize_single_expert_oof(
+    predictions: pd.DataFrame,
+    *,
+    expert: str,
+    threshold: float = 0.5,
+) -> dict:
+    """Summarize one strict OOF expert without requiring fusion-only columns."""
+    checked = validate_oof_predictions(predictions, expert)
+    return _summarize_probability_column(checked, "probability", threshold)
+
+
+def _summarize_probability_column(
+    frame: pd.DataFrame,
+    probability_column: str,
+    threshold: float,
+) -> dict:
     folds = {}
-    for fold, group in fused.groupby("fold", sort=True):
+    for fold, group in frame.groupby("fold", sort=True):
         folds[str(fold)] = {
             "sample_count": int(len(group)),
-            **_metric_record(group["label"], group["fused_probability"], threshold),
+            **_metric_record(group["label"], group[probability_column], threshold),
         }
     if not folds:
         raise ValueError("OOF predictions must contain at least one fold")
@@ -69,11 +94,10 @@ def summarize_oof(fused: pd.DataFrame, threshold: float = 0.5) -> dict:
         aggregate[f"fold_worst_{key}"] = float(np.min(values))
     return {
         "overall": _metric_record(
-            fused["label"], fused["fused_probability"], threshold
+            frame["label"], frame[probability_column], threshold
         ),
         "folds": folds,
         "fold_aggregate": aggregate,
-        "complementarity": error_complementarity(fused, threshold),
     }
 
 

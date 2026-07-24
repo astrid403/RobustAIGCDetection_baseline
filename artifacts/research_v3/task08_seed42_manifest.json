@@ -1,0 +1,56 @@
+{
+  "schema": "task08_seed42_manifest_v3",
+  "branch": "research/cross-dataset-robustness-v3",
+  "start_commit": "ed88670e03af981bf8d45492f6a935eccf39ad64",
+  "seed": 42,
+  "training_runs_reused": 6,
+  "training_rerun_during_analysis_repair": false,
+  "folds": [
+    "holdout_adm",
+    "holdout_biggan",
+    "holdout_stable_diffusion_v15"
+  ],
+  "conditions": ["clean", "jpeg", "resize", "blur"],
+  "primary_alpha": {"b2": 0.5, "npr": 0.5},
+  "analysis": {
+    "failed_output_preserved": "outputs/research_v3/task08_seed42_v3",
+    "successful_output": "outputs/research_v3/task08_seed42_v3_retry1",
+    "summary": {
+      "path": "outputs/research_v3/task08_seed42_v3_retry1/task08_summary.json",
+      "sha256": "09b0d32f2a84dc3e28b2eb5afe2cd5eb9641080bea8e7256c76b73e1b729855a"
+    },
+    "fusion_registries": {
+      "clean": "e1582e530fd72773b6ac469d09c55ce1f49cd5d3a91f462722bae6ef6d04277b",
+      "jpeg": "0ca6889a669d066ce7c6c9f1293a1e8f30f4741458d2f8f474a3a90cc2c59a0f",
+      "resize": "31cf073f4d946f8eb33acaec27abe4f0274b56b706ef13bc03b4d62ee09eb19b",
+      "blur": "a59d67145d7d28891eb4ae1868833849c8115d8e41a51eeaf9057d2f3f976e76"
+    }
+  },
+  "run_registry_sha256": {
+    "pilot_b2_holdout_adm_seed42_v3": "c516d3f9201a1b5571b58897a68203e2f4f5e1a249fa8fcbbe5735e270586f7b",
+    "pilot_b2_holdout_biggan_seed42_v3": "720110512f1bf0bd5712f9d9c50885df93e7ba5c734fdadb8bc98c759044ace2",
+    "pilot_b2_holdout_stable_diffusion_v15_seed42_v3": "84b72ea75e87a14263646997ddda26d965e90c89e3bb866a31b9bd342c944a85",
+    "pilot_npr_holdout_adm_seed42_v3": "242dbc49fbccfddcb17e7554d62edb71e061a088579908564ec17328de39dac4",
+    "pilot_npr_holdout_biggan_seed42_v3": "618f467f7690fc09c3a85448ecbbf3ef0f07c501e49db3d10c6e6f14f75cd3de",
+    "pilot_npr_holdout_stable_diffusion_v15_seed42_v3": "aba81f5809dfbd1517a403ac90e7744ea22e7e23c2267d9db094f815820a51e7"
+  },
+  "development_gate": {
+    "decision": "No-Go",
+    "clean_mean_auroc_delta_vs_b2": -0.0033333333333334103,
+    "clean_worst_fold_auroc_delta_vs_b2": -0.01540000000000008,
+    "improved_fold_count": 2,
+    "degraded_mean_auroc_delta": 0.030630555555555605,
+    "fusion_over_stronger_expert_auroc": -0.0033333333333334103,
+    "clean_real_recall": 0.9883333333333333,
+    "clean_fake_recall": 0.6316666666666667
+  },
+  "genimage_unseen_accessed": false,
+  "defactify_accessed": false,
+  "next_tasks": {
+    "task09": "skipped_by_gate",
+    "task10": "skipped_by_gate",
+    "task11": "skipped_by_gate",
+    "task12": "skipped_by_gate",
+    "task13": "skipped_by_gate"
+  }
+}

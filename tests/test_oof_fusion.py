@@ -11,6 +11,7 @@ from analysis.cross_dataset_analysis import (
     error_complementarity,
     rank_descriptive_alphas,
     summarize_oof,
+    summarize_single_expert_oof,
 )
 from evaluation.evaluate_cross_dataset import evaluate_oof_frames
 from models.late_fusion import align_oof_predictions, fuse_aligned_probabilities
@@ -72,6 +73,24 @@ class OofFusionTests(unittest.TestCase):
             "auroc", "auprc", "balanced_accuracy", "macro_f1",
             "real_recall", "fake_recall",
         })
+
+    def test_single_expert_summary_does_not_require_fusion_columns(self):
+        clip, _ = toy_frames()
+        summary = summarize_single_expert_oof(clip, expert="B2")
+        independently_recomputed = summarize_oof(
+            clip.assign(
+                clip_probability=clip["probability"],
+                npr_probability=clip["probability"],
+                fused_probability=clip["probability"],
+            )
+        )
+        self.assertEqual(summary["overall"], independently_recomputed["overall"])
+        self.assertEqual(summary["folds"], independently_recomputed["folds"])
+        self.assertEqual(
+            summary["fold_aggregate"],
+            independently_recomputed["fold_aggregate"],
+        )
+        self.assertNotIn("complementarity", summary)
 
     def test_error_overlap_and_complementarity_counts(self):
         clip, npr = toy_frames()

@@ -741,12 +741,12 @@ No-Go 后不得调 α、换 block、加增强、重选 checkpoint 或重跑 Defa
 | 05 | 语义破坏和退化视图管线 | completed | 否 | 否 | 否 |
 | 06 | NPR detector 与训练路径 smoke | completed | 仅 tiny smoke | 否 | 否 |
 | 07 | OOF 融合、指标和 provenance | completed | 否 | 否 | 否 |
-| 08 | Seed-42 三折 LOGO pilot | pending | 是 | 否 | 否 |
-| 09 | S1 预注册消融 | pending | 是 | 否 | 否 |
-| 10 | 三 seed 确认与模型冻结 | pending | 是 | 否 | 否 |
-| 11 | 冻结模型的 GenImage unseen 诊断 | pending | 否 | 是 | 否 |
-| 12 | 一次性 Defactify 外部评估 | pending | 否 | 否 | 是，需即时批准 |
-| 13 | 统计、结论与研究冻结 | pending | 否 | 否 | 只读既有预测 |
+| 08 | Seed-42 三折 LOGO pilot | completed (No-Go) | 是 | 否 | 否 |
+| 09 | S1 预注册消融 | skipped_by_gate | 是 | 否 | 否 |
+| 10 | 三 seed 确认与模型冻结 | skipped_by_gate | 是 | 否 | 否 |
+| 11 | 冻结模型的 GenImage unseen 诊断 | skipped_by_gate | 否 | 是 | 否 |
+| 12 | 一次性 Defactify 外部评估 | skipped_by_gate | 否 | 否 | 是，需即时批准 |
+| 13 | 统计、结论与研究冻结 | skipped_by_gate | 否 | 否 | 只读既有预测 |
 
 主路线依赖关系：
 
