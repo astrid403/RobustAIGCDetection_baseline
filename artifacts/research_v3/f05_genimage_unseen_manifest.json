@@ -1,0 +1,19 @@
+{
+  "schema": "f05_genimage_unseen_ensemble_manifest_v3",
+  "execution_commit": "0607725",
+  "contract_sha256": "84015c97a5cb12fffa2c95f24b3bdbe2288a31586db854336b61ccc8f77d9407",
+  "registry": {
+    "path": "outputs/research_v3/f05_genimage_unseen_ensemble_v3/registry.json",
+    "sha256": "cd945fe4a9b10d60a65476a66c753af03a63b4d26c7a9ee2fb422ab530d10d67"
+  },
+  "metrics": {
+    "path": "outputs/research_v3/f05_genimage_unseen_ensemble_v3/metrics.csv",
+    "sha256": "fe76aa25eb4c0a6a685b5381ed3009a621f21ab9ec6c09b942884e1c153b71ee"
+  },
+  "prediction_files": 24,
+  "samples_per_prediction": 4000,
+  "evaluation_exit_code": 0,
+  "tee_exit_code": 0,
+  "genimage_unseen_accessed": true,
+  "defactify_accessed": false
+}

@@ -3,15 +3,15 @@
 - Research branch: `research/cross-dataset-robustness-v3`
 - Frozen base branch: `feature/defactify-external-eval`
 - Frozen base commit: `cedc2a18d956948acfed87d575d41d4b93689d1d`
-- Current task: `Task F05 GenImage unseen diagnostic preflight`
-- Last completed task: `Task F04`
+- Current task: `Stopped at first Defactify approval gate`
+- Last completed task: `Task F05 pre-Defactify stages`
 - Protocol v3 frozen: `yes`
 - S1 specification frozen: `yes`
 - Model v3 frozen: `yes; three-fold equal-probability ensemble per seed`
 - Research numbers frozen: `no`
-- GenImage unseen accessed by research v3: `no`
+- GenImage unseen accessed by research v3: `yes; frozen read-only diagnostic complete`
 - Defactify accessed by research v3: `no`
-- Blocking issues: `none before GenImage unseen; Defactify still requires immediate approval`
+- Blocking issues: `first Defactify access requires immediate explicit approval`
 
 ## Standing research authorization
 
@@ -47,6 +47,18 @@ sorted-path-list SHA256 was:
 `1bae20b07e6476a16f4c0cd74ea087edf54cc8970365101bf8d6d94de3ccb03e`
 
 ## Task history
+
+### Task F05 — Frozen GenImage unseen diagnostic
+
+- Status: completed; stopped before first Defactify access.
+- Protocol: per-seed three-fold equal-probability ensemble for both B2-v3 and
+  S2; no retraining, member selection, tuning, or calibration.
+- Mean clean AUROC: B2 `0.981996`, S2 `0.991108`, delta `+0.009112`.
+- Mean S2 AUROC on JPEG/resize/blur: `0.986048/0.980622/0.977485`, versus B2
+  `0.962028/0.961249/0.958466`.
+- Integrity: 24 prediction files × 4,000 unique samples; all hashes and
+  independent metric recomputation passed.
+- GenImage unseen accessed: yes. Defactify accessed: no.
 
 ### Task F05 — S2 three-seed confirmation (pre-unseen boundary)
 
@@ -413,7 +425,6 @@ sorted-path-list SHA256 was:
 
 ## Next boundary
 
-F05's numeric Model Freeze Gate passed, but deployable-checkpoint construction
-is not frozen. This is a scientific data/model protocol choice, so the
-standing authorization requires a stop. GenImage unseen and Defactify remain
-unaccessed.
+F05 through the frozen GenImage unseen diagnostic is complete. Stop before
+the first Defactify access and present frozen hashes, exact commands, seeds,
+full-to-balanced derivation, retry policy, and the no-tuning declaration.
