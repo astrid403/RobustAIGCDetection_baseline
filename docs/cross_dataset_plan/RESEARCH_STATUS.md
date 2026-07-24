@@ -3,15 +3,15 @@
 - Research branch: `research/cross-dataset-robustness-v3`
 - Frozen base branch: `feature/defactify-external-eval`
 - Frozen base commit: `cedc2a18d956948acfed87d575d41d4b93689d1d`
-- Current task: `Awaiting explicit approval for F03`
-- Last completed task: `Task F02`
+- Current task: `Awaiting explicit approval for F04`
+- Last completed task: `Task F03`
 - Protocol v3 frozen: `yes`
 - S1 specification frozen: `yes`
 - Model v3 frozen: `no`
 - Research numbers frozen: `no`
 - GenImage unseen accessed by research v3: `no`
 - Defactify accessed by research v3: `no`
-- Blocking issues: `none; F03 requires explicit approval`
+- Blocking issues: `none; F04 requires explicit approval`
 
 ## Frozen Protocol v2 boundary
 
@@ -39,6 +39,37 @@ sorted-path-list SHA256 was:
 `1bae20b07e6476a16f4c0cd74ea087edf54cc8970365101bf8d6d94de3ccb03e`
 
 ## Task history
+
+### Task F03 — RINE-lite head and SupCon smoke
+
+- Status: completed; stopped at the F04 approval gate.
+- Head: one shared `Linear(768,128)-ReLU` projection, shared
+  sample-conditioned `Linear(128,1)` TIE, temperature-1 block softmax,
+  normalized 128-D weighted sum, and `Linear(128,1)` classifier.
+- Parameter count: exactly 98,690 trainable parameters; no dropout, residual
+  expert, learned temperature, entropy penalty, or auxiliary head.
+- Objective: BCE plus binary-label SupCon with fixed weight `0.1` and
+  temperature `0.07`; self pairs are excluded and anchors without positives
+  are skipped.
+- Tests: shape, module graph, importance sums, embedding norm, parameter
+  count, shared projection, sample-conditioned TIE, gradient finiteness,
+  state-dict round trip, SupCon permutation invariance/empty-anchor behavior,
+  invalid-input hard failures, and CPU/GPU consistency.
+- Test repair: the first directed test observed one float32 ULP
+  (`1.1920928955078125e-7`) above a `1e-7` softmax-sum tolerance. Only the
+  test tolerance changed to `2e-7`; the rerun passed.
+- Tiny smoke: one synthetic balanced batch of 32 cached-feature-shaped
+  tensors on CUDA, one forward/backward and AdamW step. BCE `0.6934673786`,
+  SupCon `3.6079678535`, total `1.0542641878`; gradients were finite and
+  checkpoint reload was tensor-exact.
+- Contract document:
+  `docs/cross_dataset_plan/RINE_LITE_HEAD_CONTRACT.md`.
+- Smoke manifest:
+  `artifacts/research_v3/f03_rine_lite_smoke_manifest.json`.
+- Formal training dispatcher integration: no.
+- S2 pilot/formal training executed: no.
+- GenImage unseen accessed: no.
+- Defactify accessed: no.
 
 ### Task F02 — Multi-block CLIP feature contract
 
@@ -320,7 +351,6 @@ sorted-path-list SHA256 was:
 
 ## Next boundary
 
-Task F02 is complete. A new explicit user approval is required before Task
-F03 may implement the frozen RINE-lite projection, TIE, classifier, and
-SupCon objective or run its tiny smoke. GenImage unseen and Defactify remain
-forbidden.
+Task F03 is complete. A new explicit user approval is required before Task
+F04 may integrate the frozen S2 training path or run the seed-42 three-fold
+LOGO Gate. GenImage unseen and Defactify remain forbidden.

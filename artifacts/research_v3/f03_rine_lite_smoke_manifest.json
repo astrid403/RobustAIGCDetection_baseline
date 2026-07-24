@@ -1,0 +1,49 @@
+{
+  "schema": "f03_rine_lite_smoke_manifest_v3",
+  "branch": "research/cross-dataset-robustness-v3",
+  "start_commit": "ca96316b1c94951d7b46a1b2b02016a2727c7b62",
+  "contract": {
+    "path": "configs/research_v3/S2_CONTRACT.yaml",
+    "sha256": "56c47f08a29fdd26f5ff0265746b9347880b722858582697e1d8cebece5aeb0d"
+  },
+  "implementation_sha256": {
+    "models/rine_lite_detector.py": "633e8c2255577b483b956def503d22cbb7a85ec5ae463b02601577b39f184005",
+    "training/contrastive_losses.py": "c486ef181451e3b2214e9ea464dbdc9670ccd2a1694092e29c73e5614d46f62a"
+  },
+  "smoke": {
+    "data": "synthetic_cached_feature_shaped_tensors_only",
+    "device": "cuda",
+    "seed": 42,
+    "batch_size": 32,
+    "feature_shape": [32, 4, 768],
+    "parameter_count": 98690,
+    "optimizer": "AdamW",
+    "learning_rate": 0.001,
+    "weight_decay": 0.01,
+    "optimizer_steps": 1,
+    "bce": 0.693467378616333,
+    "supcon": 3.6079678535461426,
+    "total": 1.0542641878128052,
+    "all_gradients_finite": true,
+    "checkpoint_location": "temporary_outside_repository",
+    "checkpoint_reload_exact": true
+  },
+  "failure_record": {
+    "directed_test_initial_status": "failed",
+    "cause": "softmax sum differed from one by one float32 ULP",
+    "maximum_absolute_difference": 1.1920928955078125e-7,
+    "original_atol": 1e-7,
+    "fixed_atol": 2e-7,
+    "model_or_objective_changed": false,
+    "rerun_status": "passed"
+  },
+  "tests": {
+    "directed": "15 passed, 2 skipped in sandbox",
+    "gpu_head_consistency": "passed",
+    "full_unittest": "110 passed, 3 skipped in sandbox"
+  },
+  "formal_training_dispatcher_integrated": false,
+  "s2_pilot_training_executed": false,
+  "genimage_unseen_accessed": false,
+  "defactify_accessed": false
+}

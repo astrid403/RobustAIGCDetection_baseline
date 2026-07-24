@@ -1375,6 +1375,7 @@ Task 12 开始前必须再次向用户展示：
 
 ### Task F03 — RINE-lite head 与 SupCon smoke
 
+- 状态：`awaiting_approval`；实现与 tiny smoke 完成，停在 F04 审批 Gate；
 - 实现共享投影、softmax layer importance、128-D 聚合和分类头；
 - 实现 SupCon；
 - 只做 tiny smoke；
