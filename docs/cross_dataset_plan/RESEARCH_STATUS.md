@@ -3,15 +3,15 @@
 - Research branch: `research/cross-dataset-robustness-v3`
 - Frozen base branch: `feature/defactify-external-eval`
 - Frozen base commit: `cedc2a18d956948acfed87d575d41d4b93689d1d`
-- Current task: `S1 stopped at Task 08 Development Gate (No-Go)`
-- Last completed task: `Task 08`
+- Current task: `Awaiting explicit approval for F02`
+- Last completed task: `Task F01`
 - Protocol v3 frozen: `yes`
 - S1 specification frozen: `yes`
 - Model v3 frozen: `no`
 - Research numbers frozen: `no`
 - GenImage unseen accessed by research v3: `no`
 - Defactify accessed by research v3: `no`
-- Blocking issues: `S1 failed the preregistered Development Gate; S2 requires separate approval`
+- Blocking issues: `none; F02 requires explicit approval`
 
 ## Frozen Protocol v2 boundary
 
@@ -39,6 +39,33 @@ sorted-path-list SHA256 was:
 `1bae20b07e6476a16f4c0cd74ea087edf54cc8970365101bf8d6d94de3ccb03e`
 
 ## Task history
+
+### Task F01 — S1 failure audit and S2 preregistration
+
+- Status: completed; stopped at the F02 approval gate.
+- Evidence scope: read-only Task 08 GenImage development OOF results and
+  registries. No image inference or training was run.
+- Failure classification: primarily weak, generator-specific NPR local signal
+  on held-out Stable Diffusion V1.5; secondarily score/class bias under fixed
+  fusion. Degradation sensitivity was not dominant, measurable error
+  complementarity existed but was insufficient, and no implementation or
+  split-integrity defect was found.
+- S2 route: frozen OpenAI CLIP ViT-B/32 blocks `[3,6,9,12]`, one-forward CLS
+  extraction, shared `768->128` projection, sample-conditioned shared TIE,
+  128-D weighted sum, and a single-logit classifier.
+- Objective: BCE plus binary-label SupCon at fixed weight `0.1` and
+  temperature `0.07`.
+- Budget: batch 32, 2,000 balanced draws per epoch, 10 epochs, 20,000 draws
+  and 630 optimizer steps per fold; seed 42 pilot.
+- Gate: the frozen single-model Task 08 criteria versus same-fold B2-v3;
+  all criteria are mandatory. No alpha, calibration, threshold, block,
+  projection, loss-weight, augmentation, or external-data search is allowed.
+- Contract: `configs/research_v3/S2_CONTRACT.yaml`.
+- Explanation: `docs/cross_dataset_plan/S2_PREREGISTRATION.md`.
+- S2 implemented: no.
+- Training/inference executed: no.
+- GenImage unseen accessed: no.
+- Defactify accessed: no.
 
 ### Task 08 — Seed-42 three-fold LOGO pilot
 

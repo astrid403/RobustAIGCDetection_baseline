@@ -1,0 +1,178 @@
+schema_version: 1
+contract_name: cross_dataset_s2_rine_lite_v3
+status: preregistered_awaiting_f02_approval
+branch: research/cross-dataset-robustness-v3
+frozen_at_commit_parent: a5f60c4d0b7a96dc526799476c493f2ceaf6cb33
+route: S2
+labels:
+  real: 0
+  fake: 1
+
+data:
+  dataset: GenImage
+  development_scope: train_and_validation_only
+  folds:
+    - holdout_adm
+    - holdout_biggan
+    - holdout_stable_diffusion_v15
+  split_contract: configs/research_v3/s1_contract.yaml
+  genimage_unseen_role: post_model_freeze_internal_diagnostic_only
+  defactify_role: separately_approved_once_only_external_evaluation
+  external_training_data: forbidden
+
+encoder:
+  architecture: ViT-B-32
+  provider: open_clip
+  pretrained: openai
+  parameters_frozen: true
+  input_resolution: 224
+  block_ids: [3, 6, 9, 12]
+  block_indexing: one_based_completed_transformer_blocks
+  token: class_token
+  token_width: 768
+  extraction: single_forward
+  extraction_version: clip_multiblock_cls_v1
+  apply_ln_post_per_block: true
+  apply_visual_projection: false
+  l2_normalize_raw_block_cls: false
+  output_shape_per_sample: [4, 768]
+
+projection:
+  sharing: one_module_shared_across_all_blocks
+  input_dim: 768
+  output_dim: 128
+  module:
+    - Linear
+    - ReLU
+  linear_bias: true
+  dropout: 0.0
+
+tie:
+  name: trainable_importance_estimator
+  sharing: one_scorer_shared_across_all_blocks
+  input_dim: 128
+  scorer: Linear(128,1,bias=true)
+  normalization: softmax_across_four_blocks
+  temperature: 1.0
+  sample_conditioned: true
+  weighted_sum_dim: 128
+  initialization: pytorch_default
+  entropy_regularization_weight: 0.0
+
+classifier:
+  input: l2_normalized_weighted_sum
+  module: Linear(128,1,bias=true)
+  threshold: 0.5
+
+objective:
+  primary: BCEWithLogitsLoss
+  supervised_contrastive:
+    enabled: true
+    input: l2_normalized_weighted_sum
+    positive_definition: same_binary_label
+    exclude_self: true
+    temperature: 0.07
+    weight: 0.1
+    anchors_without_positive: excluded
+  total: bce_plus_0.1_supcon
+  auxiliary_losses: none
+
+training:
+  optimizer: AdamW
+  learning_rate: 0.001
+  weight_decay: 0.01
+  scheduler: none
+  batch_size: 32
+  epochs: 10
+  samples_per_epoch: 2000
+  total_sample_draws_per_fold: 20000
+  expected_optimizer_steps_per_epoch: 63
+  expected_optimizer_steps_per_fold: 630
+  early_stopping: false
+  mixed_precision_cuda: true
+  num_workers: 0
+  sampler: deterministic_generator_label_balanced_with_replacement
+  samples_per_generator_label_group: 500
+  checkpoint_metric: auroc
+  checkpoint_mode: max
+  checkpoint_tie_break: earliest_epoch
+  pilot_seed: 42
+  confirmation_seeds: [42, 43, 44]
+
+evaluation:
+  conditions:
+    clean: {}
+    jpeg:
+      quality: 70
+    resize:
+      scale: 0.5
+      down_interpolation: bicubic
+      up_interpolation: bicubic
+    blur:
+      radius: 1.0
+  mandatory_metrics:
+    - auroc
+    - auprc
+    - balanced_accuracy
+    - macro_f1
+    - real_recall
+    - fake_recall
+  aggregation:
+    - fold_mean
+    - fold_worst
+
+development_gate:
+  comparator: B2-v3_under_identical_logo_folds
+  minimum_clean_fold_mean_auroc_delta: 0.005
+  minimum_clean_worst_fold_auroc_delta: -0.002
+  minimum_improved_clean_folds: 2
+  degraded_mean_fold_auroc_must_not_decrease: true
+  minimum_clean_real_recall: 0.70
+  minimum_clean_fake_recall: 0.70
+  all_criteria_required: true
+  no_external_data_for_gate: true
+
+model_freeze_gate:
+  minimum_three_seed_mean_auroc_delta: 0.005
+  minimum_worst_fold_mean_delta: -0.002
+  require_positive_ci_lower_or_all_seed_deltas: true
+  require_block_importance_reporting: true
+  maximum_inference_time_ratio_vs_b2: 2.5
+  maximum_peak_gpu_memory_mib: 8000
+
+cache:
+  schema: research_clip_multiblock_cache_v3
+  tensor_shape: [N, 4, 768]
+  required_signature_fields:
+    - encoder
+    - pretrained
+    - open_clip_version
+    - block_ids
+    - block_indexing
+    - extraction_version
+    - preprocess_fingerprint
+    - manifest_sha256
+    - fold
+    - split_role
+
+provenance:
+  require_config_sha256: true
+  require_split_sha256: true
+  require_cache_sha256: true
+  require_checkpoint_sha256: true
+  require_prediction_sha256: true
+  require_sample_order_sha256: true
+  require_block_importance_output: true
+  overwrite_existing_runs: false
+
+forbidden:
+  architecture_search: true
+  block_search: true
+  projection_search: true
+  supcon_weight_search: true
+  threshold_search: true
+  augmentation_search: true
+  external_data_selection: true
+  genimage_unseen_before_model_freeze: true
+  defactify_before_separate_approval: true
+  s1_result_modification: true

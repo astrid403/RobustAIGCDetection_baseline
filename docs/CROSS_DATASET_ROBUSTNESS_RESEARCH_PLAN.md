@@ -1356,6 +1356,9 @@ Task 12 开始前必须再次向用户展示：
 
 ### Task F01 — S1 失败审计与 S2 预注册
 
+- 状态：`awaiting_approval`；合同见
+  `configs/research_v3/S2_CONTRACT.yaml`，说明见
+  `docs/cross_dataset_plan/S2_PREREGISTRATION.md`；
 - 只读分析 S1 LOGO 证据；
 - 判断失败属于局部信号弱、退化敏感、融合不互补或实现/数据问题；
 - 禁止读取 Defactify；
