@@ -3,15 +3,15 @@
 - Research branch: `research/cross-dataset-robustness-v3`
 - Frozen base branch: `feature/defactify-external-eval`
 - Frozen base commit: `cedc2a18d956948acfed87d575d41d4b93689d1d`
-- Current task: `Task F05 blocked before GenImage unseen`
+- Current task: `Task F05 GenImage unseen diagnostic preflight`
 - Last completed task: `Task F04`
 - Protocol v3 frozen: `yes`
 - S1 specification frozen: `yes`
-- Model v3 frozen: `partial; architecture passed Gate, deployable checkpoint construction unspecified`
+- Model v3 frozen: `yes; three-fold equal-probability ensemble per seed`
 - Research numbers frozen: `no`
 - GenImage unseen accessed by research v3: `no`
 - Defactify accessed by research v3: `no`
-- Blocking issues: `S2 contract does not define final per-seed checkpoint construction from three LOGO folds`
+- Blocking issues: `none before GenImage unseen; Defactify still requires immediate approval`
 
 ## Standing research authorization
 

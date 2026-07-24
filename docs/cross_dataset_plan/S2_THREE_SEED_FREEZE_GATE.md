@@ -26,13 +26,10 @@ GenImage unseen and Defactify were not accessed.
 
 All numerically defined Model Freeze Gate criteria pass.
 
-## Required stop before unseen inference
+## Approved deployable checkpoint construction
 
-The contract does not define how one final checkpoint per seed is constructed
-from the three LOGO fold checkpoints. Full-development retraining, selecting a
-fold checkpoint, and a three-fold ensemble imply different data protocols or
-deployed model structures. Choosing among them now would modify an unfrozen
-scientific protocol. Model architecture and hyperparameters are frozen, but
-the deployable-checkpoint construction is blocked pending an explicit
-contract choice. No GenImage unseen inference may start before that choice is
-recorded.
+The user approved option 2: for each seed, average fake probabilities from the
+three frozen LOGO best checkpoints in fixed ADM, BigGAN, SD1.5 fold order with
+equal weights. Apply threshold 0.5 after aggregation. B2-v3 uses the same
+rule. No retraining, fold selection, learned weight, or calibration is
+allowed. The model is now completely frozen.

@@ -148,6 +148,16 @@ model_freeze_gate:
   maximum_inference_time_ratio_vs_b2: 2.5
   maximum_peak_gpu_memory_mib: 8000
 
+deployment:
+  checkpoint_construction: three_logo_fold_probability_ensemble
+  fold_order: [holdout_adm, holdout_biggan, holdout_stable_diffusion_v15]
+  fold_weights: [0.3333333333333333, 0.3333333333333333, 0.3333333333333333]
+  aggregation: arithmetic_mean_of_fake_probabilities
+  same_rule_for_b2_and_s2: true
+  threshold_after_aggregation: 0.5
+  fold_selection: forbidden
+  retraining: forbidden
+
 cache:
   schema: research_clip_multiblock_cache_v3
   tensor_shape: [N, 4, 768]

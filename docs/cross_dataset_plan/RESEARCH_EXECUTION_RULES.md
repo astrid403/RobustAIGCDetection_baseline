@@ -35,3 +35,11 @@ metric, threshold, or Gate.
 
 The selection follows standard CUDA float16 AMP practice and was made without
 consulting the metrics of the invalid FP32 runs.
+
+## Final checkpoint construction approval
+
+On 2026-07-24 the user approved option 2. For each seed, the three frozen LOGO
+best-validation-AUROC checkpoints are retained in fixed fold order and their
+fake probabilities are averaged with exact equal weights. Threshold 0.5 is
+applied only after averaging. The identical rule applies to B2-v3 and S2.
+There is no fold selection, weight fitting, calibration, or retraining.
