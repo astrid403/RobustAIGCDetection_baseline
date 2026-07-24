@@ -3,8 +3,8 @@
 - Research branch: `research/cross-dataset-robustness-v3`
 - Frozen base branch: `feature/defactify-external-eval`
 - Frozen base commit: `cedc2a18d956948acfed87d575d41d4b93689d1d`
-- Current task: `Awaiting explicit Task 07 approval`
-- Last completed task: `Task 06`
+- Current task: `Awaiting explicit Task 08 approval`
+- Last completed task: `Task 07`
 - Protocol v3 frozen: `yes`
 - S1 specification frozen: `yes`
 - Model v3 frozen: `no`
@@ -39,6 +39,33 @@ sorted-path-list SHA256 was:
 `1bae20b07e6476a16f4c0cd74ea087edf54cc8970365101bf8d6d94de3ccb03e`
 
 ## Task history
+
+### Task 07 — Implement OOF fusion, metrics, and provenance correctness
+
+- Status: completed; stopped at the Task 08 approval gate.
+- Alignment: CLIP and NPR predictions require identical ordered sample IDs,
+  labels, and held-out fold assignments. Duplicate, missing, reordered, or
+  misaligned inputs hard fail.
+- OOF safety: every sample ID is unique and therefore may occur in only one
+  held-out fold; the expected fold set can be enforced explicitly.
+- Primary fusion: fixed probability fusion with CLIP/NPR alpha 0.5/0.5 and
+  threshold 0.5.
+- Alpha grid: the frozen `[0,0.25,0.5,0.75,1]` grid is descriptive only and
+  cannot replace the primary alpha. Descriptive ties are ordered by mean AUROC,
+  distance to 0.5, then lower alpha.
+- Metrics: overall and per-fold AUROC, AUPRC, balanced accuracy, macro-F1,
+  real recall, fake recall, fold mean/worst, error overlap, disagreement, and
+  complementary-error counts/rates.
+- Provenance: registry hashes config, split manifests, checkpoints, both input
+  predictions, fused predictions, metrics, and ordered sample IDs.
+- Correctness evidence: artificial three-fold OOF data independently
+  recomputed fusion, metrics, complementarity, grid ordering, and registry
+  hashes.
+- Tests: 89 unittest tests passed; one CUDA consistency test was skipped
+  because CUDA is unavailable.
+- Training/pilot executed: no.
+- GenImage unseen accessed: no.
+- Defactify accessed: no.
 
 ### Task 06 — Assemble and smoke-test the NPR training path
 
@@ -171,7 +198,7 @@ sorted-path-list SHA256 was:
 
 ## Next boundary
 
-Task 06 is complete. Task 07 is not authorized by the current request and must
-not start without explicit user approval. Task 07 may implement only OOF
-fusion, metrics, and provenance correctness facilities; it may not run formal
-training or access GenImage unseen or Defactify.
+Task 07 is complete and its correctness gate passed on artificial OOF data.
+Task 08 is not authorized by the current request and must not start without
+explicit user approval. Task 08 is the first seed-42 three-fold LOGO pilot and
+still may not access GenImage unseen or Defactify.
