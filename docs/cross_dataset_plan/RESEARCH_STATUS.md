@@ -3,7 +3,7 @@
 - Research branch: `research/cross-dataset-robustness-v3`
 - Frozen base branch: `feature/defactify-external-eval`
 - Frozen base commit: `cedc2a18d956948acfed87d575d41d4b93689d1d`
-- Current task: `Stopped at first Defactify approval gate`
+- Current task: `Task F05 one-time Defactify external evaluation`
 - Last completed task: `Task F05 pre-Defactify stages`
 - Protocol v3 frozen: `yes`
 - S1 specification frozen: `yes`
@@ -11,7 +11,18 @@
 - Research numbers frozen: `no`
 - GenImage unseen accessed by research v3: `yes; frozen read-only diagnostic complete`
 - Defactify accessed by research v3: `no`
-- Blocking issues: `first Defactify access requires immediate explicit approval`
+- Blocking issues: `none; immediate Defactify approval received`
+
+## Defactify immediate approval
+
+The user explicitly authorized first Defactify access. The frozen command is:
+
+`python evaluation/evaluate_defactify_ensemble.py --full-manifest outputs/splits/defactify_official_test.csv --balanced-manifest outputs/splits/defactify_balanced_test.csv --output-dir outputs/research_v3/f05_defactify_ensemble_v3`
+
+This performs two full dataset traversals total (one B2 feature traversal and
+one S2 feature traversal), produces three seed ensembles per model, and
+derives every balanced result solely by frozen sample ID from its full
+prediction. Results cannot trigger tuning.
 
 ## Standing research authorization
 
