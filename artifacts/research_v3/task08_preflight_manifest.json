@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "task": "Task 08 preflight correctness repair",
+  "status": "completed_without_pilot",
+  "branch": "research/cross-dataset-robustness-v3",
+  "start_commit": "a0d1d14739e241d864d7903d29c1155dd29033dd",
+  "training_runs_executed": 0,
+  "genimage_unseen_accessed": false,
+  "defactify_accessed": false,
+  "correctness": {
+    "cache_schema": "research_clip_cache_v3",
+    "isolated_output_root": "outputs/research_v3",
+    "best_checkpoint_predictions": true,
+    "degradations": ["clean", "jpeg", "resize", "blur"],
+    "prediction_columns": ["sample_id", "fold", "label", "probability"],
+    "overwrite_protection": true,
+    "registry_hashes_config_splits_checkpoint_predictions_and_sample_order": true
+  },
+  "pilot_configs": {
+    "configs/research_v3/pilot_b2_holdout_adm_seed42_v3.yaml": "4406ea5b6381301f81ee4bd12c56c60d4e2d55751223583350e8707d7dec9c05",
+    "configs/research_v3/pilot_b2_holdout_biggan_seed42_v3.yaml": "fbd377e84b1fcb73b32356141296ebfacbc8a276b88df3c9517e593958ff86a1",
+    "configs/research_v3/pilot_b2_holdout_stable_diffusion_v15_seed42_v3.yaml": "74b46cf12579bb4c0931d5b4fa09720bc37fcf2dc0a903ab44b7719c3b1e9c94",
+    "configs/research_v3/pilot_npr_holdout_adm_seed42_v3.yaml": "2f2ff945ee1d30b5e594d83d9b6ec06bd99258be6f683d3471f7ae55e02f74a1",
+    "configs/research_v3/pilot_npr_holdout_biggan_seed42_v3.yaml": "6885dbc09722e9491edfd82b75b84cc1fca131a9e928ac595336fc742296a0dc",
+    "configs/research_v3/pilot_npr_holdout_stable_diffusion_v15_seed42_v3.yaml": "839f9cd6fba55c3fb0a9cd1f2fc4854f01d11a158f194d1802872cfa9f61cda9"
+  },
+  "tests": {
+    "targeted": "20 passed",
+    "full_unittest": "94 passed, 1 CUDA-only skip",
+    "py_compile": "passed",
+    "git_diff_check": "passed"
+  },
+  "tiny_smoke": {
+    "data": "temporary synthetic images only",
+    "evidence": [
+      "research cache signature isolation and mismatch rejection",
+      "best NPR checkpoint reload",
+      "B2 and NPR inference for all four degradations",
+      "strict OOF prediction schema and sample order",
+      "registry and SHA256 recomputation",
+      "run-directory overwrite rejection"
+    ]
+  }
+}

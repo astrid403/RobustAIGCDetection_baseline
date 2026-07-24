@@ -4,6 +4,7 @@ import json
 import os
 from pathlib import Path
 import random
+import subprocess
 import sys
 from datetime import datetime, timezone
 
@@ -21,7 +22,25 @@ if str(PROJECT_ROOT) not in sys.path:
 from data_pipeline.dataset_factory import create_image_dataset
 from data_pipeline.csv_image_dataset import CsvImageDataset
 from data_pipeline.research_transforms import ResearchNprViewBuilder
-from data_pipeline.fingerprints import feature_cache_metadata, feature_cache_path, validate_feature_cache
+from data_pipeline.fingerprints import (
+    feature_cache_metadata,
+    feature_cache_path,
+    research_clip_cache_metadata,
+    research_clip_cache_path,
+    validate_feature_cache,
+    validate_research_clip_cache,
+)
+from evaluation.metrics import binary_metrics
+from evaluation.research_inference import (
+    DEGRADATIONS,
+    create_run_directories,
+    load_best_checkpoint,
+    predict_b2,
+    predict_npr,
+    save_degradation_predictions,
+    sha256_file,
+    write_run_registry,
+)
 from evaluation.plots import plot_training_curves
 from models.clip_mlp_detector import (
     build_clip_feature_detector,
@@ -160,6 +179,21 @@ def _sha256(path):
     return digest.hexdigest()
 
 
+def _git_value(*args):
+    return subprocess.check_output(
+        ["git", *args], cwd=PROJECT_ROOT, text=True
+    ).strip()
+
+
+def _research_identity(config):
+    branch = _git_value("branch", "--show-current")
+    if branch != config["branch"]:
+        raise RuntimeError(
+            f"Research config requires branch {config['branch']}, got {branch}"
+        )
+    return branch, _git_value("rev-parse", "HEAD")
+
+
 def train_npr(config, device):
     if config.get("model_type") != "npr_resnet18":
         raise ValueError("NPR training requires model_type=npr_resnet18")
@@ -208,12 +242,10 @@ def train_npr(config, device):
         if config.get("mixed_precision", True) and device.type == "cuda"
         else None
     )
-    paths = _research_output_paths(config)
-    for path in paths.values():
-        if path.exists():
-            raise FileExistsError(f"Refusing to overwrite research run directory: {path}")
-        path.mkdir(parents=True)
-    with open(paths["checkpoint"] / "config_used.yaml", "w", encoding="utf-8") as handle:
+    paths = create_run_directories(
+        config.get("output_root", "outputs/research_v3"), config["experiment_name"]
+    )
+    with open(paths["checkpoints"] / "config_used.yaml", "w", encoding="utf-8") as handle:
         yaml.safe_dump(config, handle, sort_keys=False)
 
     start_epoch = 1
@@ -244,9 +276,9 @@ def train_npr(config, device):
         if not all(np.isfinite(value) for value in row.values()):
             raise FloatingPointError("NPR smoke metrics contain NaN or Inf")
         rows.append(row)
-        pd.DataFrame(rows).to_csv(paths["log"] / "train_log.csv", index=False)
+        pd.DataFrame(rows).to_csv(paths["logs"] / "train_log.csv", index=False)
         save_checkpoint(
-            paths["checkpoint"] / "last_model.pt",
+            paths["checkpoints"] / "last_model.pt",
             model,
             optimizer,
             epoch,
@@ -256,69 +288,237 @@ def train_npr(config, device):
         if score > best_score:
             best_score = score
             save_checkpoint(
-                paths["checkpoint"] / "best_model.pt",
+                paths["checkpoints"] / "best_model.pt",
                 model,
                 optimizer,
                 epoch,
                 best_score,
                 config,
             )
-        pd.DataFrame([row]).to_csv(paths["metric"] / "validation_metrics.csv", index=False)
-        prediction_path = paths["prediction"] / "validation_predictions.csv"
-        pd.DataFrame(
-            {
-                "sample_id": val["paths"],
-                "label": val["labels"],
-                "probability": val["probs"],
-            }
-        ).to_csv(prediction_path, index=False)
-        checkpoint_path = paths["checkpoint"] / "best_model.pt"
-        config_path = paths["checkpoint"] / "config_used.yaml"
-        registry = {
-            "schema": "research_npr_smoke_registry_v3",
-            "branch": config["branch"],
-            "commit": config["source_commit"],
-            "command": " ".join(sys.argv),
-            "config_snapshot": str(config_path),
-            "config_sha256": _sha256(config_path),
-            "input_manifests": {
-                "train": {"path": config["train_csv"], "sha256": _sha256(config["train_csv"])},
-                "validation": {"path": config["val_csv"], "sha256": _sha256(config["val_csv"])},
-            },
-            "cache": {"persisted_npr_features": False, "paths": []},
-            "seed": config["seed"],
-            "fold": "synthetic_smoke_only",
-            "start_time": run_started,
-            "end_time": datetime.now(timezone.utc).isoformat(),
-            "exit_status": 0,
-            "checkpoint": {"path": str(checkpoint_path), "sha256": _sha256(checkpoint_path)},
-            "prediction": {"path": str(prediction_path), "sha256": _sha256(prediction_path)},
-            "metrics": {
-                "path": str(paths["metric"] / "validation_metrics.csv"),
-                "sha256": _sha256(paths["metric"] / "validation_metrics.csv"),
-            },
-            "sample_order": list(val["paths"]),
-            "environment": {
-                "device": str(device),
-                "torch": torch.__version__,
-                "pythonhashseed": os.environ.get("PYTHONHASHSEED"),
-                "cublas_workspace_config": os.environ.get("CUBLAS_WORKSPACE_CONFIG"),
-                "omp_num_threads": os.environ.get("OMP_NUM_THREADS"),
-                "mkl_num_threads": os.environ.get("MKL_NUM_THREADS"),
-                "num_workers": config.get("num_workers", 0),
-                "torch_num_threads": torch.get_num_threads(),
-                "deterministic_algorithms": torch.are_deterministic_algorithms_enabled(),
-                "cudnn_benchmark": torch.backends.cudnn.benchmark,
-                "cudnn_deterministic": torch.backends.cudnn.deterministic,
-            },
-            "failure_reason": None,
-        }
-        with open(paths["registry"] / "run_registry.json", "w", encoding="utf-8") as handle:
-            json.dump(registry, handle, indent=2, sort_keys=True)
+        pd.DataFrame([row]).to_csv(paths["metrics"] / "validation_metrics.csv", index=False)
         print(
             f"Epoch {epoch}: train_loss={train_loss:.4f} "
             f"val_macro_f1={val['macro_f1']:.4f} val_auroc={val['auroc']:.4f}"
         )
+    fold = config.get("fold", "synthetic_smoke_only")
+    checkpoint_path = paths["checkpoints"] / "best_model.pt"
+    load_best_checkpoint(checkpoint_path, model, device)
+    predictions = {
+        degradation: predict_npr(
+            model,
+            config["val_csv"],
+            fold,
+            degradation,
+            device,
+            config.get("batch_size", 32),
+        )
+        for degradation in DEGRADATIONS
+    }
+    prediction_records, sample_order_hash = save_degradation_predictions(
+        predictions, paths["predictions"]
+    )
+    metric_rows = []
+    for degradation, frame in predictions.items():
+        metrics = binary_metrics(frame["label"], frame["probability"])
+        metric_rows.append(
+            {
+                "degradation": degradation,
+                **{
+                    key: value
+                    for key, value in metrics.items()
+                    if key != "confusion_matrix"
+                },
+            }
+        )
+    pd.DataFrame(metric_rows).to_csv(
+        paths["metrics"] / "degradation_metrics.csv", index=False
+    )
+    branch, commit = _research_identity(config)
+    write_run_registry(
+        paths["registries"] / "run_registry.json",
+        branch=branch,
+        commit=commit,
+        run_id=config["experiment_name"],
+        fold=fold,
+        config_path=paths["checkpoints"] / "config_used.yaml",
+        split_paths={"train": config["train_csv"], "validation": config["val_csv"]},
+        checkpoint_path=checkpoint_path,
+        prediction_records=prediction_records,
+        sample_order_sha256=sample_order_hash,
+    )
+    return rows
+
+
+def _research_cache_or_extract(
+    config, split_role, csv_path, preprocess, clip_model, device
+):
+    metadata = research_clip_cache_metadata(
+        csv_path, config, config["fold"], split_role
+    )
+    path = research_clip_cache_path(metadata)
+    if path.exists():
+        cache = load_feature_cache(path)
+        validate_research_clip_cache(cache, metadata)
+    else:
+        loader = make_loader(
+            csv_path,
+            preprocess,
+            config.get("batch_size", 32),
+            False,
+            config.get("num_workers", 0),
+        )
+        features, labels, sample_ids = extract_clip_features(
+            clip_model, loader, device, feature_mode="final"
+        )
+        save_feature_cache(path, features, labels, sample_ids, metadata)
+        cache = {
+            "features": features,
+            "labels": labels,
+            "paths": sample_ids,
+            "sample_ids": sample_ids,
+            "metadata": metadata,
+        }
+    return cache, path
+
+
+def train_research_b2(config, device):
+    if config.get("model_type") != "clip_mlp" or config.get("clip_feature_mode") != "final":
+        raise ValueError("B2-v3 requires clip_mlp with final CLIP features")
+    paths = create_run_directories(
+        config.get("output_root", "outputs/research_v3"), config["experiment_name"]
+    )
+    config_path = paths["checkpoints"] / "config_used.yaml"
+    with open(config_path, "w", encoding="utf-8") as handle:
+        yaml.safe_dump(config, handle, sort_keys=False)
+    encoder, preprocess = load_open_clip_model(
+        config.get("clip_model", "ViT-B-32"),
+        device,
+        config.get("pretrained", "openai"),
+    )
+    train_cache, train_cache_path = _research_cache_or_extract(
+        config, "train", config["train_csv"], preprocess, encoder, device
+    )
+    val_cache, val_cache_path = _research_cache_or_extract(
+        config, "validation", config["val_csv"], preprocess, encoder, device
+    )
+    train_dataset = TensorDataset(
+        train_cache["features"], train_cache["labels"].float()
+    )
+    val_dataset = TensorDataset(val_cache["features"], val_cache["labels"].float())
+    generator = torch.Generator(device="cpu").manual_seed(config["seed"])
+    train_loader = DataLoader(
+        train_dataset,
+        batch_size=config["batch_size"],
+        shuffle=True,
+        generator=generator,
+        num_workers=0,
+    )
+    val_loader = DataLoader(
+        val_dataset, batch_size=config["batch_size"], shuffle=False, num_workers=0
+    )
+    model = build_clip_feature_detector(
+        "clip_mlp",
+        train_cache["features"].shape[1],
+        config["mlp_hidden_dim"],
+        config["dropout"],
+    ).to(device)
+    optimizer = torch.optim.AdamW(
+        model.parameters(),
+        lr=config["learning_rate"],
+        weight_decay=config["weight_decay"],
+    )
+    loss_fn = get_loss()
+    rows, best_score = [], -1.0
+    for epoch in range(1, config["epochs"] + 1):
+        train_loss = train_feature_epoch(
+            model, train_loader, optimizer, loss_fn, device
+        )
+        validation = evaluate_feature_loader(model, val_loader, loss_fn, device)
+        row = {
+            "epoch": epoch,
+            "train_loss": train_loss,
+            **{
+                f"val_{key}": value
+                for key, value in validation.items()
+                if key not in {"labels", "probs", "confusion_matrix"}
+            },
+        }
+        rows.append(row)
+        pd.DataFrame(rows).to_csv(paths["logs"] / "train_log.csv", index=False)
+        score = validation["auroc"]
+        save_checkpoint(
+            paths["checkpoints"] / "last_model.pt",
+            model,
+            optimizer,
+            epoch,
+            best_score,
+            config,
+        )
+        if score > best_score:
+            best_score = score
+            save_checkpoint(
+                paths["checkpoints"] / "best_model.pt",
+                model,
+                optimizer,
+                epoch,
+                best_score,
+                config,
+            )
+    checkpoint_path = paths["checkpoints"] / "best_model.pt"
+    load_best_checkpoint(checkpoint_path, model, device)
+    predictions = {
+        degradation: predict_b2(
+            encoder,
+            model,
+            preprocess,
+            config["val_csv"],
+            config["fold"],
+            degradation,
+            device,
+            config["batch_size"],
+        )
+        for degradation in DEGRADATIONS
+    }
+    prediction_records, sample_order_hash = save_degradation_predictions(
+        predictions, paths["predictions"]
+    )
+    metric_rows = []
+    for degradation, frame in predictions.items():
+        metrics = binary_metrics(frame["label"], frame["probability"])
+        metric_rows.append(
+            {
+                "degradation": degradation,
+                **{
+                    key: value
+                    for key, value in metrics.items()
+                    if key != "confusion_matrix"
+                },
+            }
+        )
+    pd.DataFrame(metric_rows).to_csv(
+        paths["metrics"] / "degradation_metrics.csv", index=False
+    )
+    cache_records = {
+        "train": {"path": str(train_cache_path), "sha256": sha256_file(train_cache_path)},
+        "validation": {
+            "path": str(val_cache_path),
+            "sha256": sha256_file(val_cache_path),
+        },
+    }
+    branch, commit = _research_identity(config)
+    write_run_registry(
+        paths["registries"] / "run_registry.json",
+        branch=branch,
+        commit=commit,
+        run_id=config["experiment_name"],
+        fold=config["fold"],
+        config_path=config_path,
+        split_paths={"train": config["train_csv"], "validation": config["val_csv"]},
+        checkpoint_path=checkpoint_path,
+        prediction_records=prediction_records,
+        sample_order_sha256=sample_order_hash,
+        cache_records=cache_records,
+    )
     return rows
 
 
@@ -492,7 +692,9 @@ def main():
     )
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
-    if config.get("model_type") == "npr_resnet18":
+    if config.get("research_v3") and config.get("model_type") == "clip_mlp":
+        train_research_b2(config, device)
+    elif config.get("model_type") == "npr_resnet18":
         train_npr(config, device)
     elif config.get("model_type", "resnet") in {"clip_mlp", "clip_linear", "clip_fusion"}:
         train_clip_classifier(config, device)

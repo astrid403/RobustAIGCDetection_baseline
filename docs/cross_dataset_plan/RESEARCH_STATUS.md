@@ -3,7 +3,7 @@
 - Research branch: `research/cross-dataset-robustness-v3`
 - Frozen base branch: `feature/defactify-external-eval`
 - Frozen base commit: `cedc2a18d956948acfed87d575d41d4b93689d1d`
-- Current task: `Awaiting explicit Task 08 approval`
+- Current task: `Awaiting explicit approval to run Task 08 pilots`
 - Last completed task: `Task 07`
 - Protocol v3 frozen: `yes`
 - S1 specification frozen: `yes`
@@ -39,6 +39,35 @@ sorted-path-list SHA256 was:
 `1bae20b07e6476a16f4c0cd74ea087edf54cc8970365101bf8d6d94de3ccb03e`
 
 ## Task history
+
+### Task 08 preflight — Repair pilot correctness infrastructure
+
+- Status: completed without starting Task 08 pilot runs.
+- Cache: B2-v3 uses isolated `research_clip_cache_v3` metadata and signatures
+  covering encoder, pretrained tag, final feature mode, preprocessing,
+  manifest SHA256, fold, split role, and extraction version.
+- Outputs: B2/NPR checkpoints, logs, metrics, predictions, and registries are
+  isolated under `outputs/research_v3`; any existing run directory hard fails.
+- Checkpoint correctness: clean and degraded predictions are generated only
+  after reloading the validation-AUROC-selected best checkpoint.
+- Inference: both B2 and NPR support clean, JPEG quality 70, resize scale 0.5,
+  and Gaussian blur radius 1.0 from the same held-out validation manifest.
+- Prediction contract: `sample_id,fold,label,probability`, stable ordering, and
+  unique sample IDs suitable for Task 07 strict OOF alignment.
+- Provenance: each registry hashes the runtime Git commit, config snapshot,
+  train/validation splits, best checkpoint, every degradation prediction, any
+  CLIP feature caches, and ordered sample IDs.
+- Configs: six seed-42 three-fold pilot configs match the frozen S1 contract
+  and Task 02 split hashes.
+- Correctness smoke: temporary synthetic images and tiny B2/NPR models
+  verified best-checkpoint reload, all four degradations, schemas, hashes, and
+  overwrite rejection.
+- Tests: 94 unittest tests passed; one CUDA consistency test was skipped
+  because CUDA is unavailable.
+- Formal LOGO training/pilot executed: no.
+- GenImage unseen accessed: no.
+- Defactify accessed: no.
+- Manifest: `artifacts/research_v3/task08_preflight_manifest.json`.
 
 ### Task 07 — Implement OOF fusion, metrics, and provenance correctness
 
@@ -198,7 +227,7 @@ sorted-path-list SHA256 was:
 
 ## Next boundary
 
-Task 07 is complete and its correctness gate passed on artificial OOF data.
-Task 08 is not authorized by the current request and must not start without
-explicit user approval. Task 08 is the first seed-42 three-fold LOGO pilot and
-still may not access GenImage unseen or Defactify.
+Task 08 preflight correctness repair is complete, but none of its six pilot
+runs has started. A new explicit user approval is required before executing
+the seed-42 three-fold B2-v3 then NPR-only matrix. The pilots still may not
+access GenImage unseen or Defactify.
