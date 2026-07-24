@@ -3,8 +3,8 @@
 - Research branch: `research/cross-dataset-robustness-v3`
 - Frozen base branch: `feature/defactify-external-eval`
 - Frozen base commit: `cedc2a18d956948acfed87d575d41d4b93689d1d`
-- Current task: `Awaiting explicit Task 06 approval`
-- Last completed task: `Task 05`
+- Current task: `Awaiting explicit Task 07 approval`
+- Last completed task: `Task 06`
 - Protocol v3 frozen: `yes`
 - S1 specification frozen: `yes`
 - Model v3 frozen: `no`
@@ -39,6 +39,36 @@ sorted-path-list SHA256 was:
 `1bae20b07e6476a16f4c0cd74ea087edf54cc8970365101bf8d6d94de3ccb03e`
 
 ## Task history
+
+### Task 06 — Assemble and smoke-test the NPR training path
+
+- Status: completed.
+- Detector: torchvision ImageNet-pretrained ResNet18 with the standard
+  three-channel stem and `Linear(512,1)` classifier; all 11,177,025 parameters
+  are trainable.
+- Objective/optimizer: BCEWithLogitsLoss and AdamW at the frozen S1 settings;
+  consistency remains disabled.
+- Sampler: deterministic equal replacement quotas over sorted
+  `(generator,label)` groups, keyed by seed and epoch.
+- Smoke scope: synthetic local data only, four training draws and four
+  validation samples, seed 42, batch size 4, one epoch, workers 0.
+- Determinism: two new isolated runs produced tensor-exact state dictionaries,
+  identical losses, prediction probabilities, labels, sample order, and
+  canonical metrics. Maximum parameter difference was 0.0 and canonical
+  state SHA256 was
+  `955572d2791efde6dce28f49e8f353d18ebedd3da47e9318d62c640d5be0a2e6`.
+- Pipeline audit: both training processes and both tee processes exited 0;
+  logs were non-empty; checkpoints reloaded; metrics and provenance were
+  complete.
+- Tests: 82 unittest tests passed; one CUDA consistency test was skipped
+  because CUDA is unavailable.
+- Resource check: smoke ran on CPU, so allocated GPU memory was 0 MiB.
+- Manifest: `artifacts/research_v3/task06_smoke_manifest.json`.
+- Earlier failed/inconclusive smoke records remain preserved and were not
+  overwritten or deleted.
+- GenImage unseen accessed: no.
+- Defactify accessed: no.
+- Scientific model selection performed: no.
 
 ### Task 05 — Implement deterministic semantic-breaking and paired degradations
 
@@ -141,7 +171,7 @@ sorted-path-list SHA256 was:
 
 ## Next boundary
 
-Task 05 is complete. Task 06 is not authorized by the current request and must
-not start without explicit user approval. Task 06 is the first task allowed to
-assemble the NPR expert and training path and run only its prescribed tiny
-smoke; it still may not access GenImage unseen or Defactify.
+Task 06 is complete. Task 07 is not authorized by the current request and must
+not start without explicit user approval. Task 07 may implement only OOF
+fusion, metrics, and provenance correctness facilities; it may not run formal
+training or access GenImage unseen or Defactify.

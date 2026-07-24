@@ -1,7 +1,7 @@
 """Protocol-v3 neighboring-pixel-relation (NPR) input representation.
 
-This module intentionally contains only the input representation. The
-ResNet18 detector and training integration belong to Task 06.
+The detector is the Protocol-v3 ImageNet-pretrained ResNet18 with its standard
+three-channel stem and a single-logit classifier.
 """
 
 from __future__ import annotations
@@ -10,6 +10,7 @@ from PIL import Image
 import torch
 import torch.nn as nn
 from torchvision.transforms.functional import pil_to_tensor
+from torchvision.models import ResNet18_Weights, resnet18
 
 
 IMAGE_SIZE = 224
@@ -103,3 +104,11 @@ class NprInputTransform(nn.Module):
 
     def forward(self, rgb: torch.Tensor) -> torch.Tensor:
         return prepare_npr_tensor(rgb)
+
+
+def build_npr_detector(pretrained: bool = True) -> nn.Module:
+    """Build the frozen S1 NPR architecture without adding auxiliary modules."""
+    weights = ResNet18_Weights.DEFAULT if pretrained else None
+    model = resnet18(weights=weights)
+    model.fc = nn.Linear(model.fc.in_features, 1)
+    return model

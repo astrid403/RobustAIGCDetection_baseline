@@ -739,7 +739,7 @@ No-Go 后不得调 α、换 block、加增强、重选 checkpoint 或重跑 Defa
 | 03 | Protocol v3 与 S1 规格冻结 | completed | 否 | 否 | 否 |
 | 04 | NPR 特征变换实现与单元测试 | completed | 否 | 否 | 否 |
 | 05 | 语义破坏和退化视图管线 | completed | 否 | 否 | 否 |
-| 06 | NPR detector 与训练路径 smoke | pending | 仅 tiny smoke | 否 | 否 |
+| 06 | NPR detector 与训练路径 smoke | completed | 仅 tiny smoke | 否 | 否 |
 | 07 | OOF 融合、指标和 provenance | pending | 否 | 否 | 否 |
 | 08 | Seed-42 三折 LOGO pilot | pending | 是 | 否 | 否 |
 | 09 | S1 预注册消融 | pending | 是 | 否 | 否 |

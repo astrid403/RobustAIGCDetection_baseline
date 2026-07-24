@@ -26,6 +26,33 @@ def train_one_epoch(model, loader, optimizer, loss_fn, device, scaler=None):
     return total_loss / max(1, len(loader.dataset))
 
 
+def train_npr_epoch(model, loader, optimizer, loss_fn, device, scaler=None):
+    """Train one NPR epoch and reject non-finite logits/losses."""
+    model.train()
+    total_loss = 0.0
+    total_examples = 0
+    for images, labels, _ in tqdm(loader, desc="train-npr", leave=False):
+        images = images.to(device)
+        labels = torch.as_tensor(labels, dtype=torch.float32, device=device)
+        optimizer.zero_grad(set_to_none=True)
+        use_amp = scaler is not None
+        with torch.cuda.amp.autocast(enabled=use_amp):
+            logits = model(images).view(-1)
+            loss = loss_fn(logits, labels)
+        if not torch.isfinite(logits).all() or not torch.isfinite(loss):
+            raise FloatingPointError("NPR training produced NaN or Inf")
+        if use_amp:
+            scaler.scale(loss).backward()
+            scaler.step(optimizer)
+            scaler.update()
+        else:
+            loss.backward()
+            optimizer.step()
+        total_loss += loss.item() * labels.size(0)
+        total_examples += labels.size(0)
+    return total_loss / max(1, total_examples)
+
+
 @torch.no_grad()
 def evaluate_loader(model, loader, loss_fn, device):
     model.eval()
@@ -83,4 +110,3 @@ def evaluate_feature_loader(model, loader, loss_fn, device):
     metrics["labels"] = labels_all
     metrics["probs"] = probs_all
     return metrics
-

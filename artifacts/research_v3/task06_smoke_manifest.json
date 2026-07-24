@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "task": "Task 06",
+  "status": "completed",
+  "branch": "research/cross-dataset-robustness-v3",
+  "source_commit": "2aaa30547e45557391745cd68a59ce0fee9869d6",
+  "model": {
+    "type": "npr_resnet18",
+    "pretrained": "torchvision ImageNet default",
+    "classifier": "Linear(512,1)",
+    "parameters": 11177025,
+    "trainable_parameters": 11177025,
+    "loss": "BCEWithLogitsLoss",
+    "consistency_weight": 0.0
+  },
+  "budget": {
+    "seed": 42,
+    "epochs": 1,
+    "batch_size": 4,
+    "samples_per_group": 1,
+    "training_samples_drawn": 4,
+    "validation_samples": 4,
+    "num_workers": 0
+  },
+  "inputs": {
+    "train_manifest": {
+      "path": "outputs/research_v3/smoke_inputs/train.csv",
+      "sha256": "6a2097527601e463ff909be6657f42eb9b8c1ae066004cb97b633797cff0cc6f"
+    },
+    "validation_manifest": {
+      "path": "outputs/research_v3/smoke_inputs/validation.csv",
+      "sha256": "aa2f63be15136e79cb944535c3230780311c4ca290895038b7b50eaa16183678"
+    },
+    "scope": "synthetic smoke only; no GenImage unseen or Defactify"
+  },
+  "determinism": {
+    "state_dict_exact_equal": true,
+    "maximum_absolute_difference": 0.0,
+    "canonical_state_sha256": "955572d2791efde6dce28f49e8f353d18ebedd3da47e9318d62c640d5be0a2e6",
+    "loss_exact_equal": true,
+    "predictions_exact_equal": true,
+    "sample_order_exact_equal": true,
+    "canonical_metrics_exact_equal": true,
+    "comparison_path": "outputs/research_v3/registries/task06_determinism_comparison.json",
+    "comparison_sha256": "65f3acac5a868ec9164219eb168c629dded9e3d81780888591c13f8886d289fc"
+  },
+  "runs": [
+    {
+      "id": "smoke_npr_determinism_a_seed42_v3",
+      "config_sha256": "369ac6189623134e1e6a01ba6c038b19bca829dbded959af509d85158806fa02",
+      "training_exit_code": 0,
+      "tee_exit_code": 0,
+      "log_sha256": "ded22ad69232fbaf6d92b73251020c1ad1f110c6fb1cd4ed403733a6bafd4e4e",
+      "checkpoint_sha256": "b93d518c24aaab04a112b3aada57eaeab3e3951016b4b525e8afcf540b551fc6",
+      "metrics_sha256": "ac23eb7d027df3111e31436876605ee206cdd2d27def0dc14fd8281bdea4c6dd",
+      "prediction_sha256": "a50732f8f6e07185a7720bfe2be37d332b047f5c74ad9cdc299f4fc4e1b0e19b",
+      "registry_sha256": "bbf1424efd40b1532ec9db868eeaad0ae89503bc987f2fed235c230a36507bf6"
+    },
+    {
+      "id": "smoke_npr_determinism_b_seed42_v3",
+      "config_sha256": "724bf7ef9a173ae17e4115a6a26b3d21d6508cedf2ba51ee8ffd250d7b060f24",
+      "training_exit_code": 0,
+      "tee_exit_code": 0,
+      "log_sha256": "995d9144778889164387fe8b84ac0cceaf63b5853ab11f8c8fd4293e3e67f490",
+      "checkpoint_sha256": "d22be04c83fadc076a72f0ad8b1fe42ba4fddd7d753b8fcc0a591541e614cf3a",
+      "metrics_sha256": "ac23eb7d027df3111e31436876605ee206cdd2d27def0dc14fd8281bdea4c6dd",
+      "prediction_sha256": "a50732f8f6e07185a7720bfe2be37d332b047f5c74ad9cdc299f4fc4e1b0e19b",
+      "registry_sha256": "588c65d7ac40322382c96c1bc6e4b4224eada6e3a8fe4fa43c14ad98883e6f25"
+    }
+  ],
+  "metrics": {
+    "train_loss": 0.6164700984954834,
+    "validation_loss": 0.6901465654373169,
+    "validation_auroc": 1.0,
+    "validation_auprc": 1.0,
+    "validation_balanced_accuracy": 0.5,
+    "validation_macro_f1": 0.3333333333333333
+  },
+  "resource_check": {
+    "device": "cpu",
+    "cuda_available": false,
+    "peak_gpu_memory_mib": 0,
+    "nvidia_smi": "unavailable because NVML access is blocked by the operating system"
+  },
+  "failed_attempts_preserved": [
+    "smoke_npr_synthetic_train_validation_seed42_v3",
+    "smoke_npr_synthetic_train_validation_seed42_retry1_v3"
+  ],
+  "scientific_interpretation": "none; functional smoke only"
+}
