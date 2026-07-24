@@ -27,8 +27,11 @@ from data_pipeline.fingerprints import (
     feature_cache_path,
     research_clip_cache_metadata,
     research_clip_cache_path,
+    research_multiblock_clip_cache_metadata,
+    research_multiblock_clip_cache_path,
     validate_feature_cache,
     validate_research_clip_cache,
+    validate_research_multiblock_clip_cache,
 )
 from evaluation.metrics import binary_metrics
 from evaluation.research_inference import (
@@ -37,6 +40,7 @@ from evaluation.research_inference import (
     load_best_checkpoint,
     predict_b2,
     predict_npr,
+    predict_rine_lite,
     save_degradation_predictions,
     sha256_file,
     write_run_registry,
@@ -45,6 +49,7 @@ from evaluation.plots import plot_training_curves
 from models.clip_mlp_detector import (
     build_clip_feature_detector,
     extract_clip_features,
+    extract_clip_multiblock_features,
     load_feature_cache,
     load_open_clip_model,
     pair_clip_feature_caches,
@@ -52,6 +57,7 @@ from models.clip_mlp_detector import (
 )
 from models.resnet_detector import build_resnet_detector
 from models.npr_detector import build_npr_detector
+from models.rine_lite_detector import build_rine_lite_detector
 from training.engine import (
     evaluate_feature_loader,
     evaluate_loader,
@@ -65,6 +71,7 @@ from training.group_samplers import (
 )
 from training.losses import get_loss
 from training.objectives import build_npr_objective
+from training.contrastive_losses import RineLiteObjective
 
 
 def load_config(path):
@@ -522,6 +529,216 @@ def train_research_b2(config, device):
     return rows
 
 
+def _multiblock_cache_or_extract(
+    config, split_role, csv_path, preprocess, clip_model, device
+):
+    metadata = research_multiblock_clip_cache_metadata(
+        csv_path, config, config["fold"], split_role
+    )
+    path = research_multiblock_clip_cache_path(metadata)
+    if path.exists():
+        cache = load_feature_cache(path)
+        validate_research_multiblock_clip_cache(cache, metadata)
+    else:
+        loader = make_loader(
+            csv_path, preprocess, config["batch_size"], False, 0
+        )
+        features, labels, sample_ids = extract_clip_multiblock_features(
+            clip_model, loader, device
+        )
+        save_feature_cache(path, features, labels, sample_ids, metadata)
+        cache = {
+            "features": features,
+            "labels": labels,
+            "paths": sample_ids,
+            "sample_ids": sample_ids,
+            "metadata": metadata,
+        }
+    return cache, path
+
+
+def _rine_lite_epoch(model, loader, objective, device, optimizer=None):
+    training = optimizer is not None
+    model.train(training)
+    total_loss, labels_all, probabilities_all, importance_all = 0.0, [], [], []
+    for features, labels in loader:
+        features = features.to(device)
+        labels = labels.to(device).long()
+        if training:
+            optimizer.zero_grad(set_to_none=True)
+        output = model.forward_with_aux(features)
+        losses = objective(output["logits"], output["embedding"], labels)
+        if training:
+            losses["total"].backward()
+            optimizer.step()
+        total_loss += float(losses["total"].detach()) * len(labels)
+        labels_all.extend(labels.cpu().tolist())
+        probabilities_all.extend(torch.sigmoid(output["logits"]).detach().cpu().tolist())
+        importance_all.append(output["importance"].detach().cpu())
+    metrics = binary_metrics(labels_all, probabilities_all)
+    return {
+        "loss": total_loss / len(labels_all),
+        **{key: value for key, value in metrics.items() if key != "confusion_matrix"},
+        "importance_mean": torch.cat(importance_all).mean(dim=0).tolist(),
+    }
+
+
+def _validate_s2_pilot_config(config):
+    required = {
+        "model_type": "rine_lite",
+        "clip_block_ids": [3, 6, 9, 12],
+        "batch_size": 32,
+        "epochs": 10,
+        "samples_per_group_per_epoch": 500,
+        "learning_rate": 0.001,
+        "weight_decay": 0.01,
+        "supcon_weight": 0.1,
+        "supcon_temperature": 0.07,
+        "seed": 42,
+        "num_workers": 0,
+    }
+    mismatches = {
+        key: (config.get(key), value)
+        for key, value in required.items()
+        if config.get(key) != value
+    }
+    if mismatches:
+        raise ValueError(f"S2 pilot config violates frozen contract: {mismatches}")
+
+
+def train_research_rine_lite(config, device):
+    _validate_s2_pilot_config(config)
+    paths = create_run_directories(
+        config.get("output_root", "outputs/research_v3"), config["experiment_name"]
+    )
+    config_path = paths["checkpoints"] / "config_used.yaml"
+    with open(config_path, "w", encoding="utf-8") as handle:
+        yaml.safe_dump(config, handle, sort_keys=False)
+    encoder, preprocess = load_open_clip_model(
+        config["clip_model"], device, config["pretrained"]
+    )
+    train_cache, train_cache_path = _multiblock_cache_or_extract(
+        config, "train", config["train_csv"], preprocess, encoder, device
+    )
+    val_cache, val_cache_path = _multiblock_cache_or_extract(
+        config, "validation", config["val_csv"], preprocess, encoder, device
+    )
+    train_frame = pd.read_csv(config["train_csv"])
+    validate_protocol_groups(train_frame["generator"], train_frame["label"])
+    sampler = DeterministicGroupBalancedSampler(
+        train_frame["generator"],
+        train_frame["label"],
+        config["samples_per_group_per_epoch"],
+        config["seed"],
+    )
+    train_loader = DataLoader(
+        TensorDataset(train_cache["features"], train_cache["labels"].long()),
+        batch_size=32,
+        sampler=sampler,
+        num_workers=0,
+    )
+    val_loader = DataLoader(
+        TensorDataset(val_cache["features"], val_cache["labels"].long()),
+        batch_size=32,
+        shuffle=False,
+        num_workers=0,
+    )
+    model = build_rine_lite_detector().to(device)
+    objective = RineLiteObjective()
+    optimizer = torch.optim.AdamW(
+        model.parameters(), lr=0.001, weight_decay=0.01
+    )
+    rows, best_score = [], -1.0
+    for epoch in range(1, 11):
+        sampler.set_epoch(epoch)
+        train_result = _rine_lite_epoch(
+            model, train_loader, objective, device, optimizer
+        )
+        with torch.no_grad():
+            validation = _rine_lite_epoch(
+                model, val_loader, objective, device
+            )
+        row = {
+            "epoch": epoch,
+            "train_loss": train_result["loss"],
+            **{
+                f"val_{key}": value
+                for key, value in validation.items()
+                if key != "importance_mean"
+            },
+            **{
+                f"importance_block_{block}": value
+                for block, value in zip(
+                    (3, 6, 9, 12), validation["importance_mean"]
+                )
+            },
+        }
+        if not all(np.isfinite(value) for value in row.values()):
+            raise FloatingPointError("S2 training metrics contain NaN or Inf")
+        rows.append(row)
+        pd.DataFrame(rows).to_csv(paths["logs"] / "train_log.csv", index=False)
+        score = validation["auroc"]
+        save_checkpoint(
+            paths["checkpoints"] / "last_model.pt",
+            model, optimizer, epoch, best_score, config
+        )
+        if score > best_score:
+            best_score = score
+            save_checkpoint(
+                paths["checkpoints"] / "best_model.pt",
+                model, optimizer, epoch, best_score, config
+            )
+        print(
+            f"Epoch {epoch}: train_loss={train_result['loss']:.4f} "
+            f"val_macro_f1={validation['macro_f1']:.4f} "
+            f"val_auroc={validation['auroc']:.4f}"
+        )
+
+    checkpoint_path = paths["checkpoints"] / "best_model.pt"
+    load_best_checkpoint(checkpoint_path, model, device)
+    predictions, importance_frames = {}, {}
+    for degradation in DEGRADATIONS:
+        predictions[degradation], importance_frames[degradation] = predict_rine_lite(
+            encoder, model, preprocess, config["val_csv"], config["fold"],
+            degradation, device, 32
+        )
+    prediction_records, sample_order_hash = save_degradation_predictions(
+        predictions, paths["predictions"]
+    )
+    importance_records = {}
+    for degradation, frame in importance_frames.items():
+        path = paths["predictions"] / f"{degradation}_block_importance.csv"
+        frame.to_csv(path, index=False)
+        importance_records[degradation] = {
+            "path": str(path), "sha256": sha256_file(path)
+        }
+    metric_rows = []
+    for degradation, frame in predictions.items():
+        metrics = binary_metrics(frame["label"], frame["probability"])
+        metric_rows.append({
+            "degradation": degradation,
+            **{key: value for key, value in metrics.items() if key != "confusion_matrix"},
+        })
+    pd.DataFrame(metric_rows).to_csv(
+        paths["metrics"] / "degradation_metrics.csv", index=False
+    )
+    cache_records = {
+        "train": {"path": str(train_cache_path), "sha256": sha256_file(train_cache_path)},
+        "validation": {"path": str(val_cache_path), "sha256": sha256_file(val_cache_path)},
+    }
+    branch, commit = _research_identity(config)
+    write_run_registry(
+        paths["registries"] / "run_registry.json",
+        branch=branch, commit=commit, run_id=config["experiment_name"],
+        fold=config["fold"], config_path=config_path,
+        split_paths={"train": config["train_csv"], "validation": config["val_csv"]},
+        checkpoint_path=checkpoint_path, prediction_records=prediction_records,
+        sample_order_sha256=sample_order_hash, cache_records=cache_records,
+        importance_records=importance_records,
+    )
+    return rows
+
+
 def train_resnet(config, device):
     image_size = config.get("image_size", 224)
     batch_size = config.get("batch_size", 16)
@@ -692,7 +909,9 @@ def main():
     )
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
-    if config.get("research_v3") and config.get("model_type") == "clip_mlp":
+    if config.get("research_v3") and config.get("model_type") == "rine_lite":
+        train_research_rine_lite(config, device)
+    elif config.get("research_v3") and config.get("model_type") == "clip_mlp":
         train_research_b2(config, device)
     elif config.get("model_type") == "npr_resnet18":
         train_npr(config, device)

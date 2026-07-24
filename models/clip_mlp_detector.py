@@ -271,6 +271,19 @@ def extract_clip_features(clip_model, loader, device, feature_mode="final"):
     return torch.cat(features), torch.cat(labels), paths
 
 
+@torch.no_grad()
+def extract_clip_multiblock_features(clip_model, loader, device):
+    features, labels, paths = [], [], []
+    for images, batch_labels, batch_paths in loader:
+        feats = encode_clip_multiblock_cls(clip_model, images.to(device))
+        features.append(feats.cpu())
+        labels.append(torch.as_tensor(batch_labels, dtype=torch.float32))
+        paths.extend(batch_paths)
+    if not features:
+        raise ValueError("S2 multi-block extraction requires a non-empty loader")
+    return torch.cat(features), torch.cat(labels), paths
+
+
 def save_feature_cache(path, features, labels, paths, metadata=None):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)

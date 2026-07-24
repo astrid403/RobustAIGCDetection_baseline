@@ -207,7 +207,10 @@ class ResearchV3PreflightTests(unittest.TestCase):
         expected_hashes = {
             record["path"]: record["sha256"] for record in audit["manifests"]
         }
-        configs = sorted(Path("configs/research_v3").glob("pilot_*_seed42_v3.yaml"))
+        configs = sorted(
+            list(Path("configs/research_v3").glob("pilot_b2_*_seed42_v3.yaml"))
+            + list(Path("configs/research_v3").glob("pilot_npr_*_seed42_v3.yaml"))
+        )
         self.assertEqual(len(configs), 6)
         for path in configs:
             config = yaml.safe_load(path.read_text())

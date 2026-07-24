@@ -13,7 +13,10 @@ from torch.utils.data import DataLoader, Dataset
 
 from data_pipeline.csv_image_dataset import CsvImageDataset
 from data_pipeline.research_transforms import ResearchNprViewBuilder, apply_degradation
-from models.clip_mlp_detector import encode_clip_image_features
+from models.clip_mlp_detector import (
+    encode_clip_image_features,
+    encode_clip_multiblock_cls,
+)
 
 
 DEGRADATIONS = ("clean", "jpeg", "resize", "blur")
@@ -121,6 +124,54 @@ def predict_b2(
     return pd.DataFrame(rows, columns=PREDICTION_COLUMNS)
 
 
+@torch.no_grad()
+def predict_rine_lite(
+    encoder,
+    head,
+    preprocess,
+    csv_path,
+    fold,
+    degradation,
+    device,
+    batch_size=32,
+):
+    dataset = DegradedImageDataset(csv_path, degradation, transform=preprocess)
+    loader = DataLoader(dataset, batch_size=batch_size, shuffle=False, num_workers=0)
+    encoder.eval()
+    head.eval()
+    rows, importance_rows = [], []
+    for images, labels, sample_ids in loader:
+        features = encode_clip_multiblock_cls(encoder, images.to(device))
+        output = head.forward_with_aux(features)
+        probabilities = torch.sigmoid(output["logits"]).cpu().tolist()
+        importance = output["importance"].cpu().tolist()
+        for sample_id, label, probability, weights in zip(
+            sample_ids, labels, probabilities, importance
+        ):
+            rows.append(
+                {
+                    "sample_id": str(sample_id),
+                    "fold": str(fold),
+                    "label": int(label),
+                    "probability": float(probability),
+                }
+            )
+            importance_rows.append(
+                {
+                    "sample_id": str(sample_id),
+                    "fold": str(fold),
+                    "block_3": float(weights[0]),
+                    "block_6": float(weights[1]),
+                    "block_9": float(weights[2]),
+                    "block_12": float(weights[3]),
+                }
+            )
+    return (
+        pd.DataFrame(rows, columns=PREDICTION_COLUMNS),
+        pd.DataFrame(importance_rows),
+    )
+
+
 def save_degradation_predictions(predictions, prediction_dir):
     records = {}
     reference = None
@@ -159,6 +210,7 @@ def write_run_registry(
     prediction_records,
     sample_order_sha256,
     cache_records=None,
+    importance_records=None,
 ):
     registry_path = Path(registry_path)
     if registry_path.exists():
@@ -181,6 +233,7 @@ def write_run_registry(
         "predictions": prediction_records,
         "sample_order_sha256": sample_order_sha256,
         "feature_caches": cache_records or {},
+        "block_importance": importance_records or {},
         "checkpoint_selection": {
             "split": "held_out_fold_validation",
             "metric": "auroc",
