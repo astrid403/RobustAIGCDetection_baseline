@@ -1397,7 +1397,8 @@ Defactify 首次访问、科学合同变更、S2 No-Go 后换路线及破坏性 
 
 ### Task F05 — S2 三 seed、冻结与评估
 
-- 状态：`in_progress_pre_defactify`；按持续授权执行至首次 Defactify 审批点；
+- 状态：`blocked_before_unseen`；三 seed 数值 Gate 通过，但合同未定义三折
+  checkpoint 如何形成每 seed 的最终部署 checkpoint，须先冻结该科学协议；
 - 复用 Task 10–13 的纪律；
 - 每个阶段仍需单独请求；
 - 不因为 S1 的外部结果选择 S2。

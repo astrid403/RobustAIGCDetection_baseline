@@ -1,0 +1,23 @@
+{
+  "schema": "f05_s2_three_seed_manifest_v3",
+  "execution_commit": "8eaaed3",
+  "contract_sha256": "be3717d9c607b9d5cf74e22b51d71baef6271ebd139cb6938600a0cb29b32796",
+  "metrics": {
+    "path": "artifacts/research_v3/f05_three_seed_fold_condition_metrics.csv",
+    "sha256": "e22e2eb4a8d0ae4e36d29b3be025c841e6e1db5360f5d83a4f6c236a6547239b"
+  },
+  "new_jobs": 12,
+  "failed_jobs": 0,
+  "scientific_retries": 0,
+  "internal_network_retries": 1,
+  "model_freeze_gate": {
+    "decision": "numeric_gate_passed_checkpoint_construction_blocked",
+    "overall_mean_auroc_delta": 0.024061111111111103,
+    "worst_fold_mean_delta": 0.004387500000000062,
+    "all_seed_mean_deltas_positive": true,
+    "inference_time_ratio": 1.7756282681986164,
+    "s2_peak_gpu_memory_mib": 636.904296875
+  },
+  "genimage_unseen_accessed": false,
+  "defactify_accessed": false
+}

@@ -3,15 +3,15 @@
 - Research branch: `research/cross-dataset-robustness-v3`
 - Frozen base branch: `feature/defactify-external-eval`
 - Frozen base commit: `cedc2a18d956948acfed87d575d41d4b93689d1d`
-- Current task: `Task F05 pre-Defactify stages`
+- Current task: `Task F05 blocked before GenImage unseen`
 - Last completed task: `Task F04`
 - Protocol v3 frozen: `yes`
 - S1 specification frozen: `yes`
-- Model v3 frozen: `no`
+- Model v3 frozen: `partial; architecture passed Gate, deployable checkpoint construction unspecified`
 - Research numbers frozen: `no`
 - GenImage unseen accessed by research v3: `no`
 - Defactify accessed by research v3: `no`
-- Blocking issues: `none; invalid FP32 runs remain excluded from all decisions`
+- Blocking issues: `S2 contract does not define final per-seed checkpoint construction from three LOGO folds`
 
 ## Standing research authorization
 
@@ -47,6 +47,21 @@ sorted-path-list SHA256 was:
 `1bae20b07e6476a16f4c0cd74ea087edf54cc8970365101bf8d6d94de3ccb03e`
 
 ## Task history
+
+### Task F05 — S2 three-seed confirmation (pre-unseen boundary)
+
+- Status: numeric Model Freeze Gate passed; stopped before GenImage unseen.
+- Runs: seed 42 valid F04 runs reused; B2-v3 and S2 seeds 43/44 each completed
+  three folds, for 12 new jobs. All training/tee exit codes were zero.
+- Clean fold-mean delta by seed: `+0.022829`, `+0.027333`, `+0.022021`;
+  overall nine-fold delta `+0.024061`; worst-fold three-seed mean delta
+  `+0.004388`; every seed delta was positive.
+- Efficiency: S2/B2 inference ratio `1.775628`; S2 peak allocated GPU memory
+  `636.904 MiB`; block-importance provenance is complete.
+- Blocking contract gap: no frozen rule maps three LOGO checkpoints to one
+  deployable checkpoint per seed. Full-development retraining, fold selection,
+  or ensemble cannot be chosen as an engineering detail.
+- GenImage unseen accessed: no. Defactify accessed: no.
 
 ### Task F04 — S2 seed-42 LOGO Gate (corrected CUDA AMP execution)
 
@@ -398,7 +413,7 @@ sorted-path-list SHA256 was:
 
 ## Next boundary
 
-F04 passed on the corrected CUDA AMP runs. Standing authorization permits F05
-through model freeze and GenImage-unseen read-only diagnosis. Execution must
-stop before the first Defactify access and present the frozen hashes, exact
-commands, run matrix, balanced derivation, and retry policy.
+F05's numeric Model Freeze Gate passed, but deployable-checkpoint construction
+is not frozen. This is a scientific data/model protocol choice, so the
+standing authorization requires a stop. GenImage unseen and Defactify remain
+unaccessed.
